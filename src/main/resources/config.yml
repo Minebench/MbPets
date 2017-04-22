@@ -1,0 +1,203 @@
+callDelay: 1000
+petDeathCooldown: 60000
+particleTaskDelay: 15
+followTaskDelay: 15
+useHikariCP: true
+database:
+  user: 'root'
+  password: ''
+  database: 'minebench'
+  url: 'localhost:3306'
+level:
+  '1':
+    expThreshold: 0
+    attackStrengthModifier: 1.0
+    receivedDamageModifier: 0.5
+    effect: ''
+  '2':
+    expThreshold: 250
+    attackStrengthModifier: 1.1
+    receivedDamageModifier: 0.45
+    effect: ''
+  '3':
+    expThreshold: 1000
+    attackStrengthModifier: 1.2
+    receivedDamageModifier: 0.4
+    effect: ''
+  '4':
+    expThreshold: 2000
+    attackStrengthModifier: 1.3
+    receivedDamageModifier: 0.35
+    effect: ''
+  '5':
+    expThreshold: 5000
+    attackStrengthModifier: 1.4
+    receivedDamageModifier: 0.3
+    effect: ''
+  '6':
+    expThreshold: 7500
+    attackStrengthModifier: 1.5
+    receivedDamageModifier: 0.25
+    effect: 'PORTAL'
+  '7':
+    expThreshold: 10000
+    attackStrengthModifier: 1.6
+    receivedDamageModifier: 0.2
+    effect: 'HEART'
+  '8':
+    expThreshold: 15000
+    attackStrengthModifier: 1.7
+    receivedDamageModifier: 0.15
+    effect: 'LAVA_POP'
+  '9':
+    expThreshold: 20000
+    attackStrengthModifier: 1.8
+    receivedDamageModifier: 0.1
+    effect: 'NOTE'
+  '10':
+    expThreshold: 50000
+    attackStrengthModifier: 1.9
+    receivedDamageModifier: 0.05
+    effect: 'FLAME'
+prices:
+  WOLF: 10000
+  OCELOT: 10000
+  SHEEP: 15000
+  RABBIT: 15000
+  HORSE: 20000
+  COW: 15000
+  BAT: 15000
+  MUSHROOM_COW: 20000
+  CHICKEN: 15000
+  PIG: 15000
+  POLAR_BEAR: 20000
+  UNDEAD_HORSE: 30000
+  SKELETON_HORSE: 30000
+  DONKEY: 20000
+  MULE: 20000
+  LLAMA: 20000
+  IRON_GOLEM: 30000
+  ENDERMAN: 35000
+  SLIME: 20000
+  MAGMA_CUBE: 30000
+  MODIFY: 1000
+  SELL: 0.75
+damage:
+  WOLF: 4
+  OCELOT: 4
+  SHEEP: 3
+  RABBIT: 3
+  HORSE: 4
+  COW: 3
+  BAT: 3
+  MUSHROOM_COW: 4
+  CHICKEN: 3
+  PIG: 3
+  POLAR_BEAR: 4
+  UNDEAD_HORSE: 4
+  SKELETON_HORSE: 4
+  DONKEY: 4
+  MULE: 4
+  LLAMA: 4
+  IRON_GOLEM: 4
+  ENDERMAN: 5
+  SLIME: 4
+  MAGMA_CUBE: 4
+speed:
+  WOLF: 1.7
+  OCELOT: 1.7
+  SHEEP: 1.5
+  RABBIT: 1.5
+  HORSE: 2
+  COW: 1.5
+  BAT: 1.7
+  MUSHROOM_COW: 1.5
+  CHICKEN: 1.7
+  PIG: 1.5
+  POLAR_BEAR: 1.7
+  UNDEAD_HORSE: 2
+  SKELETON_HORSE: 2
+  DONKEY: 2
+  MULE: 2
+  LLAMA: 2
+  IRON_GOLEM: 1.5
+  ENDERMAN: 1.7
+  SLIME: 1.5
+  MAGMA_CUBE: 1.5
+enhancedSpeed:
+  WOLF: 3
+  OCELOT: 3
+  SHEEP: 2
+  RABBIT: 2
+  HORSE: 4
+  COW: 2
+  BAT: 3
+  MUSHROOM_COW: 2
+  CHICKEN: 3
+  PIG: 2
+  POLAR_BEAR: 3
+  UNDEAD_HORSE: 4
+  DONKEY: 4
+  MULE: 4
+  LLAMA: 4
+  SKELETON_HORSE: 4
+  IRON_GOLEM: 2
+  ENDERMAN: 3
+  SLIME: 2
+  MAGMA_CUBE: 2
+sound:
+  WOLF: 'ENTITY_WOLF_GROWL'
+  OCELOT: 'ENTITY_CAT_HISS'
+  SHEEP: 'ENTITY_SHEEP_STEP'
+  RABBIT: 'ENTITY_RABBIT_ATTACK'
+  HORSE: 'ENTITY_HORSE_GALLOP'
+  COW: 'ENTITY_COW_STEP'
+  BAT: 'ENTITY_BAT_LOOP'
+  DONKEY: 'ENTITY_DONKEY_ANGRY'
+  MULE: 'ENTITY_MULE_AMBIENT'
+  LLAMA: 'ENTITY_HORSE_GALLOP'
+  MUSHROOM_COW: 'ENTITY_COW_STEP'
+  CHICKEN: 'ENTITY_CHICKEN_HURT'
+  PIG: 'ENTITY_PIG_STEP'
+  POLAR_BEAR: 'ENTITY_POLAR_BEAR_WARNING'
+  UNDEAD_HORSE: 'ENTITY_HORSE_GALLOP'
+  SKELETON_HORSE: 'ENTITY_HORSE_GALLOP'
+  IRON_GOLEM: 'ENTITY_IRONGOLEM_STEP'
+  ENDERMAN: 'ENTITY_ENDERMEN_SCREAM'
+  SLIME: 'ENTITY_SLIME_SQUISH'
+  MAGMA_CUBE: 'ENTITY_MAGMACUBE_SQUISH'
+expReward:
+  CREEPER: 75
+  SKELETON: 50
+  SPIDER: 50
+  GIANT: 250
+  ZOMBIE: 50
+  SLIME: 25
+  GHAST: 200
+  PIG_ZOMBIE: 75
+  ENDERMAN: 100
+  CAVE_SPIDER: 50
+  SILVERFISH: 50
+  BLAZE: 75
+  MAGMA_CUBE: 50
+  ENDER_DRAGON: 400
+  WITHER: 250
+  BAT: 25
+  WITCH: 50
+  ENDERMITE: 50
+  GUARDIAN: 50
+  SHULKER: 50
+  PIG: 25
+  SHEEP: 25
+  COW: 25
+  CHICKEN: 25
+  SQUID: 25
+  WOLF: 50
+  MUSHROOM_COW: 25
+  SNOWMAN: 25
+  OCELOT: 50
+  IRON_GOLEM: 100
+  HORSE: 25
+  RABBIT: 25
+  VILLAGER: 10
+  LLAMA: 25

@@ -1,0 +1,121 @@
+package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
+
+import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Llama;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
+
+/**
+ * Copyright (C) 2016 Lord36 aka Apfelcreme
+ * <p>
+ * This program is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Lord36 aka Apfelcreme
+ */
+public class LlamaPet extends Pet implements Dyeable<Llama.Color>, Ageable {
+
+    private Boolean isBaby = null;
+    private Llama.Color color = null;
+
+    public LlamaPet(UUID owner, Integer number) {
+        super(owner, PetType.LLAMA, number);
+    }
+
+
+    /**
+     * is the pet a baby
+     *
+     * @return true or false
+     */
+    @Override
+    public Boolean isBaby() {
+        return isBaby;
+    }
+
+    /**
+     * set the "age"
+     *
+     * @param isBaby true or false
+     */
+    @Override
+    public void setBaby(Boolean isBaby) {
+        this.isBaby = isBaby;
+    }
+
+
+    /**
+     * returns the llama color
+     *
+     * @return the llama color
+     */
+    @Override
+    public Llama.Color getColor() {
+        return color;
+    }
+
+    /**
+     * sets the llama color
+     *
+     * @param color the color
+     */
+    @Override
+    public void setColor(Llama.Color color) {
+        this.color = color;
+    }
+
+    /**
+     * applies all attributes to the entity
+     */
+    @Override
+    public void applyAttributes() {
+        getEntity().setCustomName(getName());
+        ((Llama) getEntity()).setColor(color);
+        ((Llama) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        ((Llama) getEntity()).setTamed(true);
+        ((Llama) getEntity()).setAgeLock(true);
+
+        if (isBaby) {
+            ((Llama) getEntity()).setBaby();
+        } else {
+            ((Llama) getEntity()).setAdult();
+        }
+    }
+
+    /**
+     * remove the carpet from the llamas inventory
+     */
+    @Override
+    public void uncall() {
+        Player player = MbPets.getInstance().getServer().getPlayer(getOwner());
+        if (player != null) {
+            if (((Llama) getEntity()).getInventory().getDecor() != null) {
+                if (player.getInventory().firstEmpty() >= 0) {
+                    player.getInventory().addItem(((Llama)getEntity()).getInventory().getDecor());
+                } else {
+                    player.getWorld().dropItemNaturally(player.getLocation(),
+                            ((Llama)getEntity()).getInventory().getDecor());
+                }
+            }
+        }
+        super.uncall();
+    }
+}

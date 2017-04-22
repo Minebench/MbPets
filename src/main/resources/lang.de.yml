@@ -1,0 +1,517 @@
+texts:
+  prefix: '&7[&8P&7] '
+  info:
+    StatusHeader: '&2Dein Pet (&a{0}&2) sieht bis jetzt so aus:'
+    Confirm: '&2Um den Kauf abzuschließen gib &a/pet confirm&2 ein. &2Zum abbrechen gib &a/pet cancel&2 ein.'
+    Element: '&7 - &2{0}: &7{1}'
+    petConfirmed: '&2Du hast erfolgreich ein Pet gekauft! Du kannst es ab sofort mit &a/pet call {0}&2 rufen.'
+    petRightclick: '&2Rechtsklicke innerhalb der nächsten &a10 Sekunden&2 das Tier, welches du zum Pet machen willst!'
+    petRightclickEnd: '&2Die Zeit ist abgelaufen!'
+    petDeleted: '&aDas Pet wurde erfolgreich gelöscht!'
+    petsFlushed: '&aDie Pets dieses Spielers wurden gelöscht!'
+    preparedPetCanceled: '&aDeine Auswahl wurde zurückgesetzt!'
+    types: '&2Folgende Pet-Typen stehen dir zur Verfügung: '
+    listHead: '&2{0} besitzt folgende Pets:'
+    listElement: '&2{0}&a. &a{1} &7{2} &f{3}'
+    petUncalled: '&aDu hast dein Pet weggeschickt!'
+    petSold: '&2Du hast &a{0}&2 für &a{1}&2 Benches verkauft!'
+    petDied: '&2Dein Pet ist gestorben! Du musst {0} Sekunden warten, bis du es wieder rufen kannst!'
+    monitorDB: '&2Die Datenbank ist derzeit {0}'
+    monitorFollowTask: '&2Der Follow-Task ist derzeit {0}'
+    monitorParticleTask: '&2Der Particle-Task ist derzeit {0}'
+    monitorSpawnedPets: '&2Derzeit aktive Pets: &a{0}'
+    monitorPreparedPets: '&2Derzeit bearbeitete Pets: &a{0}'
+    monitorVersion: '&2Derzeitige Plugin-Version: &a{0}'
+    despawnCount: '&2Es wurden &a{0}&2 Pets entfernt'
+    despawnCountRange: '&2Es wurden &a{0}&2 Pets in einer Entfernung von &a{1}&2 entfernt'
+    configRegenerated: '&2Die Config wurde neu generiert! Eine Kopie der alten Config wurde angelegt.'
+    configReloaded: '&2Die Config wurde neu geladen!'
+    leashName: '&2{0}'
+    leashTitle: '&7[&2{0}&7]'
+    leashLore: '&aRechtsklicke um {0}/n&azu rufen oder wegzuschicken!'
+    rightclickName: '{0} {1}♥ &f{2}/{3} &e♦ &f{4}/{5}'
+  help:
+    Options:
+      head: '&2Folgende Optionen stehen dir zur Verfügung:'
+      type: '&a/pet type/color/style/name/baby&f - &7Legt die jeweilige Eigenschaft des zu erstellenden Pets fest.'
+      confirm: '&a/pet confirm&f - &7Kauft das Pet für den angegebenen Preis.'
+      call: '&a/pet call [#]&f - &7Ruft ein Pet mit der angegebenen Nummer.'
+      cancel: '&a/pet cancel&f - &7Bricht deine derzeitige Pet-Konfiguration ab.'
+      info: '&a/pet info [#]&f - &7Zeigt Infos zum Pet mit der angeg. Nummer.'
+      list: '&a/pet list [player <name>]&f - &7Zeigt eine Liste der Pets an.'
+      status: '&a/pet status&f - &7Zeigt deine derzeitige Pet-Konfiguration an.'
+      uncall: '&a/pet uncall&f - &7Schickt das derzeit gerufene Pet weg.'
+      bottom: '&2Bei Fragen zu den Eigenschaften gib &a/pet help type <Typ>&2 ein!'
+    Types: '&2Lass dir mit &a/pet help type <type>&2 die Hilfe für verschiedene Pet-Typen anzeigen!'
+    Head: '&2Folgende Optionen kannst du für diese Pets treffen:'
+    BABY: '&8true/false'
+    NAME: '&8Jeder Name, der kein Leerzeichen enthält'
+  error:
+    noPermission: '&cDu hast keine ausreichende Berechtigung!'
+    missingValue: '&cFür die Option &4{0}&c fehlt der Wert!'
+    noDbConnection: '&cDie Verbindung zur Datenbank wurde unterbrochen!'
+    wrongFunction: '&4{0}&c ist keine gültige Option!'
+    noPetToCall: '&c{0} besitzt keine Pets!'
+    noPreparedPets: '&cDu erstellst gerade kein Pet!'
+    missingType: '&cDu kannst keine Eigenschaften festlegen, bevor du nicht den Typ des Pets gewählt hast! Gib &4/pet help&c für Hilfe ein!'
+    noActivePet: '&cDu hast derzeit kein Pet gerufen!'
+    unknownPet: '&cDu besitzt kein Pet mit dieser Nummer!'
+    notThatManyPets: '&cDu hast nicht so viele Pets!'
+    notThatMuchMoney: '&cDu hast nicht genügend Benches!'
+    playerOffline: '&cDer Spieler ist offline!'
+    playerUnknown: '&cDer Spieler ist unbekannt!'
+    entityIsAlreadyAPet: '&cDas gewählte Tier ist bereits ein Pet!'
+    notYourPet: '&cDas gewählte Tier ist bereits auf jemand anderen gesichert!'
+    petNotFinished: '&cDu hast noch nicht alle Eigenschaften angegeben! Gib sie mit &4/pet <Eigenschaft> <Wert>&c an!'
+    noVault: '&cDieser Server unterstützt keine Economy!Wechsel mit &4/server&c auf einen anderen Server, um ein Pet zu kaufen!'
+    gamemodeCreative: '&cDu befindest dich im Creative-Modus. Hier können keine Mobs gespawnt werden!'
+    inFlaggedRegion: '&cDu befindest dich in einer gesicherten, mobfreien Region. Hier können keine Pets gespawnt werden!'
+    cooldown: '&cDu kannst diese Aktion erst wieder in ein paar Sekunden ausführen!'
+    deathCooldown: '&cDein Pet ist erst kürzlich gestorben. Du musst noch {0} Sekunden warten, bevor du es wieder rufen kannst!'
+    slimebug: '&cSlimes und Magma-Cubes sind derzeit deaktiviert. Wähle bitte ein anderes Pet!'
+PetTypes:
+  BAT:
+    displaytext: 'Fledermaus'
+    aliases:
+    - 'BAT'
+    - 'FLEDERMAUS'
+  COW:
+    displaytext: 'Kuh'
+    aliases:
+    - 'KUH'
+    - 'COW'
+  HORSE:
+    displaytext: 'Pferd'
+    aliases:
+    - 'HORSE'
+    - 'PFERD'
+  UNDEAD_HORSE:
+    displaytext: 'Zombiepferd'
+    aliases:
+    - 'ZOMBIEPFERD'
+    - 'ZOMBIEHORSE'
+    - 'UNDEAD_HORSE'
+  SKELETON_HORSE:
+    displaytext: 'Skelettpferd'
+    aliases:
+    - 'SKELETTPFERD'
+    - 'SKELETTHORSE'
+    - 'SKELETON_HORSE'
+  DONKEY:
+    displaytext: 'Esel'
+    aliases:
+    - 'DONKEY'
+    - 'ESEL'
+  MULE:
+    displaytext: 'Maultier'
+    aliases:
+    - 'MULE'
+    - 'MAULTIER'
+    - 'MAULESEL'
+  LLAMA:
+    displaytext: 'Lama'
+    aliases:
+    - 'LLAMA'
+    - 'LAMA'
+    - 'ALPAKA'
+  WOLF:
+    displaytext: 'Hund'
+    aliases:
+    - 'WOLF'
+    - 'DOG'
+    - 'HUND'
+  OCELOT:
+    displaytext: 'Katze'
+    aliases:
+    - 'OCELOT'
+    - 'CAT'
+    - 'KATZE'
+  PIG:
+    displaytext: 'Schwein'
+    aliases:
+    - 'PIG'
+    - 'SCHWEIN'
+  IRON_GOLEM:
+    displaytext: 'Eisengolem'
+    aliases:
+    - 'IRON_GOLEM'
+    - 'EISENGOLEM'
+    - 'IRONGOLEM'
+    - 'GOLEM'
+  CHICKEN:
+    displaytext: 'Huhn'
+    aliases:
+    - 'CHICKEN'
+    - 'CHICK'
+    - 'HUHN'
+    - 'KÜKEN'
+    - 'HÜHNCHEN'
+  MUSHROOM_COW:
+    displaytext: 'Pilzkuh'
+    aliases:
+    - 'MUSHROOMCOW'
+    - 'MUSHROOM-COW'
+    - 'MUSHROOM_COW'
+    - 'MOOSHROOM'
+    - 'PILZKUH'
+  POLAR_BEAR:
+    displaytext: 'Eisbär'
+    aliases:
+    - 'POLAR_BEAR'
+    - 'POLARBEAR'
+    - 'POLARBÄR'
+    - 'POLARBAER'
+    - 'EISBÄR'
+    - 'EISBAER'
+  SHEEP:
+    displaytext: 'Schaf'
+    aliases:
+    - 'SHEEP'
+    - 'SCHAF'
+    - 'PULLOVERSCHWEIN'
+  RABBIT:
+    displaytext: 'Hase'
+    aliases:
+    - 'RABBIT'
+    - 'HASE'
+    - 'HÄSCHEN'
+    - 'KANINCHEN'
+    - 'KLOPFER'
+    - 'KARNICKEL'
+    - 'BUNNY'
+  ENDERMAN:
+    displaytext: 'Enderman'
+    aliases:
+    - 'ENDERMAN'
+    - 'ENDERMEN'
+    - 'ENDER'
+    - 'SLENDERMAN'
+  SLIME:
+    displaytext: 'Slime'
+    aliases:
+    - 'SLIME'
+    - 'SCHLEIM'
+  MAGMA_CUBE:
+    displaytext: 'Magmacube'
+    aliases:
+    - 'MAGMA_CUBE'
+    - 'MAGMA-CUBE'
+    - 'MAGMACUBE'
+    - 'MAGMA'
+    - 'LAVACUBE'
+DyeColors:
+  BLACK:
+    displaytext: 'Schwarz'
+    aliases:
+    - 'BLACK'
+    - 'SCHWARZ'
+    - 'DUNKEL'
+  BLUE:
+    displaytext: 'Blau'
+    aliases:
+    - 'BLUE'
+    - 'BLAU'
+  BROWN:
+    displaytext: 'Braun'
+    aliases:
+    - 'BROWN'
+    - 'BRAUN'
+  CYAN:
+    displaytext: 'Cyan'
+    aliases:
+    - 'CYAN'
+    - 'TÜRKIS'
+  GRAY:
+    displaytext: 'Grau'
+    aliases:
+    - 'GRAY'
+    - 'GRAU'
+  GREEN:
+    displaytext: 'Grün'
+    aliases:
+    - 'GREEN'
+    - 'GRUEN'
+    - 'GRÜN'
+    - 'GRAS'
+  LIGHT_BLUE:
+    displaytext: 'Hellblau'
+    aliases:
+    - 'LIGHT_BLUE'
+    - 'LIGHT-BLUE'
+    - 'LIGHTBLUE'
+    - 'HELLBLAU'
+    - 'HIMMELBLAU'
+    - 'HIMMEL'
+  LIME:
+    displaytext: 'Limette'
+    aliases:
+    - 'LIME'
+    - 'LIMETTE'
+  MAGENTA:
+    displaytext: 'Magenta'
+    aliases:
+    - 'MAGENTA'
+  ORANGE:
+    displaytext: 'Orange'
+    aliases:
+    - 'ORANGE'
+  PINK:
+    displaytext: 'Pink'
+    aliases:
+    - 'PINK'
+    - 'ROSA'
+  PURPLE:
+    displaytext: 'Lila'
+    aliases:
+    - 'PURPLE'
+    - 'VIOLETT'
+    - 'LILA'
+  RED:
+    displaytext: 'Rot'
+    aliases:
+    - 'RED'
+    - 'ROT'
+  SILVER:
+    displaytext: 'Silber'
+    aliases:
+    - 'SILVER'
+    - 'SILBER'
+  WHITE:
+    displaytext: 'Weiß'
+    aliases:
+    - 'WHITE'
+    - 'WEIß'
+    - 'WEISS'
+  YELLOW:
+    displaytext: 'Gelb'
+    aliases:
+    - 'YELLOW'
+    - 'GELB'
+HorseColors:
+  BLACK:
+    displaytext: 'Schwarz'
+    aliases:
+    - 'BLACK'
+    - 'SCHWARZ'
+    - 'DUNKEL'
+  BROWN:
+    displaytext: 'Braun'
+    aliases:
+    - 'BROWN'
+    - 'BRAUN'
+  CHESTNUT:
+    displaytext: 'Kastanie'
+    aliases:
+    - 'CHESTNUT'
+    - 'KASTANIE'
+    - 'NUSS'
+  CREAMY:
+    displaytext: 'Cremig'
+    aliases:
+    - 'CREAMY'
+    - 'CREMIG'
+    - 'KREMIG'
+  DARK_BROWN:
+    displaytext: 'Dunkelbraun'
+    aliases:
+    - 'DARK_BROWN'
+    - 'DARK-BROWN'
+    - 'DARKBROWN'
+    - 'DUNKELBRAUN'
+  GRAY:
+    displaytext: 'Grau'
+    aliases:
+    - 'GRAY'
+    - 'GRAU'
+  WHITE:
+    displaytext: 'Weiß'
+    aliases:
+    - 'WHITE'
+    - 'WEIß'
+    - 'WEISS'
+HorseStyles:
+  BLACK_DOTS:
+    displaytext: 'Schwarzfleckig'
+    aliases:
+    - 'BLACK_DOTS'
+    - 'BLACK-DOTS'
+    - 'BLACK'
+    - 'SCHWARZ'
+    - 'SCHWARZFLECKIG'
+    - 'BLACKDOTTED'
+  NONE:
+    displaytext: 'Keiner'
+    aliases:
+    - 'NONE'
+    - 'KEINS'
+    - 'KEINE'
+    - 'KEIN'
+    - 'KEINER'
+  WHITE:
+    displaytext: 'Weiß'
+    aliases:
+    - 'WHITE'
+    - 'WEIß'
+    - 'WEISS'
+  WHITE_DOTS:
+    displaytext: 'Weißfleckig'
+    aliases:
+    - 'WHITE_DOTS'
+    - 'WHITE-DOTS'
+    - 'WEIßFLECKIG'
+    - 'WEISSFLECKIG'
+    - 'WHITEDOTTED'
+  WHITEFIELD:
+    displaytext: 'Milchig'
+    aliases:
+    - 'WHITEFIELD'
+    - 'WEIßFELD'
+    - 'WEISSFELD'
+    - 'MILCHIG'
+    - 'VERSCHWOMMEN'
+OcelotTypes:
+  WILD_OCELOT:
+    displaytext: 'Wild'
+    aliases:
+    - 'WILD_OCELOT'
+    - 'WILD-OCELOT'
+    - 'WILDOCELOT'
+    - 'WILD'
+  BLACK_CAT:
+    displaytext: 'Schwarz'
+    aliases:
+    - 'BLACK_CAT'
+    - 'BLACK-CAT'
+    - 'BLACKCAT'
+    - 'BLACK'
+    - 'SCHWARZ'
+    - 'DUNKEL'
+  RED_CAT:
+    displaytext: 'Rot'
+    aliases:
+    - 'RED_CAT'
+    - 'RED-CAT'
+    - 'REDCAT'
+    - 'RED'
+    - 'ROT'
+  SIAMESE_CAT:
+    displaytext: 'Siamesisch'
+    aliases:
+    - 'SIAMESE_CAT'
+    - 'SIAMESE-CAT'
+    - 'SIAMESE'
+    - 'SIAMESISCH'
+    - 'SIAM'
+RabbitTypes:
+  BLACK:
+    displaytext: 'Schwarz'
+    aliases:
+    - 'BLACK'
+    - 'SCHWARZ'
+    - 'DUNKEL'
+  BROWN:
+    displaytext: 'Braun'
+    aliases:
+    - 'BROWN'
+    - 'BRAUN'
+    - 'NORMAL'
+  GOLD:
+    displaytext: 'Gold'
+    aliases:
+    - 'GOLD'
+    - 'GELB'
+    - 'HELL'
+  PATCHES:
+    displaytext: 'Fleckig'
+    aliases:
+    - 'PATCHES'
+    - 'FLECKEN'
+    - 'FLECKIG'
+    - 'SCHWARZ-WEIß'
+    - 'SCHWARZWEIß'
+    - 'SCHWARZ-WEISS'
+    - 'SCHWARZWEISS'
+  PEPPER:
+    displaytext: 'Pfeffer'
+    aliases:
+    - 'PEPPER'
+    - 'PFEFFER'
+    - 'SALZPFEFFER'
+    - 'PFEFFERSALZ'
+  WHITE:
+    displaytext: 'Weiß'
+    aliases:
+    - 'WHITE'
+    - 'WEIß'
+    - 'WEISS'
+  THE_KILLER_BUNNY:
+    displaytext: 'Killerbunny'
+    aliases:
+    - 'THE_KILLER_BUNNY'
+    - 'KILLER_BUNNY'
+    - 'KILLER-BUNNY'
+    - 'KILLER'
+    - 'KILLERBUNNY'
+    - 'KILLERHASE'
+    - 'KILLERKANINCHEN'
+    - 'BÖSE'
+LlamaColors:
+  BROWN:
+    displaytext: 'Braun'
+    aliases:
+    - 'BROWN'
+    - 'BRAUN'
+    - 'DUNKEL'
+    - 'DARK'
+  CREAMY:
+    displaytext: 'Cremig'
+    aliases:
+    - 'CREAMY'
+    - 'CREMIG'
+    - 'KREMIG'
+  GRAY:
+    displaytext: 'Grau'
+    aliases:
+    - 'GRAY'
+    - 'GRAU'
+  WHITE:
+    displaytext: 'Weiß'
+    aliases:
+    - 'WHITE'
+    - 'WEIß'
+    - 'WEISS'
+SlimeSizes:
+  '1':
+    displaytext: 'Klein'
+    aliases:
+    - '1'
+    - 'EINS'
+    - 'KLEIN'
+    - 'ONE'
+    - 'SHORT'
+  '2':
+    displaytext: 'Mittel'
+    aliases:
+    - '2'
+    - 'ZWEI'
+    - 'MITTEL'
+    - 'TWO'
+    - 'MEDIUM'
+    - 'ZWO'
+  '3':
+    displaytext: 'Groß'
+    aliases:
+    - '3'
+    - 'DREI'
+    - 'GROß'
+    - 'GROSS'
+    - 'THREE'
+    - 'LARGE'
+  '4':
+    displaytext: 'Riesig'
+    aliases:
+    - '4'
+    - 'VIER'
+    - 'RIESIG'
+    - 'HUGE'
+    - 'FOUR'
