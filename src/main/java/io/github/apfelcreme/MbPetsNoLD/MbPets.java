@@ -87,10 +87,10 @@ public class MbPets extends JavaPlugin {
             getLogger().severe("Plugin 'UUIDDB' was not found!");
             getServer().getPluginManager().disablePlugin(this);
         }
-        if (getServer().getPluginManager().getPlugin("MbAnimalProtect") != null) {
+        if (getServer().getPluginManager().getPlugin("MbAnimalProtect") == null) {
             getLogger().info("Plugin 'MbAnimalProtect' was not found!");
         }
-        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
             getLogger().info("Plugin 'Vault' was not found!");
         } else {
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
