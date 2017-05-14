@@ -25,14 +25,19 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.2</version>
+				<version>2.4.3</version>
 				<configuration>
-					<artifactSet>
-						<includes>
-							<include>org.slf4j:*</include>
-							<include>com.zaxxer:HikariCP</include>
-						</includes>
-					</artifactSet>
+					<minimizeJar>true</minimizeJar>
+					<relocations>
+						<relocation>
+							<pattern>org.slf4j</pattern>
+							<shadedPattern>io.github.apfelcreme.MbPetsNoLD.library.slf4j</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.zaxxer.hikari</pattern>
+							<shadedPattern>io.github.apfelcreme.MbPetsNoLD.library.hikari</shadedPattern>
+						</relocation>
+					</relocations>
 				</configuration>
 				<executions>
 					<execution>
@@ -84,7 +89,7 @@
 		</repository>
 		<repository>
 			<id>vault-repo</id>
-			<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
 		</repository>
 		<repository>
 			<id>minebench-repo</id>
@@ -97,33 +102,38 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.11.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>net.zaiyers</groupId>
 			<artifactId>UUIDDB</artifactId>
 			<version>1.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 			<version>2.4.7</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>Vault</artifactId>
 			<version>1.4.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q</groupId>
 			<artifactId>worldguard</artifactId>
 			<version>6.1</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.zaiyers</groupId>
 			<artifactId>MbAnimalProtect</artifactId>
 			<version>1.2-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
