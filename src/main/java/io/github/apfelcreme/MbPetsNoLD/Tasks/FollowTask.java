@@ -94,7 +94,7 @@ public class FollowTask {
 
                                 // if there is an entity nearby the owner has attacked, let the pet attack that target as well
                                 if (!(pet.getTarget() instanceof Player)   //target isnt a player
-                                        && (pet.getEntity().getLocation().distance(pet.getTarget().getLocation()) < 3.5) //target is nearby
+                                        && (pet.getEntity().getLocation().distanceSquared(pet.getTarget().getLocation()) < 3.5 * 3.5) //target is nearby
                                         && (PetManager.getInstance().getPetByEntity(pet.getTarget()) == null)) {  //target isnt a pet
 
                                     if (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?
@@ -112,7 +112,7 @@ public class FollowTask {
                             // distance to the owner > 15 ? teleport
                             if (MbPets.getInstance().getServer().getPlayer(pet.getOwner()).getWorld().equals(pet.getEntity().getWorld())) {
                                 if (MbPets.getInstance().getServer().getPlayer(pet.getOwner()).getLocation()
-                                        .distance(entity.getLocation()) > 15) {
+                                        .distanceSquared(entity.getLocation()) > 15 * 15) {
                                     entity.teleport(MbPets.getInstance().getServer().getPlayer(pet.getOwner()).getLocation());
                                 }
                             } else {

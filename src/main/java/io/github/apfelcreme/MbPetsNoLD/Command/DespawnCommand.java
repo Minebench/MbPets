@@ -46,7 +46,7 @@ public class DespawnCommand implements SubCommand {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.despawnCount").replace("{0}", Integer.toString(i)));
         } else {
             for (Pet pet : PetManager.getInstance().getPets().values()) {
-                if (pet.getEntity().getLocation().distance(chatInput.getSender().getLocation()) <= chatInput.getNumber()) {
+                if (pet.getEntity().getLocation().distanceSquared(chatInput.getSender().getLocation()) <= chatInput.getNumber() * chatInput.getNumber()) {
                     pet.uncall();
                     i++;
                 }
