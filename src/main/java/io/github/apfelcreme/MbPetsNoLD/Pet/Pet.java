@@ -223,10 +223,6 @@ public abstract class Pet {
      */
     public void setTarget(Entity target) {
         this.target = target;
-        if (entity.getUniqueId().equals(owner)) {
-            // Reset speed to normal when targeting the owner
-            setSpeed(MbPetsConfig.getPetSpeed(type));
-        }
     }
 
     /**

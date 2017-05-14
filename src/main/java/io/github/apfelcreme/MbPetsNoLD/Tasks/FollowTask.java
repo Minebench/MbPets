@@ -58,6 +58,9 @@ public class FollowTask {
 
                         // create a path the pet is going to follow
                         if (pet.getTarget() instanceof Player) {
+                            // Set the speed back to normal when targeting the owner
+                            pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
+
                             // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
                             // stand at your exact location and bumps into you continuously
                             float radX = 2.2f;
