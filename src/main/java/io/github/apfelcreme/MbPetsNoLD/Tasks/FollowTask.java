@@ -7,6 +7,7 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import net.minecraft.server.v1_11_R1.DamageSource;
 import net.minecraft.server.v1_11_R1.EntityInsentient;
 import net.minecraft.server.v1_11_R1.PathEntity;
+import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftHumanEntity;
@@ -49,45 +50,33 @@ public class FollowTask {
                     Player owner = MbPets.getInstance().getServer().getPlayer(pet.getOwner());
                     if (entity.getWorld().equals(owner.getWorld())) {
                         EntityInsentient handle = (EntityInsentient) ((CraftEntity) entity).getHandle();
-                        PathEntity path;
+                        PathEntity path = null;
 
                         if (pet.getTarget() == null || pet.getTarget().isDead()) {
                             // if target is dead make it return to the owner
                             pet.setTarget(owner);
                         }
 
+                        double distance = owner.getLocation().distanceSquared(entity.getLocation());
+                        if (distance > 24 * 24) { // distance to the owner > 24 ? teleport
+                            entity.teleport(getLocationNextTo(owner, 2.2));
+                        }
+                        if (distance > 16 * 16) { // distance to the owner > 16 ? set target to owner
+                            pet.setTarget(owner);
+                        }
+
                         // create a path the pet is going to follow
                         if (pet.getTarget() instanceof Player) {
-                            // Set the speed back to normal when targeting the owner
-                            pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
+                            if (distance < 3 * 3) { // only try to navigate to player if it isn't already next to it
 
-                            // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
-                            // stand at your exact location and bumps into you continuously
-                            float radX = 2.2f;
-                            float radZ = 2.2f;
-                            switch (getDirection(pet.getTarget())) {
-                                case NORTH:
-                                    radX = 2.2f;
-                                    radZ = -2.2f;
-                                    break;
-                                case EAST:
-                                    radX = 2.2f;
-                                    radZ = 2.2f;
-                                    break;
-                                case SOUTH:
-                                    radX = -2.2f;
-                                    radZ = 2.2f;
-                                    break;
-                                case WEST:
-                                    radX = -2.2f;
-                                    radZ = -2.2f;
-                                    break;
+                                // Set the speed back to normal when targeting the owner
+                                pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
+
+                                // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
+                                // stand at your exact location and bumps into you continuously
+                                Location targetLoc = getLocationNextTo(owner, 2.2);
+                                path = handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ());
                             }
-
-                            path = handle.getNavigation().a(
-                                    pet.getTarget().getLocation().getX() + radX,
-                                    pet.getTarget().getLocation().getY(),
-                                    pet.getTarget().getLocation().getZ() + radZ);
                         } else {
                             // let the pet walk directly to the entity its supposed to kill
                             path = handle.getNavigation().a(
@@ -97,7 +86,7 @@ public class FollowTask {
                         }
 
                         if (path != null) {
-//                               // let the pet walk the path
+//                          // let the pet walk the path
                             handle.getNavigation().a(path, pet.getSpeed());
 
                             // if there is an entity nearby the owner has attacked, let the pet attack that target as well
@@ -116,13 +105,6 @@ public class FollowTask {
                                 }
                             }
                         }
-
-                        double distance = owner.getLocation().distanceSquared(entity.getLocation());
-                        if (distance > 32 * 32) { // distance to the owner > 32 ? teleport
-                            entity.teleport(owner.getLocation());
-                        } else if (distance > 16 * 16) { // distance to the owner > 16 ? set target to owner
-                            pet.setTarget(owner);
-                        }
                     } else {
                         pet.uncall();
                     }
@@ -130,7 +112,6 @@ public class FollowTask {
             }
         }, 0, MbPetsConfig.getFollowTaskDelay());
     }
-
 
     /**
      * kills the task
@@ -174,6 +155,32 @@ public class FollowTask {
         else if (i == 2) return BlockFace.EAST;
         else if (i == 3) return BlockFace.SOUTH;
         else return BlockFace.WEST;
+    }
+
+    /**
+     * Get a location that is next to an entity
+     *
+     * @param entity    The entity to get the location next to
+     * @param distance  The distance of the location
+     * @return          The new location
+     */
+    public static Location getLocationNextTo(Entity entity, double distance) {
+        Location loc = entity.getLocation();
+        switch (getDirection(entity)) {
+            case NORTH:
+                loc.add(distance, 0, -distance);
+                break;
+            case EAST:
+                loc.add(distance, 0, -distance);
+                break;
+            case SOUTH:
+                loc.add(-distance, 0, distance);
+                break;
+            case WEST:
+                loc.add(-distance, 0, -distance);
+                break;
+        }
+        return loc;
     }
 
 }
