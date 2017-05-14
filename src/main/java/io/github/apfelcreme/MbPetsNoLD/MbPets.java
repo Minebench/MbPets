@@ -37,7 +37,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Lord36 aka Apfelcreme
  */
 public class MbPets extends JavaPlugin {
-
+    private static MbPets instance;
     /**
      * the event listener for the animal2Pet converting
      */
@@ -47,6 +47,7 @@ public class MbPets extends JavaPlugin {
     private Economy economy = null;
 
     public void onEnable() {
+        instance = this;
         //set enabled on plugin load
         // create config if necessary
         if (!getDataFolder().exists()) {
@@ -114,8 +115,7 @@ public class MbPets extends JavaPlugin {
      * @return the plugin instance
      */
     public static MbPets getInstance() {
-        return (MbPets) Bukkit.getServer().getPluginManager()
-                .getPlugin("MbPetsNoLD");
+        return instance;
     }
 
     /**
