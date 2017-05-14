@@ -34,8 +34,6 @@ import java.util.Map;
  */
 public class EntityDamagesEntityListener implements Listener {
 
-    private Map<Pet, BukkitTask> resetTimers = new HashMap<Pet, BukkitTask>();
-
     /**
      * target navigation
      *
@@ -52,20 +50,6 @@ public class EntityDamagesEntityListener implements Listener {
                 pet.setTarget(event.getEntity());
                 pet.setSpeed(MbPetsConfig.getEnhancedPetSpeed(pet.getType()));
                 pet.getEntity().getWorld().playSound(pet.getEntity().getLocation(), MbPetsConfig.getPetSound(pet.getType()), 5, 1);
-
-                if (resetTimers.get(pet) != null) {
-                    resetTimers.get(pet).cancel();
-                    resetTimers.remove(pet);
-                }
-
-                BukkitTask task = MbPets.getInstance().getServer().getScheduler().runTaskLater(MbPets.getInstance(), new Runnable() {
-                    @Override
-                    public void run() {
-                        pet.setTarget(event.getDamager());
-                        pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
-                    }
-                }, 200L);
-                resetTimers.put(pet, task);
             }
         }
     }
