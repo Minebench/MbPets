@@ -67,7 +67,7 @@ public class FollowTask {
 
                         // create a path the pet is going to follow
                         if (pet.getTarget() instanceof Player) {
-                            if (distance < 3 * 3) { // only try to navigate to player if it isn't already next to it
+                            if (distance > 3 * 3) { // only try to navigate to player if it isn't already next to it
 
                                 // Set the speed back to normal when targeting the owner
                                 pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
