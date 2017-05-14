@@ -21,76 +21,40 @@ import org.bukkit.entity.EntityType;
  * @author Lord36 aka Apfelcreme
  */
 public enum PetType {
-    HORSE,
-    PIG,
-    SHEEP,
-    WOLF,
-    CHICKEN,
-    COW,
-    MUSHROOM_COW,
-    OCELOT,
-    POLAR_BEAR,
-    BAT,
-    IRON_GOLEM,
-    RABBIT,
-    SKELETON_HORSE,
-    UNDEAD_HORSE,
-    DONKEY,
-    MULE,
-    LLAMA,
-    ENDERMAN,
-    MAGMA_CUBE,
-    SLIME;
+    HORSE(EntityType.HORSE),
+    PIG(EntityType.PIG),
+    SHEEP(EntityType.SHEEP),
+    WOLF(EntityType.WOLF),
+    CHICKEN(EntityType.CHICKEN),
+    COW(EntityType.COW),
+    MUSHROOM_COW(EntityType.MUSHROOM_COW),
+    OCELOT(EntityType.OCELOT),
+    POLAR_BEAR(EntityType.POLAR_BEAR),
+    BAT(EntityType.BAT),
+    IRON_GOLEM(EntityType.IRON_GOLEM),
+    RABBIT(EntityType.RABBIT),
+    SKELETON_HORSE(EntityType.SKELETON_HORSE),
+    UNDEAD_HORSE(EntityType.ZOMBIE_HORSE),
+    DONKEY(EntityType.DONKEY),
+    MULE(EntityType.MULE),
+    LLAMA(EntityType.LLAMA),
+    ENDERMAN(EntityType.ENDERMAN),
+    MAGMA_CUBE(EntityType.MAGMA_CUBE),
+    SLIME(EntityType.SLIME);
+
+    private EntityType entityType;
+
+    PetType(EntityType entityType) {
+        this.entityType = entityType;
+    }
 
     /**
      * returns the matching entitytype for spawning the pet
-     * @param type the PetType
+     *
      * @return the matching EntityType
      */
-    public static EntityType getEntityType(PetType type) {
-        switch (type) {
-            case HORSE:
-                return EntityType.HORSE;
-            case PIG:
-                return EntityType.PIG;
-            case SHEEP:
-                return EntityType.SHEEP;
-            case WOLF:
-                return EntityType.WOLF;
-            case CHICKEN:
-                return EntityType.CHICKEN;
-            case COW:
-                return EntityType.COW;
-            case MUSHROOM_COW:
-                return EntityType.MUSHROOM_COW;
-            case OCELOT:
-                return EntityType.OCELOT;
-            case POLAR_BEAR:
-                return EntityType.POLAR_BEAR;
-            case BAT:
-                return EntityType.BAT;
-            case IRON_GOLEM:
-                return EntityType.IRON_GOLEM;
-            case RABBIT:
-                return EntityType.RABBIT;
-            case SKELETON_HORSE:
-                return EntityType.SKELETON_HORSE;
-            case UNDEAD_HORSE:
-                return EntityType.ZOMBIE_HORSE;
-            case MULE:
-                return EntityType.MULE;
-            case DONKEY:
-                return EntityType.DONKEY;
-            case LLAMA:
-                return EntityType.LLAMA;
-            case ENDERMAN:
-                return EntityType.ENDERMAN;
-            case MAGMA_CUBE:
-                return EntityType.MAGMA_CUBE;
-            case SLIME:
-                return EntityType.SLIME;
-        }
-        return null;
+    public EntityType getEntityType() {
+        return entityType;
     }
 
 }

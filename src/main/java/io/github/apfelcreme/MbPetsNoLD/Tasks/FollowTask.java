@@ -94,15 +94,14 @@ public class FollowTask {
 
                                 // if there is an entity nearby the owner has attacked, let the pet attack that target as well
                                 if (!(pet.getTarget() instanceof Player)   //target isnt a player
-                                        && (pet.getEntity().getLocation().distance(pet.getTarget().getLocation()) < 2.5) //target is nearby
+                                        && (pet.getEntity().getLocation().distance(pet.getTarget().getLocation()) < 3.5) //target is nearby
                                         && (PetManager.getInstance().getPetByEntity(pet.getTarget()) == null)) {  //target isnt a pet
 
                                     if (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?
                                             || (MbPets.getInstance().getPluginAnimalProtect() != null && !MbPets.getInstance().getPluginAnimalProtect().hasOwner(pet.getTarget().getUniqueId()))) { // if it is: is the target protected?
 
                                         // launch the target into the air and do some damage depending on the pets attack strength and active modifiers
-                                        Vector v = new Vector(0, 0.5, 0);
-                                        pet.getTarget().setVelocity(v);
+                                        pet.getTarget().setVelocity(new Vector(0, 0.5, 0));
                                         DamageSource reason = DamageSource.playerAttack(((CraftHumanEntity) MbPets.getInstance().getServer().getPlayer(pet.getOwner())).getHandle());
                                         net.minecraft.server.v1_11_R1.Entity damagedEntity = ((CraftEntity) pet.getTarget()).getHandle();
                                         damagedEntity.damageEntity(reason, (float) (MbPetsConfig.getPetAttackStrength(pet.getType()) * pet.getLevel().getAttackStrengthModifier()));

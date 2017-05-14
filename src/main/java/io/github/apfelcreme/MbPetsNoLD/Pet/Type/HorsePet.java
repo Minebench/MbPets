@@ -111,7 +111,6 @@ public class HorsePet extends Pet implements Ageable, Dyeable<Horse.Color>, Styl
         ((Horse) getEntity()).setColor(color);
         ((Horse) getEntity()).setStyle(style);
         ((Horse) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((Horse) getEntity()).setVariant(Horse.Variant.HORSE);
         ((Horse) getEntity()).setTamed(true);
         ((Horse) getEntity()).setAgeLock(true);
         if (isBaby) {

@@ -69,7 +69,7 @@ public class PetLevel {
     }
 
     /**
-     * creates a pet level object from the amount of exp the pet has
+     * creates a pet level object from the amount of exp the pet haswwwwww
      *
      * @param level the level
      * @return the level that results from the amount of exp

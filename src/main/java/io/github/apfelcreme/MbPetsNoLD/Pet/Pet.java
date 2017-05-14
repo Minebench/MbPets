@@ -323,8 +323,7 @@ public abstract class Pet {
             @Override
             public void run() {
                 entity = (LivingEntity) MbPets.getInstance().getServer().getPlayer(owner).getWorld()
-                        .spawnEntity(MbPets.getInstance().getServer().getPlayer(owner).getLocation(),
-                                PetType.getEntityType(getType()));
+                        .spawnEntity(MbPets.getInstance().getServer().getPlayer(owner).getLocation(), type.getEntityType());
                 if (!FollowTask.isActive()) {
                     FollowTask.create();
                 }
