@@ -29,7 +29,7 @@ public class ModifyCommand implements SubCommand {
      * @param chatInput the input
      */
     public void execute(final ChatInput chatInput) {
-        if (MbPets.getInstance().getPluginVault() == null) {
+        if (MbPets.getInstance().isVaultEnabled()) {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noVault"));
             return;
         }

@@ -7,11 +7,8 @@ import io.github.apfelcreme.MbPetsNoLD.Database.MySQLConnection;
 import io.github.apfelcreme.MbPetsNoLD.Listener.*;
 import io.github.apfelcreme.MbPetsNoLD.Pet.*;
 
-import java.sql.SQLException;
-
 import io.github.apfelcreme.MbPetsNoLD.Tasks.FollowTask;
 import io.github.apfelcreme.MbPetsNoLD.Tasks.ParticleTask;
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 import net.zaiyers.AnimalProtect.AnimalProtect;
 
@@ -47,6 +44,7 @@ public class MbPets extends JavaPlugin {
     private ConvertRightclickListener convertRightclickListener;
 
     private static DatabaseConnector databaseConnector = null;
+    private Economy economy = null;
 
     public void onEnable() {
         //set enabled on plugin load
@@ -93,6 +91,11 @@ public class MbPets extends JavaPlugin {
         }
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             getLogger().info("Plugin 'Vault' was not found!");
+        } else {
+            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
+            if (economyProvider != null) {
+                economy = economyProvider.getProvider();
+            }
         }
     }
 
@@ -148,10 +151,10 @@ public class MbPets extends JavaPlugin {
     }
 
     /**
-     * @return the vault instance
+     * @return if Vault is enabled and loaded
      */
-    public Vault getPluginVault() {
-        return (Vault) MbPets.getInstance().getServer().getPluginManager().getPlugin("Vault");
+    public boolean isVaultEnabled() {
+        return MbPets.getInstance().getServer().getPluginManager().isPluginEnabled("Vault");
     }
 
     /**
@@ -167,13 +170,6 @@ public class MbPets extends JavaPlugin {
      * @return Vault economy object
      */
     public Economy getEconomy() {
-        RegisteredServiceProvider<Economy> economyProvider = MbPets
-                .getInstance().getServer().getServicesManager()
-                .getRegistration(net.milkbowl.vault.economy.Economy.class);
-        Economy economy = null;
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-        }
         return economy;
     }
 

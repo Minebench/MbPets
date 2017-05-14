@@ -39,7 +39,7 @@ public class ConfirmCommand implements SubCommand {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noPermission"));
             return;
         }
-        if (MbPets.getInstance().getPluginVault() == null) {
+        if (MbPets.getInstance().isVaultEnabled()) {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noVault"));
             return;
         }

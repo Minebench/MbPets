@@ -119,8 +119,8 @@
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
-			<artifactId>Vault</artifactId>
-			<version>1.4.1</version>
+			<artifactId>VaultAPI</artifactId>
+			<version>1.6</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
