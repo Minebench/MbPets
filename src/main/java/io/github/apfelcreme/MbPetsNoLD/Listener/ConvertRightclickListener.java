@@ -4,6 +4,7 @@ import io.github.apfelcreme.MbPetsNoLD.*;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetConfiguration;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import net.zaiyers.AnimalProtect.Protection;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -84,14 +85,8 @@ public class ConvertRightclickListener implements Listener {
                         return;
                     }
                     if (MbPets.getInstance().getPluginAnimalProtect() != null) {
-                        if (MbPets.getInstance().getPluginAnimalProtect()
-                                .hasOwner(e.getRightClicked().getUniqueId())
-                                && !MbPets
-                                .getInstance()
-                                .getPluginAnimalProtect()
-                                .getOwner(
-                                        e.getRightClicked().getUniqueId())
-                                .equals(e.getPlayer().getUniqueId().toString())) {
+                        Protection protection = MbPets.getInstance().getPluginAnimalProtect().getProtection(e.getRightClicked().getUniqueId());
+                        if (protection.getOwnerId() != null && !protection.getOwnerId().equals(e.getPlayer().getUniqueId())) {
                             // check whether the animal the player right-clicked is
                             // either
                             // unprotected or his own.
