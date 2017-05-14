@@ -3,8 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.apfelcreme</groupId>
 	<artifactId>MbPetsNoLibsDisguises</artifactId>
-	<version>3.0.5</version>
+	<version>3.0.6</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<build.number>${buildNumber}</build.number>
+		<minecraft.plugin.version>${project.version} ${buildDescription}</minecraft.plugin.version>
+	</properties>
+
 	<build>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -37,25 +45,39 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>static_build_number</id>
+			<activation>
+				<property>
+					<name>!env.BUILD_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<buildNumber>0</buildNumber>
+				<buildDescription>(manually compiled)</buildDescription>
+			</properties>
+		</profile>
+		<profile>
+			<id>dynamic_build_number</id>
+			<activation>
+				<property>
+					<name>env.BUILD_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<buildNumber>${env.BUILD_NUMBER}</buildNumber>
+				<buildDescription>(build #${env.BUILD_NUMBER})</buildDescription>
+			</properties>
+		</profile>
+	</profiles>
+
 	<repositories>
-		<!--<repository>-->
-			<!--<id>bukkit-repo</id>-->
-			<!--<url>http://repo.bukkit.org/content/groups/public/</url>-->
-		<!--</repository>-->
-		<!--<repository>-->
-			<!--<id>comphenix-snapshot-rep</id>-->
-			<!--<name>Comphenix Snapshot Repository</name>-->
-			<!--<url>http://repo.comphenix.net/content/repositories/snapshots/</url>-->
-		<!--</repository>-->
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
-		<!--<repository>-->
-			<!--<id>comphenix-rep</id>-->
-			<!--<name>Comphenix Repository</name>-->
-			<!--<url>http://repo.comphenix.net/content/groups/public</url>-->
-		<!--</repository>-->
 		<repository>
 			<id>sk89q-repo</id>
 			<url>http://maven.sk89q.com/repo/</url>
@@ -69,6 +91,7 @@
 			<url>http://repo.minebench.de/content/groups/public/</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 	    <dependency>
 			<groupId>org.spigotmc</groupId>

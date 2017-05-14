@@ -1,5 +1,5 @@
 name: MbPetsNoLD
-version: 3.0.5
+version: ${minecraft.plugin.version}
 main: io.github.apfelcreme.MbPetsNoLD.MbPets
 depend: [UUIDDB]
 softdepend: [AnimalProtect, Vault]
