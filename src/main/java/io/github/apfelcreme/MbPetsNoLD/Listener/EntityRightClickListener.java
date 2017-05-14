@@ -46,34 +46,20 @@ public class EntityRightClickListener implements Listener {
         final Pet pet = PetManager.getInstance().getPetByEntity(e.getRightClicked());
         if (pet != null) {
             if ((pet instanceof DonkeyPet) || pet instanceof LlamaPet) {
-                if (e.getRightClicked() instanceof Donkey) {
-                    if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.CHEST) {
-                        e.getPlayer().getInventory().addItem(new ItemStack(Material.CHEST, 1));
-                        e.getPlayer().getInventory().removeItem(new ItemStack(Material.CHEST, 1));
-                        e.setCancelled(true);
-                    }
-                } else if (e.getRightClicked() instanceof Llama) {
-                    if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.CHEST) {
-                        e.getPlayer().getInventory().addItem(new ItemStack(Material.CHEST, 1));
-                        e.getPlayer().getInventory().removeItem(new ItemStack(Material.CHEST, 1));
-                        e.setCancelled(true);
-//                    } else if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.CARPET) {
-//                        ItemStack carpet = e.getPlayer().getInventory().getItemInMainHand();
-//                        e.getPlayer().getInventory().removeItem(carpet);
-//                        e.getPlayer().getInventory().addItem(carpet);
-//                        e.setCancelled(true);
-                    }
+                if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.CHEST) {
+                    e.getPlayer().getInventory().addItem(new ItemStack(Material.CHEST, 1));
+                    e.getPlayer().getInventory().removeItem(new ItemStack(Material.CHEST, 1));
+                    e.setCancelled(true);
                 }
-            } else {
-                String newName = pet.getRightClickName();
-                pet.getEntity().setCustomName(newName);
-                MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), new Runnable() {
-                    @Override
-                    public void run() {
-                        pet.getEntity().setCustomName(pet.getName());
-                    }
-                }, 60L);
             }
+            String newName = pet.getRightClickName();
+            pet.getEntity().setCustomName(newName);
+            MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), new Runnable() {
+                @Override
+                public void run() {
+                    pet.getEntity().setCustomName(pet.getName());
+                }
+            }, 60L);
         }
     }
 }
