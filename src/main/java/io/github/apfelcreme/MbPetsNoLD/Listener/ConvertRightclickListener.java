@@ -1,6 +1,7 @@
 package io.github.apfelcreme.MbPetsNoLD.Listener;
 
-import io.github.apfelcreme.MbPetsNoLD.*;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetConfiguration;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
@@ -12,7 +13,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -34,8 +36,7 @@ import java.util.HashSet;
  */
 public class ConvertRightclickListener implements Listener {
 
-    private HashSet<Player> registeredConverts = new HashSet<Player>();
-    private HashMap<Player, BukkitTask> timers = new HashMap<Player, BukkitTask>();
+    private Map<UUID, BukkitTask> timers = new HashMap<UUID, BukkitTask>();
 
     /**
      * registers a convert-request for a given player
@@ -47,21 +48,18 @@ public class ConvertRightclickListener implements Listener {
             MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.noPermission"));
             return;
         }
-        registeredConverts.add(player);
         BukkitTask task = MbPets.getInstance().getServer().getScheduler()
                 .runTaskLater(MbPets.getInstance(), new Runnable() {
                     public void run() {
-                        registeredConverts.remove(player);
+                        timers.remove(player.getUniqueId());
                         MbPets.sendMessage(player, MbPetsConfig.getTextNode("info.petRightclickEnd"));
                     }
 
                 }, 200L);
 
-        if (timers.containsKey(player)) {
-            timers.get(player).cancel();
-        }
+        stopTimer(player);
         MbPets.sendMessage(player, MbPetsConfig.getTextNode("info.petRightclick"));
-        timers.put(player, task);
+        timers.put(player.getUniqueId(), task);
     }
 
     /**
@@ -75,13 +73,12 @@ public class ConvertRightclickListener implements Listener {
             @Override
             public void run() {
 
-                if (registeredConverts.contains(e.getPlayer())) {
+                if (timers.containsKey(e.getPlayer().getUniqueId())) {
                     if (PetManager.getInstance().getPetByEntity(e.getRightClicked()) != null) {
                         // check whether the right-clicked entity isn't already a
                         // pet
                         MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("error.entityIsAlreadyAPet"));
-                        registeredConverts.remove(e.getPlayer());
-                        timers.get(e.getPlayer()).cancel();
+                        stopTimer(e.getPlayer());
                         return;
                     }
                     if (MbPets.getInstance().getPluginAnimalProtect() != null) {
@@ -92,8 +89,7 @@ public class ConvertRightclickListener implements Listener {
                             // unprotected or his own.
                             e.getPlayer().sendMessage(
                                     MbPetsConfig.getTextNode("error.notYourPet"));
-                            registeredConverts.remove(e.getPlayer());
-                            timers.get(e.getPlayer()).cancel();
+                            stopTimer(e.getPlayer());
                             return;
                         }
                     }
@@ -104,14 +100,13 @@ public class ConvertRightclickListener implements Listener {
                         // User rightclicked a pet, that is an other players tamed
                         // animal
                         MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("error.notYourPet"));
-                        registeredConverts.remove(e.getPlayer());
+                        stopTimer(e.getPlayer());
                         return;
                     }
                     if (MbPetsConfig.parseType(e.getRightClicked().getType().name()) == null) {
                         // allow only available pets for a convert
                         MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("help.TYPE"));
-                        registeredConverts.remove(e.getPlayer());
-                        timers.get(e.getPlayer()).cancel();
+                        stopTimer(e.getPlayer());
                         return;
                     }
                     PetConfiguration petConfiguration = new PetConfiguration(
@@ -188,8 +183,7 @@ public class ConvertRightclickListener implements Listener {
                             break;
                         default:
                             MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("help.TYPE"));
-                            registeredConverts.remove(e.getPlayer());
-                            timers.get(e.getPlayer()).cancel();
+                            stopTimer(e.getPlayer());
                             return;
                     }
 //					if (((LivingEntity) e.getRightClicked()).getCustomName() != null) pet.setName(((LivingEntity) e.getRightClicked()).getCustomName());
@@ -197,13 +191,18 @@ public class ConvertRightclickListener implements Listener {
                     petConfiguration.setConvertedEntity(e.getRightClicked()); // for a later despawn
                     PetManager.getInstance().getConfigurations().put(e.getPlayer().getUniqueId(), petConfiguration);
                     MbPets.sendMessage(e.getPlayer(), petConfiguration.getPetDescription().getDescription());
-                    registeredConverts.remove(e.getPlayer());
-                    timers.get(e.getPlayer()).cancel();
-
+                    stopTimer(e.getPlayer());
                 }
             }
         });
 
+    }
+
+    private void stopTimer(Player player) {
+        if (timers.containsKey(player.getUniqueId())) {
+            timers.get(player.getUniqueId()).cancel();
+            timers.remove(player.getUniqueId());
+        }
     }
 
 }
