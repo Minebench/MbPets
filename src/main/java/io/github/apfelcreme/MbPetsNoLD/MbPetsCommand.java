@@ -2,9 +2,12 @@ package io.github.apfelcreme.MbPetsNoLD;
 
 import io.github.apfelcreme.MbPetsNoLD.ChatInput.Operation;
 import io.github.apfelcreme.MbPetsNoLD.Command.*;
+import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import net.zaiyers.UUIDDB.bukkit.UUIDDB;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -184,8 +187,41 @@ public class MbPetsCommand implements CommandExecutor {
                         MbPets.sendMessage(sender, MbPetsConfig.getTextNode(
                                 "error.missingValue").replace(
                                 "{0}",
-                                WordUtils.capitalize(operation.name()
-                                        .toLowerCase())));
+                                WordUtils.capitalize(operation.name().toLowerCase())));
+                        String possibleValues = "";
+                        switch (operation) {
+                            case BABY:
+                            case NAME:
+                                possibleValues = MbPetsConfig.getTextNode("help." + operation);
+                                break;
+                            case COLOR:
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.HORSE.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", ");
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.LLAMA.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableLlamaColors(), ", ");
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.WOLF.name() + ".displaytext")
+                                        + " & " + MbPetsConfig.getNode("PetTypes." + PetType.SHEEP.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", ");
+                                break;
+                            case SIZE:
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.SLIME.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", ");
+                                break;
+                            case STYLE:
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.HORSE.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", ");
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.RABBIT.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableRabbitTypes(), ", ");
+                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.OCELOT.name() + ".displaytext") + ":\n";
+                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableOcelotStyles(), ", ");
+                                break;
+                            case TYPE:
+                                possibleValues = StringUtils.join(MbPetsConfig.getAvailableTypes(), ", ");
+                                break;
+                            default:
+                                possibleValues = "I don't know :(";
+                        }
+                        MbPets.sendMessage(sender, MbPetsConfig.getTextNode("error.possibleValues").replace("{0}", possibleValues));
                         return null;
                     }
                 }

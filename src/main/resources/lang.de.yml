@@ -49,6 +49,7 @@ texts:
   error:
     noPermission: '&cDu hast keine ausreichende Berechtigung!'
     missingValue: '&cFür die Option &4{0}&c fehlt der Wert!'
+    possibleValues: '&cMögliche Werte: &7{0}'
     noDbConnection: '&cDie Verbindung zur Datenbank wurde unterbrochen!'
     wrongFunction: '&4{0}&c ist keine gültige Option!'
     noPetToCall: '&c{0} besitzt keine Pets!'
