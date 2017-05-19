@@ -13,6 +13,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -188,40 +190,42 @@ public class MbPetsCommand implements CommandExecutor {
                                 "error.missingValue").replace(
                                 "{0}",
                                 WordUtils.capitalize(operation.name().toLowerCase())));
-                        String possibleValues = "";
+                        List<String> possibleValues = new ArrayList<>();
                         switch (operation) {
                             case BABY:
                             case NAME:
-                                possibleValues = MbPetsConfig.getTextNode("help." + operation);
+                                possibleValues.add(MbPetsConfig.getTextNode("help." + operation));
                                 break;
                             case COLOR:
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.HORSE.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", ");
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.LLAMA.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableLlamaColors(), ", ");
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.WOLF.name() + ".displaytext")
-                                        + " & " + MbPetsConfig.getNode("PetTypes." + PetType.SHEEP.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", ");
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.HORSE.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", "));
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.LLAMA.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableLlamaColors(), ", "));
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.WOLF.name() + ".displaytext")
+                                        + " & " + MbPetsConfig.getNode("PetTypes." + PetType.SHEEP.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", "));
                                 break;
                             case SIZE:
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.SLIME.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", ");
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.SLIME.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "));
                                 break;
                             case STYLE:
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.HORSE.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", ");
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.RABBIT.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableRabbitTypes(), ", ");
-                                possibleValues += "\n" + MbPetsConfig.getNode("PetTypes." + PetType.OCELOT.name() + ".displaytext") + ":\n";
-                                possibleValues += ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableOcelotStyles(), ", ");
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.HORSE.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", "));
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.RABBIT.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableRabbitTypes(), ", "));
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.OCELOT.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableOcelotStyles(), ", "));
                                 break;
                             case TYPE:
-                                possibleValues = StringUtils.join(MbPetsConfig.getAvailableTypes(), ", ");
+                                possibleValues.add(StringUtils.join(MbPetsConfig.getAvailableTypes(), ", "));
                                 break;
                             default:
-                                possibleValues = "I don't know :(";
+                                possibleValues.add("I don't know :(");
                         }
-                        MbPets.sendMessage(sender, MbPetsConfig.getTextNode("error.possibleValues").replace("{0}", possibleValues));
+                        for (String possibleValue : possibleValues) {
+                            MbPets.sendMessage(sender, MbPetsConfig.getTextNode("error.possibleValues").replace("{0}", possibleValue));
+                        }
                         return null;
                     }
                 }
