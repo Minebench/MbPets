@@ -4,13 +4,13 @@ import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
-import net.minecraft.server.v1_11_R1.DamageSource;
-import net.minecraft.server.v1_11_R1.EntityInsentient;
-import net.minecraft.server.v1_11_R1.PathEntity;
+import net.minecraft.server.v1_12_R1.DamageSource;
+import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.PathEntity;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftHumanEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -100,7 +100,7 @@ public class FollowTask {
                                     // launch the target into the air and do some damage depending on the pets attack strength and active modifiers
                                     pet.getTarget().setVelocity(new Vector(0, 0.5, 0));
                                     DamageSource reason = DamageSource.playerAttack(((CraftHumanEntity) owner).getHandle());
-                                    net.minecraft.server.v1_11_R1.Entity damagedEntity = ((CraftEntity) pet.getTarget()).getHandle();
+                                    net.minecraft.server.v1_12_R1.Entity damagedEntity = ((CraftEntity) pet.getTarget()).getHandle();
                                     damagedEntity.damageEntity(reason, (float) (MbPetsConfig.getPetAttackStrength(pet.getType()) * pet.getLevel().getAttackStrengthModifier()));
                                 }
                             }
