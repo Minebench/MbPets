@@ -180,6 +180,12 @@ PetTypes:
     - 'KLOPFER'
     - 'KARNICKEL'
     - 'BUNNY'
+  PARROT:
+    displaytext: 'Papagei'
+    aliases:
+    - 'PARROT'
+    - 'PAPAGEI'
+    - 'YARR'
   ENDERMAN:
     displaytext: 'Enderman'
     aliases:
@@ -330,6 +336,36 @@ HorseColors:
     - 'WHITE'
     - 'WEIß'
     - 'WEISS'
+ParrotColors:
+  RED:
+    displaytext: 'Rot'
+    aliases:
+    - 'RED'
+    - 'ROT'
+    - 'BUNT'
+  BLUE:
+    displaytext: 'Blau'
+    aliases:
+    - 'BLUE'
+    - 'BLAU'
+  CYAN:
+    displaytext: 'Cyan'
+    aliases:
+    - 'CYAN'
+    - 'TÜRKIS'
+    - 'HELLBLAU'
+  GREEN:
+    displaytext: 'Grün'
+    aliases:
+    - 'GREEN'
+    - 'GRÜN'
+    - 'GRUEN'
+  GRAY:
+    displaytext: 'Grau'
+    aliases:
+    - 'GRAY'
+    - 'GRAU'
+    - 'GREY'
 HorseStyles:
   BLACK_DOTS:
     displaytext: 'Schwarzfleckig'

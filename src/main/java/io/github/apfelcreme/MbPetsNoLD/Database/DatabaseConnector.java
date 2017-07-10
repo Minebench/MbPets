@@ -83,6 +83,7 @@ public abstract class DatabaseConnector {
                                     + "ocelottype VARCHAR(50),"
                                     + "rabbittype VARCHAR(50),"
                                     + "llamacolor VARCHAR(50),"
+                                    + "parrotcolor VARCHAR(50),"
                                     + "baby boolean,"
                                     + "slimesize TINYINT,"
                                     + "number BIGINT,"

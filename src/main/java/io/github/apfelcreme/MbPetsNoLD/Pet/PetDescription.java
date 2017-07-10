@@ -9,10 +9,7 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Llama;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.*;
 
 import java.util.UUID;
 
@@ -48,6 +45,7 @@ public class PetDescription {
     private Ocelot.Type ocelotType = null;
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
+    private Parrot.Variant parrotColor = null;
     private Integer slimeSize = null;
     private Integer exp = null;
     private Double price = null;
@@ -74,6 +72,7 @@ public class PetDescription {
         if (pet instanceof OcelotPet) this.ocelotType = ((OcelotPet) pet).getStyle();
         if (pet instanceof RabbitPet) this.rabbitType = ((RabbitPet) pet).getStyle();
         if (pet instanceof LlamaPet) this.llamaColor = ((LlamaPet) pet).getColor();
+        if (pet instanceof ParrotPet) this.parrotColor = ((ParrotPet) pet).getColor();
         if (pet instanceof Sizeable) this.slimeSize = ((Sizeable) pet).getSize();
     }
 
@@ -97,6 +96,7 @@ public class PetDescription {
         this.ocelotType = petConfiguration.getOcelotType();
         this.rabbitType = petConfiguration.getRabbitType();
         this.llamaColor = petConfiguration.getLlamaColor();
+        this.parrotColor = petConfiguration.getParrotColor();
         this.slimeSize = petConfiguration.getSlimeSize();
     }
 
@@ -163,6 +163,9 @@ public class PetDescription {
             case RABBIT:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", rabbitType != null ? MbPetsConfig.getNode("RabbitTypes." + rabbitType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableRabbitTypes(), ", "))).append("\n");
+                break;
+            case PARROT:
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", parrotColor != null ? MbPetsConfig.getNode("ParrotColors." + parrotColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableParrotColors(), ", "))).append("\n");
                 break;
             case SKELETON_HORSE:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");

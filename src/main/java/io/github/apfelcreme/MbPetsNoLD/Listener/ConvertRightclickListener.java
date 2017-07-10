@@ -157,6 +157,9 @@ public class ConvertRightclickListener implements Listener {
                             petConfiguration.setBaby(!((Rabbit) e.getRightClicked()).isAdult());
                             petConfiguration.setRabbitType(((Rabbit) e.getRightClicked()).getRabbitType());
                             break;
+                        case PARROT:
+                            petConfiguration.setParrotColor(((Parrot) e.getRightClicked()).getVariant());
+                            break;
                         case SKELETON_HORSE:
                             petConfiguration.setType(PetType.SKELETON_HORSE);
                             petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
@@ -172,6 +175,8 @@ public class ConvertRightclickListener implements Listener {
                         case MULE:
                             petConfiguration.setType(PetType.MULE);
                             petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
+                            break;
+                        case LLAMA:
                             break;
                         case ENDERMAN:
                             break;

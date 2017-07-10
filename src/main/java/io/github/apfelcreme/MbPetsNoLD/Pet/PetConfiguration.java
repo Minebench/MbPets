@@ -43,6 +43,7 @@ public class PetConfiguration {
     private Ocelot.Type ocelotType = null;
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
+    private Parrot.Variant parrotColor = null;
     private Integer slimeSize = null;
     private Integer exp = 0;
 
@@ -118,6 +119,9 @@ public class PetConfiguration {
             case RABBIT:
                 isBaby = ((RabbitPet) pet).isBaby();
                 rabbitType = ((RabbitPet) pet).getStyle();
+                break;
+            case PARROT:
+                parrotColor = ((ParrotPet) pet).getColor();
                 break;
             case SKELETON_HORSE:
                 isBaby = ((SkeletonHorsePet) pet).isBaby();
@@ -258,6 +262,14 @@ public class PetConfiguration {
         this.llamaColor = llamaColor;
     }
 
+    public Parrot.Variant getParrotColor() {
+        return parrotColor;
+    }
+
+    public void setParrotColor(Parrot.Variant parrotColor) {
+        this.parrotColor = parrotColor;
+    }
+
     public Integer getSlimeSize() {
         return slimeSize;
     }
@@ -318,10 +330,10 @@ public class PetConfiguration {
 
                     //Insert a pet
                     preparedStatement = connection.prepareStatement("INSERT INTO " +
-                            "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, slimesize, number, exp)"
+                            "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, parrotcolor, slimesize, number, exp)"
                             + " VALUES ("
                             + "(Select playerid from MbPets_Player where uuid = ?),"
-                            + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+                            + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
                             + ")");
                     preparedStatement.setString(1, owner.toString());
                     preparedStatement.setString(2, name);
@@ -334,9 +346,10 @@ public class PetConfiguration {
                     preparedStatement.setString(9, ocelotType != null ? ocelotType.name() : null);
                     preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
                     preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
-                    preparedStatement.setInt(12, slimeSize != null ? slimeSize : -1);
-                    preparedStatement.setInt(13, number);
-                    preparedStatement.setInt(14, exp);
+                    preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
+                    preparedStatement.setInt(13, slimeSize != null ? slimeSize : -1);
+                    preparedStatement.setInt(14, number);
+                    preparedStatement.setInt(15, exp);
                     preparedStatement.executeUpdate();
 
                 } catch (SQLException e) {
@@ -407,6 +420,10 @@ public class PetConfiguration {
                     pet = new RabbitPet(owner, number);
                     ((RabbitPet) pet).setBaby(isBaby);
                     ((RabbitPet) pet).setStyle(rabbitType);
+                    break;
+                case PARROT:
+                    pet = new ParrotPet(owner, number);
+                    ((ParrotPet) pet).setColor(parrotColor);
                     break;
                 case SKELETON_HORSE:
                     pet = new SkeletonHorsePet(owner, number);
@@ -484,6 +501,8 @@ public class PetConfiguration {
                 return (name != null);
             case RABBIT:
                 return (name != null && rabbitType != null);
+            case PARROT:
+                return (name != null && parrotColor != null);
             case SKELETON_HORSE:
                 return (name != null);
             case UNDEAD_HORSE:
@@ -507,8 +526,7 @@ public class PetConfiguration {
     @Override
     public String toString() {
         return "PetConfiguration{" +
-                "convertedEntity=" + convertedEntity +
-                ", owner=" + owner +
+                "owner=" + owner +
                 ", type=" + type +
                 ", number=" + number +
                 ", name='" + name + '\'' +
@@ -520,10 +538,12 @@ public class PetConfiguration {
                 ", ocelotType=" + ocelotType +
                 ", rabbitType=" + rabbitType +
                 ", llamaColor=" + llamaColor +
+                ", parrotColor=" + parrotColor +
                 ", slimeSize=" + slimeSize +
                 ", exp=" + exp +
                 ", price=" + price +
                 ", configurationType=" + configurationType +
+                ", convertedEntity=" + convertedEntity +
                 '}';
     }
 

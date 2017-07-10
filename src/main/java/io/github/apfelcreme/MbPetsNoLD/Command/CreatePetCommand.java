@@ -69,6 +69,8 @@ public class CreatePetCommand implements SubCommand {
                 petConfiguration.setWolfColor(MbPetsConfig.parseColor(chatInput.getColor()));
             } else if (petConfiguration.getType() == PetType.LLAMA) {
                 petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(chatInput.getColor()));
+            } else if (petConfiguration.getType() == PetType.PARROT) {
+                petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(chatInput.getColor()));
             }
         }
 

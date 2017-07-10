@@ -96,6 +96,7 @@ public class PetManager {
                         petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
                         petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
                         petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
+                        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
                         petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
                         petConfiguration.setExp(resultSet.getInt("exp"));
                         return petConfiguration.getPet();
@@ -141,6 +142,7 @@ public class PetManager {
                     petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
                     petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
                     petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
+                    petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
                     petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
                     petConfiguration.setExp(resultSet.getInt("exp"));
                     pets.add(petConfiguration.getPet());

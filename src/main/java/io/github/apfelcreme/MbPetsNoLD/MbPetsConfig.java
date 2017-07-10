@@ -244,6 +244,24 @@ public class MbPetsConfig {
     }
 
     /**
+     * returns a Parrot.Color from the chat input given.
+     *
+     * @param color the color name
+     * @return the actual color
+     */
+    public static Parrot.Variant parseParrotColor(String color) {
+        if (color == null)
+            return null;
+        for (Parrot.Variant c : Parrot.Variant.values()) {
+            if (languageConfig.getStringList("ParrotColors." + c.name() + ".aliases")
+                    .contains(color.toUpperCase())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    /**
      * returns an Integer (1-3) for a slime's size. input would be e.g. "Groß" or "klein"
      *
      * @param size
@@ -383,6 +401,22 @@ public class MbPetsConfig {
         List<String> strings = new ArrayList<>();
         for (Llama.Color color : Llama.Color.values()) {
             String c = languageConfig.getString("LlamaColors." + color.name() + ".displaytext");
+            if (c != null) {
+                strings.add(c);
+            }
+        }
+        return strings;
+    }
+
+    /**
+     * returns a list of Strings that contains the names of all available ParrotColors
+     *
+     * @return a list of Strings that contains the names of all available ParrotColors
+     */
+    public static List<String> getAvailableParrotColors() {
+        List<String> strings = new ArrayList<>();
+        for (Parrot.Variant color : Parrot.Variant.values()) {
+            String c = languageConfig.getString("ParrotColors." + color.name() + ".displaytext");
             if (c != null) {
                 strings.add(c);
             }

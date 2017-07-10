@@ -33,6 +33,7 @@ public enum PetType {
     BAT(EntityType.BAT),
     IRON_GOLEM(EntityType.IRON_GOLEM),
     RABBIT(EntityType.RABBIT),
+    PARROT(EntityType.PARROT),
     SKELETON_HORSE(EntityType.SKELETON_HORSE),
     UNDEAD_HORSE(EntityType.ZOMBIE_HORSE),
     DONKEY(EntityType.DONKEY),

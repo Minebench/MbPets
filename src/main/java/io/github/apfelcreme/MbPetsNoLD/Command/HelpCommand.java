@@ -103,6 +103,10 @@ public class HelpCommand implements SubCommand {
                         .replace("{0}", ChatColor.DARK_GREEN + "Baby")
                         .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
                 break;
+            case BAT:
+                break;
+            case IRON_GOLEM:
+                break;
             case RABBIT:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
                                 .replace("{0}", ChatColor.DARK_GREEN + "Baby")
@@ -146,6 +150,15 @@ public class HelpCommand implements SubCommand {
                         .replace("{0}", ChatColor.DARK_GREEN + "Size")
                         .replace("{1}", ChatColor.DARK_GRAY +
                                 StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", ")));
+                break;
+            case PARROT:
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
+                        .replace("{0}", ChatColor.DARK_GREEN + "Baby")
+                        .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
+                        .replace("{0}", ChatColor.DARK_GREEN + "Color")
+                        .replace("{1}", ChatColor.DARK_GRAY +
+                                StringUtils.join(MbPetsConfig.getAvailableParrotColors(), ", ")));
                 break;
             case SKELETON_HORSE:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
