@@ -451,7 +451,7 @@ public class MbPetsConfig {
             return 0.0;
         }
         return MbPets.getInstance().getConfig()
-                .getDouble("prices." + type.name(), 0);
+                .getDouble("prices." + type.name());
     }
 
     /**
@@ -461,7 +461,7 @@ public class MbPetsConfig {
      */
     public static Double getModificationPrice() {
         return MbPets.getInstance().getConfig()
-                .getDouble("prices.MODIFY", 0);
+                .getDouble("prices.MODIFY");
     }
 
     /**
@@ -475,7 +475,7 @@ public class MbPetsConfig {
             return 4.0f; // Basic attack stregth of a wolf
         }
         return (float) MbPets.getInstance().getConfig()
-                .getDouble("damage." + type.name(), 4.0);
+                .getDouble("damage." + type.name());
     }
 
     /**
@@ -489,7 +489,7 @@ public class MbPetsConfig {
             return 0.0;
         }
         return MbPets.getInstance().getConfig()
-                .getDouble("speed." + type.name(), 1.3);
+                .getDouble("speed." + type.name());
     }
 
     /**
@@ -503,7 +503,7 @@ public class MbPetsConfig {
             return 0.0;
         }
         return MbPets.getInstance().getConfig()
-                .getDouble("enhancedSpeed." + type.name(), 2);
+                .getDouble("enhancedSpeed." + type.name());
     }
 
     /**
@@ -539,7 +539,7 @@ public class MbPetsConfig {
      * @return an amount time in milliseconds
      */
     public static Long getCallDelay() {
-        return MbPets.getInstance().getConfig().getLong("callDelay", 3000);
+        return MbPets.getInstance().getConfig().getLong("callDelay");
     }
 
     /**
