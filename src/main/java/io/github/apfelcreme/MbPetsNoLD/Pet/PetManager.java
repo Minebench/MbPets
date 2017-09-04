@@ -42,6 +42,11 @@ public class PetManager {
     private HashMap<UUID, Pet> pets;
 
     /**
+     * a {@link HashMap} which contains all pets
+     */
+    private HashMap<UUID, Pet> petEntities;
+
+    /**
      * a {@link HashMap} which contains players and the last time their pet died
      * pets
      */
@@ -58,6 +63,7 @@ public class PetManager {
      */
     private PetManager() {
         pets = new HashMap<>();
+        petEntities = new HashMap<>();
         cooldowns = new HashMap<>();
         configurations = new HashMap<>();
     }
@@ -205,12 +211,7 @@ public class PetManager {
      * @return
      */
     public Pet getPetByEntity(Entity entity) {
-        for (Pet pet : pets.values()) {
-            if (pet.getEntity().equals(entity)) {
-                return pet;
-            }
-        }
-        return null;
+        return petEntities.get(entity.getUniqueId());
     }
 
     /**
@@ -263,6 +264,15 @@ public class PetManager {
      */
     public Map<UUID, Pet> getPets() {
         return pets;
+    }
+
+    /**
+     * returns a map of all spawned pets
+     *
+     * @return a map of entity UUIDs to pets
+     */
+    public HashMap<UUID,Pet> getPetEntities() {
+        return petEntities;
     }
 
     /**

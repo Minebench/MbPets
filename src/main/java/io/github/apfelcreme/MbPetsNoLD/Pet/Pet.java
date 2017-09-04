@@ -301,8 +301,9 @@ public abstract class Pet {
      */
     public void uncall() {
         if (entity != null) {
-            entity.remove();
             PetManager.getInstance().getPets().remove(owner);
+            PetManager.getInstance().getPetEntities().remove(entity.getUniqueId());
+            entity.remove();
         }
 
         //Was the pet that was unspawned the last pet? if yes, kill the tasks
@@ -318,19 +319,17 @@ public abstract class Pet {
     private void spawn() {
         this.target = MbPets.getInstance().getServer().getPlayer(owner);
         PetManager.getInstance().getPets().put(owner, this);
-        MbPets.getInstance().getServer().getScheduler().runTask(MbPets.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                entity = (LivingEntity) MbPets.getInstance().getServer().getPlayer(owner).getWorld()
-                        .spawnEntity(MbPets.getInstance().getServer().getPlayer(owner).getLocation(), type.getEntityType());
-                if (!FollowTask.isActive()) {
-                    FollowTask.create();
-                }
-                if (!ParticleTask.isActive() && (getLevel().getEffect() != null)) {
-                    ParticleTask.create();
-                }
-                applyAttributes();
+        MbPets.getInstance().getServer().getScheduler().runTask(MbPets.getInstance(), () -> {
+            entity = (LivingEntity) MbPets.getInstance().getServer().getPlayer(owner).getWorld()
+                    .spawnEntity(MbPets.getInstance().getServer().getPlayer(owner).getLocation(), type.getEntityType());
+            PetManager.getInstance().getPetEntities().put(entity.getUniqueId(), this);
+            if (!FollowTask.isActive()) {
+                FollowTask.create();
             }
+            if (!ParticleTask.isActive() && (getLevel().getEffect() != null)) {
+                ParticleTask.create();
+            }
+            applyAttributes();
         });
     }
 
