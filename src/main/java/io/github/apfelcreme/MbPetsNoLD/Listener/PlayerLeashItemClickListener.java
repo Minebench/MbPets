@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -48,7 +47,7 @@ public class PlayerLeashItemClickListener implements Listener {
                 if ((event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
                     if (event.getMaterial() == Material.CARROT_STICK) {
                         if (cooldowns.get(event.getPlayer().getUniqueId()) == null
-                                || ((cooldowns.get(event.getPlayer().getUniqueId()) + MbPetsConfig.getCallDelay()) < new Date().getTime())) {
+                                || ((cooldowns.get(event.getPlayer().getUniqueId()) + MbPetsConfig.getCallDelay()) < System.currentTimeMillis())) {
                             String regex = ChatColor.stripColor(MbPetsConfig.getTextNode("info.leashTitle")
                                     .replace("{0}", ".*.").replace("[", "\\[").replace("]", "\\]"));
                             if (Pattern.matches(regex, ChatColor.stripColor(event.getItem().getItemMeta().getDisplayName()))) {
@@ -61,7 +60,7 @@ public class PlayerLeashItemClickListener implements Listener {
                                         pet.call();
                                     }
                                 }
-                                cooldowns.put(event.getPlayer().getUniqueId(), new Date().getTime());
+                                cooldowns.put(event.getPlayer().getUniqueId(), System.currentTimeMillis());
                             }
                         } else {
                             MbPets.sendMessage(event.getPlayer(), MbPetsConfig.getTextNode("error.cooldown"));

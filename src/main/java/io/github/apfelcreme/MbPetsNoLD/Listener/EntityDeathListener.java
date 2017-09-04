@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.text.DecimalFormat;
-import java.util.Date;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -53,7 +52,7 @@ public class EntityDeathListener implements Listener {
     public void onPetDeath(EntityDeathEvent event) {
         Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
         if (pet != null) {
-            PetManager.getInstance().getCooldowns().put(pet.getOwner(), new Date().getTime());
+            PetManager.getInstance().getCooldowns().put(pet.getOwner(), System.currentTimeMillis());
             pet.uncall();
             MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(pet.getOwner()),
                     MbPetsConfig.getTextNode("info.petDied")

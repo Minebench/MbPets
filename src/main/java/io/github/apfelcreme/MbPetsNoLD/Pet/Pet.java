@@ -20,7 +20,6 @@ import org.bukkit.entity.LivingEntity;
 
 import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -261,11 +260,11 @@ public abstract class Pet {
 
         //is there a cooldown on the call?
         if (PetManager.getInstance().getCooldowns().containsKey(owner)
-                && (new Date().getTime() < PetManager.getInstance().getCooldowns().get(owner) + MbPetsConfig.getPetDeathCooldown())) {
+                && (System.currentTimeMillis() < PetManager.getInstance().getCooldowns().get(owner) + MbPetsConfig.getPetDeathCooldown())) {
             MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(owner), MbPetsConfig.getTextNode("error.deathCooldown")
                     .replace("{0}", new DecimalFormat("0").format((
                             PetManager.getInstance().getCooldowns().get(owner) + MbPetsConfig.getPetDeathCooldown()
-                                    - new Date().getTime()) / 1000)));
+                                    - System.currentTimeMillis()) / 1000)));
             return;
         }
 
