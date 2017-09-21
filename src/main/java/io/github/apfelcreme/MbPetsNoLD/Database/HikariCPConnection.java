@@ -35,6 +35,7 @@ public class HikariCPConnection extends DatabaseConnector {
     @Override
     public void initConnection() {
         if (MbPetsConfig.getDatabase() != null && !MbPetsConfig.getDatabase().isEmpty()) {
+            Class c = org.slf4j.impl.StaticLoggerBinder.class; // used to prevent minimizer from removing the logger binder
             HikariConfig hikariConfig = new HikariConfig();
             hikariConfig.setJdbcUrl("jdbc:mysql://" + MbPetsConfig.getDbUrl()
                     + "/" + MbPetsConfig.getDatabase());
