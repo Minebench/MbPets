@@ -58,7 +58,6 @@ public class EntityDeathListener implements Listener {
                     MbPetsConfig.getTextNode("info.petDied")
                             .replace("{0}", new DecimalFormat("0").format(MbPetsConfig.getPetDeathCooldown() / 1000)));
             event.getDrops().clear();
-
         }
     }
 }

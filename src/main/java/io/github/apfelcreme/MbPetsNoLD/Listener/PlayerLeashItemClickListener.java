@@ -38,33 +38,29 @@ public class PlayerLeashItemClickListener implements Listener {
 
     Map<UUID, Long> cooldowns = new HashMap<>();
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerLeashClick(final PlayerInteractEvent event) {
-        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-
-                if ((event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-                    if (event.getMaterial() == Material.CARROT_STICK) {
-                        if (cooldowns.get(event.getPlayer().getUniqueId()) == null
-                                || ((cooldowns.get(event.getPlayer().getUniqueId()) + MbPetsConfig.getCallDelay()) < System.currentTimeMillis())) {
-                            String regex = ChatColor.stripColor(MbPetsConfig.getTextNode("info.leashTitle")
-                                    .replace("{0}", ".*.").replace("[", "\\[").replace("]", "\\]"));
-                            if (Pattern.matches(regex, ChatColor.stripColor(event.getItem().getItemMeta().getDisplayName()))) {
-                                if (PetManager.getInstance().getPets().get(event.getPlayer().getUniqueId()) != null) {
-                                    PetManager.getInstance().getPets().get(event.getPlayer().getUniqueId()).uncall();
-                                } else {
-                                    Integer number = Integer.parseInt(ChatColor.stripColor(event.getItem().getItemMeta().getLore().get(1)).replace("#", ""));
-                                    Pet pet = PetManager.getInstance().loadPet(event.getPlayer().getUniqueId(), number);
-                                    if (pet != null) {
-                                        pet.call();
-                                    }
+        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
+            if ((event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+                if (event.getMaterial() == Material.CARROT_STICK) {
+                    if (cooldowns.get(event.getPlayer().getUniqueId()) == null
+                            || ((cooldowns.get(event.getPlayer().getUniqueId()) + MbPetsConfig.getCallDelay()) < System.currentTimeMillis())) {
+                        String regex = ChatColor.stripColor(MbPetsConfig.getTextNode("info.leashTitle")
+                                .replace("{0}", ".*.").replace("[", "\\[").replace("]", "\\]"));
+                        if (Pattern.matches(regex, ChatColor.stripColor(event.getItem().getItemMeta().getDisplayName()))) {
+                            if (PetManager.getInstance().getPets().get(event.getPlayer().getUniqueId()) != null) {
+                                PetManager.getInstance().getPets().get(event.getPlayer().getUniqueId()).uncall();
+                            } else {
+                                Integer number = Integer.parseInt(ChatColor.stripColor(event.getItem().getItemMeta().getLore().get(1)).replace("#", ""));
+                                Pet pet = PetManager.getInstance().loadPet(event.getPlayer().getUniqueId(), number);
+                                if (pet != null) {
+                                    pet.call();
                                 }
-                                cooldowns.put(event.getPlayer().getUniqueId(), System.currentTimeMillis());
                             }
-                        } else {
-                            MbPets.sendMessage(event.getPlayer(), MbPetsConfig.getTextNode("error.cooldown"));
+                            cooldowns.put(event.getPlayer().getUniqueId(), System.currentTimeMillis());
                         }
+                    } else {
+                        MbPets.sendMessage(event.getPlayer(), MbPetsConfig.getTextNode("error.cooldown"));
                     }
                 }
             }

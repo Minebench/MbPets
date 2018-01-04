@@ -41,7 +41,7 @@ public class EntityRightClickListener implements Listener {
      *
      * @param e
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onEntityRightClick(PlayerInteractEntityEvent e) {
         final Pet pet = PetManager.getInstance().getPetByEntity(e.getRightClicked());
         if (pet != null) {
@@ -54,12 +54,7 @@ public class EntityRightClickListener implements Listener {
             }
             String newName = pet.getRightClickName();
             pet.getEntity().setCustomName(newName);
-            MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), new Runnable() {
-                @Override
-                public void run() {
-                    pet.getEntity().setCustomName(pet.getName());
-                }
-            }, 60L);
+            MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), () -> pet.getEntity().setCustomName(pet.getName()), 60L);
         }
     }
 }

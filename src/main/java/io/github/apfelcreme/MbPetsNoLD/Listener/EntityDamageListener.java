@@ -31,7 +31,7 @@ public class EntityDamageListener implements Listener {
      *
      * @param event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
         if (pet != null) {

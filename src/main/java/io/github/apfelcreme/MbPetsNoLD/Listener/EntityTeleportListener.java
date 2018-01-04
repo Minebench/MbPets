@@ -26,15 +26,13 @@ import org.bukkit.event.entity.EntityTeleportEvent;
  */
 public class EntityTeleportListener implements Listener {
 
-    //TODO Chicken machen keinen schaden?
-
     /**
      * removes Entity from the activePets-List when going through a Nether
      * Portal bc this caused some kind of endless replication bug...
      *
      * @param event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onEntityTeleport(EntityTeleportEvent event) {
         Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
         if (pet != null) {

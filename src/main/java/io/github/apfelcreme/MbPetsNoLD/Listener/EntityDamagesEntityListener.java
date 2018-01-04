@@ -39,7 +39,7 @@ public class EntityDamagesEntityListener implements Listener {
      *
      * @param event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerEntityDamage(final EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player && PetManager.getInstance().getPetByEntity(event.getDamager()) != null) {
             event.setCancelled(true);
