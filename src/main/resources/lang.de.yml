@@ -458,7 +458,7 @@ RabbitTypes:
     - 'GOLD'
     - 'GELB'
     - 'HELL'
-  PATCHES:
+  BLACK_AND_WHITE:
     displaytext: 'Fleckig'
     aliases:
     - 'PATCHES'
@@ -468,7 +468,7 @@ RabbitTypes:
     - 'SCHWARZWEIß'
     - 'SCHWARZ-WEISS'
     - 'SCHWARZWEISS'
-  PEPPER:
+  SALT_AND_PEPPER:
     displaytext: 'Pfeffer'
     aliases:
     - 'PEPPER'
