@@ -337,23 +337,22 @@ public abstract class Pet {
      * removes the pet from the database
      */
     public void delete() {
-        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), new Runnable() {
-            public void run() {
-
-                Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
-                try {
-                    PreparedStatement statement;
-                    statement = connection
-                            .prepareStatement("DELETE from MbPets_Pet WHERE playerid = (Select playerid from MbPets_Player where uuid=?) AND number = ?");
-                    statement.setString(1, owner
-                            .toString());
-                    statement.setInt(2, number);
-                    statement.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    MbPets.getInstance().getDatabaseConnector().closeConnection(connection);
-                }
+        PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(owner);
+        if (petConfiguration != null) {
+            if (petConfiguration.getNumber() != null && petConfiguration.getNumber().equals(number)) {
+                PetManager.getInstance().getConfigurations().remove(owner);
+            }
+        }
+        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
+            try (Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
+                 PreparedStatement statement = connection
+                         .prepareStatement("DELETE from MbPets_Pet WHERE playerid = (Select playerid from MbPets_Player where uuid=?) AND number = ?")){
+                statement.setString(1, owner
+                        .toString());
+                statement.setInt(2, number);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -377,23 +376,16 @@ public abstract class Pet {
      * @param exp the amount of exp
      */
     public void addExp(final int exp) {
-        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
-                try {
-                    PreparedStatement statement;
-                    statement = connection
-                            .prepareStatement("UPDATE MbPets_Pet SET exp = exp + ? WHERE playerid = (Select playerid from MbPets_Player where uuid=?) AND number = ?");
-                    statement.setInt(1, exp);
-                    statement.setString(2, owner.toString());
-                    statement.setInt(3, number);
-                    statement.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    MbPets.getInstance().getDatabaseConnector().closeConnection(connection);
-                }
+        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
+            try (Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
+                 PreparedStatement statement = connection
+                         .prepareStatement("UPDATE MbPets_Pet SET exp = exp + ? WHERE playerid = (Select playerid from MbPets_Player where uuid=?) AND number = ?")){
+                statement.setInt(1, exp);
+                statement.setString(2, owner.toString());
+                statement.setInt(3, number);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
     }

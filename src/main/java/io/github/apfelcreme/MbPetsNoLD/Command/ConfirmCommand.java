@@ -8,6 +8,8 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.PetConfiguration;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import net.milkbowl.vault.economy.EconomyResponse;
 
+import java.util.logging.Level;
+
 /**
  * Copyright (C) 2015 Lord36 aka Apfelcreme
  * <p>
@@ -58,6 +60,10 @@ public class ConfirmCommand implements SubCommand {
                     Pet oldPet = PetManager.getInstance().loadPet(chatInput.getSender().getUniqueId(), petConfiguration.getNumber());
                     if (oldPet != null) {
                         oldPet.delete();
+                    } else if (petConfiguration.getConfigurationType() == PetConfiguration.ConfigurationType.MODIFICATION) {
+                        // can't modify non-existent pet
+                        MbPets.getInstance().getLogger().log(Level.WARNING, chatInput.getSender().getName() + "/" + chatInput.getSender().getUniqueId() + " tried to modify pet that doesn't exist?");
+                        return;
                     }
 
                     // spawn and enter into the db
