@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.entity.Ocelot;
@@ -84,6 +85,7 @@ public class OcelotPet extends Pet implements Ageable, Styleable<Ocelot.Type> {
     public void applyAttributes() {
         getEntity().setCustomName(getName());
         ((Ocelot) getEntity()).setCatType(style);
+        ((Ocelot) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
         ((Ocelot) getEntity()).setAgeLock(true);
         if (isBaby) {
             ((Ocelot) getEntity()).setBaby();
