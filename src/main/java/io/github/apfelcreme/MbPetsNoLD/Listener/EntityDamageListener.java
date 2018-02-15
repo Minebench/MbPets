@@ -37,7 +37,8 @@ public class EntityDamageListener implements Listener {
         if (pet != null) {
             if (event.getCause() == EntityDamageEvent.DamageCause.FALL
                     || event.getCause() == EntityDamageEvent.DamageCause.LAVA
-                    || event.getCause() == EntityDamageEvent.DamageCause.DROWNING) {
+                    || event.getCause() == EntityDamageEvent.DamageCause.DROWNING
+                    || event.getCause() == EntityDamageEvent.DamageCause.CRAMMING) {
                 event.setCancelled(true);
             } else {
                 event.setDamage(event.getDamage() * pet.getLevel().getReceivedDamageModifier());
