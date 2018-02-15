@@ -28,7 +28,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class OcelotPet extends Pet implements Ageable, Styleable<Ocelot.Type> {
+public class OcelotPet extends Pet<Ocelot> implements Ageable, Styleable<Ocelot.Type> {
 
     private Boolean isBaby = null;
     private Ocelot.Type style = null;
@@ -83,14 +83,14 @@ public class OcelotPet extends Pet implements Ageable, Styleable<Ocelot.Type> {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Ocelot) getEntity()).setCatType(style);
-        ((Ocelot) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((Ocelot) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setCatType(style);
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Ocelot) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Ocelot) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

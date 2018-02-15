@@ -30,7 +30,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class DonkeyPet extends Pet implements Ageable {
+public class DonkeyPet extends Pet<Donkey> implements Ageable {
 
     private Boolean isBaby = null;
 
@@ -63,14 +63,13 @@ public class DonkeyPet extends Pet implements Ageable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Donkey) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((Donkey) getEntity()).setTamed(true);
-        ((Donkey) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Donkey) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Donkey) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
     
@@ -83,5 +82,22 @@ public class DonkeyPet extends Pet implements Ageable {
             event.setCancelled(true);
         }
         return r;
+    }
+    
+    @Override
+    public void uncall() {
+        Player player = MbPets.getInstance().getServer().getPlayer(getOwner());
+        if (player != null) {
+            if (getEntity().getInventory().getSaddle() != null) {
+                if (player.getInventory().firstEmpty() > 0) {
+                    player.getInventory().addItem(getEntity().getInventory().getSaddle());
+                } else {
+                    player.getWorld().dropItemNaturally(player.getLocation(),
+                            getEntity().getInventory().getSaddle());
+                    
+                }
+            }
+        }
+        super.uncall();
     }
 }

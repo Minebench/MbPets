@@ -26,7 +26,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class UndeadHorsePet extends Pet implements Ageable {
+public class UndeadHorsePet extends Pet<ZombieHorse> implements Ageable {
 
     private Boolean isBaby = null;
 
@@ -59,15 +59,13 @@ public class UndeadHorsePet extends Pet implements Ageable {
      */
     @Override
     public void applyAttributes() {
-
-        getEntity().setCustomName(getName());
-        ((ZombieHorse) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((ZombieHorse) getEntity()).setTamed(true);
-        ((ZombieHorse) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((ZombieHorse) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((ZombieHorse) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

@@ -25,7 +25,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class PolarBearPet extends Pet implements Ageable {
+public class PolarBearPet extends Pet<PolarBear> implements Ageable {
 
     private Boolean isBaby = null;
 
@@ -58,12 +58,12 @@ public class PolarBearPet extends Pet implements Ageable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((PolarBear) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((PolarBear) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((PolarBear) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

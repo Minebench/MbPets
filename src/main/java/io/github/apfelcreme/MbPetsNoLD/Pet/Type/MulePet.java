@@ -5,6 +5,8 @@ import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.entity.Mule;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.AbstractHorseInventory;
 
 import java.util.UUID;
 
@@ -26,56 +28,13 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class MulePet extends Pet implements /*Styleable<Horse.Style>, Dyeable<Horse.Color>,*/ Ageable {
+public class MulePet extends Pet<Mule> implements /*Styleable<Horse.Style>, Dyeable<Horse.Color>,*/ Ageable {
 
-    // color and style does not work (1.10)
     private Boolean isBaby = null;
-//    private Horse.Color color = null;
-//    private Horse.Style style = null;
 
     public MulePet(UUID owner, Integer number) {
         super(owner, PetType.MULE, number);
     }
-
-//    /**
-//     * returns the horse style
-//     *
-//     * @return the horse style
-//     */
-//    @Override
-//    public Horse.Style getStyle() {
-//        return style;
-//    }
-//
-//    /**
-//     * sets the horse style
-//     *
-//     * @param style the horse style
-//     */
-//    @Override
-//    public void setStyle(Horse.Style style) {
-//        this.style = style;
-//    }
-//
-//    /**
-//     * returns the horse color
-//     *
-//     * @return the horse color
-//     */
-//    @Override
-//    public Horse.Color getColor() {
-//        return color;
-//    }
-//
-//    /**
-//     * sets the horse color
-//     *
-//     * @param color the horse color
-//     */
-//    @Override
-//    public void setColor(Horse.Color color) {
-//        this.color = color;
-//    }
 
     /**
      * is the pet a baby
@@ -102,25 +61,31 @@ public class MulePet extends Pet implements /*Styleable<Horse.Style>, Dyeable<Ho
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-//        ((Horse) getEntity()).setColor(color);
-//        ((Horse) getEntity()).setStyle(style);
-        ((Mule) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((Mule) getEntity()).setTamed(true);
-        ((Mule) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Mule) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Mule) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 
-//    @Override
-//    public void uncall() {
-//        if (((Mule) getEntity()).getInventory().get != null) {
-//            MbPets.getInstance().getServer().getPlayer(getOwner()).getInventory().addItem(((Horse) getEntity()).getInventory().getSaddle());
-//        }
-//        super.uncall();
-//    }
+    @Override
+    public void uncall() {
+        Player player = MbPets.getInstance().getServer().getPlayer(getOwner());
+        if (player != null) {
+            if (getEntity().getInventory().getSaddle() != null) {
+                if (player.getInventory().firstEmpty() > 0) {
+                    player.getInventory().addItem(getEntity().getInventory().getSaddle());
+                } else {
+                    player.getWorld().dropItemNaturally(player.getLocation(),
+                            getEntity().getInventory().getSaddle());
+                
+                }
+            }
+        }
+        super.uncall();
+    }
 
 }

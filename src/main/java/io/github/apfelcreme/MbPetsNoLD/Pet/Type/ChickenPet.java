@@ -25,7 +25,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class ChickenPet extends Pet implements Ageable {
+public class ChickenPet extends Pet<Chicken> implements Ageable {
 
     private Boolean isBaby = null;
 
@@ -58,13 +58,12 @@ public class ChickenPet extends Pet implements Ageable {
      */
     @Override
     public void applyAttributes() {
-
-        getEntity().setCustomName(getName());
-        ((Chicken) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Chicken) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Chicken) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 

@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.entity.Bat;
 
 import java.util.UUID;
 
@@ -23,18 +24,10 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class BatPet extends Pet {
+public class BatPet extends Pet<Bat> {
 
     public BatPet(UUID owner, Integer number) {
         super(owner, PetType.BAT, number);
-    }
-
-    /**
-     * applies all attributes to the entity
-     */
-    @Override
-    public void applyAttributes() {
-        getEntity().setCustomName(getName());
     }
 
 }

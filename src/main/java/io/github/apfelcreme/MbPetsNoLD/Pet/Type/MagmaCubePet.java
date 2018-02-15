@@ -25,7 +25,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class MagmaCubePet extends Pet implements Sizeable {
+public class MagmaCubePet extends Pet<MagmaCube> implements Sizeable {
 
     private Integer size = null;
 
@@ -58,8 +58,8 @@ public class MagmaCubePet extends Pet implements Sizeable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((MagmaCube) getEntity()).setSize(size);
+        super.applyAttributes();
+        getEntity().setSize(size);
     }
 
 }

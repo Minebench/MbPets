@@ -31,7 +31,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class LlamaPet extends Pet implements Dyeable<Llama.Color>, Ageable {
+public class LlamaPet extends Pet<Llama> implements Dyeable<Llama.Color>, Ageable {
 
     private Boolean isBaby = null;
     private Llama.Color color = null;
@@ -87,16 +87,15 @@ public class LlamaPet extends Pet implements Dyeable<Llama.Color>, Ageable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Llama) getEntity()).setColor(color);
-        ((Llama) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((Llama) getEntity()).setTamed(true);
-        ((Llama) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setColor(color);
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
 
         if (isBaby) {
-            ((Llama) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Llama) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 

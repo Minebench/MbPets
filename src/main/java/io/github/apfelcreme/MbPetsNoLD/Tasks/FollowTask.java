@@ -11,6 +11,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -42,7 +43,7 @@ public class FollowTask {
     public static void create() {
         taskId = MbPets.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(MbPets.getInstance(), () -> {
             for (Pet pet : PetManager.getInstance().getPets().values()) {
-                Entity entity = pet.getEntity();
+                LivingEntity entity = pet.getEntity();
                 Player owner = MbPets.getInstance().getServer().getPlayer(pet.getOwner());
                 if (entity.getWorld().equals(owner.getWorld())) {
                     EntityInsentient handle = (EntityInsentient) ((CraftEntity) entity).getHandle();

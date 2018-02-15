@@ -27,7 +27,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class SheepPet extends Pet implements Ageable, Dyeable<DyeColor> {
+public class SheepPet extends Pet<Sheep> implements Ageable, Dyeable<DyeColor> {
 
     private DyeColor color = null;
     private Boolean isBaby = null;
@@ -81,13 +81,13 @@ public class SheepPet extends Pet implements Ageable, Dyeable<DyeColor> {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Sheep) getEntity()).setColor(color);
-        ((Sheep) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setColor(color);
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Sheep) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Sheep) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

@@ -25,7 +25,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class SlimePet extends Pet implements Sizeable {
+public class SlimePet extends Pet<Slime> implements Sizeable {
 
     private Integer size;
 
@@ -48,7 +48,7 @@ public class SlimePet extends Pet implements Sizeable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Slime) getEntity()).setSize(size);
+        super.applyAttributes();
+        getEntity().setSize(size);
     }
 }

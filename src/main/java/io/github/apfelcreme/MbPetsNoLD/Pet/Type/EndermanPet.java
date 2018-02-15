@@ -29,18 +29,11 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class EndermanPet extends Pet {
+public class EndermanPet extends Pet<Enderman> {
 
 
     public EndermanPet(UUID owner, Integer number) {
         super(owner, PetType.ENDERMAN, number);
-    }
-    /**
-     * applies all attributes to the entity
-     */
-    @Override
-    public void applyAttributes() {
-        getEntity().setCustomName(getName());
     }
     
     @Override
@@ -54,6 +47,6 @@ public class EndermanPet extends Pet {
         super.onSpecifyTarget(target, event);
         Location teleportTo = target.getLocation().add(target.getLocation().getDirection().normalize());
         getEntity().teleport(teleportTo);
-        ((Enderman) getEntity()).setTarget((LivingEntity) target);
+        getEntity().setTarget((LivingEntity) target);
     }
 }

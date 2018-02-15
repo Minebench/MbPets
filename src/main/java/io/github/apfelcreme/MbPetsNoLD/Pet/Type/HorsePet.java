@@ -32,7 +32,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class HorsePet extends Pet implements Ageable, Dyeable<Horse.Color>, Styleable<Horse.Style> {
+public class HorsePet extends Pet<Horse> implements Ageable, Dyeable<Horse.Color>, Styleable<Horse.Style> {
 
     private Boolean isBaby = null;
     private Horse.Color color = null;
@@ -107,16 +107,15 @@ public class HorsePet extends Pet implements Ageable, Dyeable<Horse.Color>, Styl
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Horse) getEntity()).setColor(color);
-        ((Horse) getEntity()).setStyle(style);
-        ((Horse) getEntity()).setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
-        ((Horse) getEntity()).setTamed(true);
-        ((Horse) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setColor(color);
+        getEntity().setStyle(style);
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Horse) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Horse) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 
@@ -127,21 +126,21 @@ public class HorsePet extends Pet implements Ageable, Dyeable<Horse.Color>, Styl
     public void uncall() {
         Player player = MbPets.getInstance().getServer().getPlayer(getOwner());
         if (player != null) {
-            if (((Horse) getEntity()).getInventory().getSaddle() != null) {
+            if (getEntity().getInventory().getSaddle() != null) {
                 if (player.getInventory().firstEmpty() > 0) {
-                    player.getInventory().addItem(((Horse) getEntity()).getInventory().getSaddle());
+                    player.getInventory().addItem(getEntity().getInventory().getSaddle());
                 } else {
                     player.getWorld().dropItemNaturally(player.getLocation(),
-                            ((Horse) getEntity()).getInventory().getSaddle());
+                            getEntity().getInventory().getSaddle());
 
                 }
             }
-            if (((Horse) getEntity()).getInventory().getArmor() != null) {
+            if (getEntity().getInventory().getArmor() != null) {
                 if (player.getInventory().firstEmpty() > 0) {
-                    player.getInventory().addItem(((Horse) getEntity()).getInventory().getArmor());
+                    player.getInventory().addItem(getEntity().getInventory().getArmor());
                 } else {
                         player.getWorld().dropItemNaturally(player.getLocation(),
-                                ((Horse) getEntity()).getInventory().getArmor());
+                                getEntity().getInventory().getArmor());
 
                 }
             }

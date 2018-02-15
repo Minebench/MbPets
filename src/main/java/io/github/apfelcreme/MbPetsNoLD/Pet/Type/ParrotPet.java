@@ -26,7 +26,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class ParrotPet extends Pet implements  Dyeable<Parrot.Variant> {
+public class ParrotPet extends Pet<Parrot> implements  Dyeable<Parrot.Variant> {
 
     private Parrot.Variant color;
 
@@ -39,7 +39,8 @@ public class ParrotPet extends Pet implements  Dyeable<Parrot.Variant> {
      */
     @Override
     public void applyAttributes() {
-        ((Parrot) getEntity()).setVariant(color);
+        super.applyAttributes();
+        getEntity().setVariant(color);
     }
 
     /**

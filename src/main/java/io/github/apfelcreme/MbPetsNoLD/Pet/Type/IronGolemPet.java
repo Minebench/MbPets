@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.entity.IronGolem;
 
 import java.util.UUID;
 
@@ -23,17 +24,10 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class IronGolemPet extends Pet {
+public class IronGolemPet extends Pet<IronGolem> {
 
     public IronGolemPet(UUID owner, Integer number) {
         super(owner, PetType.IRON_GOLEM, number);
-    }
-    /**
-     * applies all attributes to the entity
-     */
-    @Override
-    public void applyAttributes() {
-        getEntity().setCustomName(getName());
     }
 
 }

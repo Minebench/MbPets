@@ -26,7 +26,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class RabbitPet extends Pet implements Ageable, Styleable<Rabbit.Type> {
+public class RabbitPet extends Pet<Rabbit> implements Ageable, Styleable<Rabbit.Type> {
 
 
     private Boolean isBaby = null;
@@ -81,13 +81,13 @@ public class RabbitPet extends Pet implements Ageable, Styleable<Rabbit.Type> {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Rabbit) getEntity()).setRabbitType(getStyle());
-        ((Rabbit) getEntity()).setAgeLock(true);
+        super.applyAttributes();
+        getEntity().setRabbitType(getStyle());
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((Rabbit) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Rabbit) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

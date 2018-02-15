@@ -46,13 +46,13 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public abstract class Pet {
+public class Pet<T extends LivingEntity> {
 
     private UUID owner = null;
     private String name = null;
     private PetType type = null;
     private Double price = 0.0;
-    private LivingEntity entity = null;
+    private T entity = null;
     private Integer number = null;
     private Double speed = null;
     private Integer exp = null;
@@ -144,7 +144,7 @@ public abstract class Pet {
      *
      * @return the entity object
      */
-    public LivingEntity getEntity() {
+    public T getEntity() {
         return entity;
     }
 
@@ -153,7 +153,7 @@ public abstract class Pet {
      *
      * @param entity the entity object
      */
-    public void setEntity(LivingEntity entity) {
+    public void setEntity(T entity) {
         this.entity = entity;
     }
 
@@ -327,7 +327,7 @@ public abstract class Pet {
         this.target = MbPets.getInstance().getServer().getPlayer(owner);
         PetManager.getInstance().getPets().put(owner, this);
         MbPets.getInstance().getServer().getScheduler().runTask(MbPets.getInstance(), () -> {
-            entity = (LivingEntity) MbPets.getInstance().getServer().getPlayer(owner).getWorld()
+            entity = (T) MbPets.getInstance().getServer().getPlayer(owner).getWorld()
                     .spawnEntity(MbPets.getInstance().getServer().getPlayer(owner).getLocation(), type.getEntityType());
             PetManager.getInstance().getPetEntities().put(entity.getUniqueId(), this);
             if (!FollowTask.isActive()) {
@@ -494,7 +494,9 @@ public abstract class Pet {
     /**
      * applies all attributes to the entity
      */
-    public abstract void applyAttributes();
+    public void applyAttributes() {
+        getEntity().setCustomName(getName());
+    }
 
     @Override
     public String toString() {

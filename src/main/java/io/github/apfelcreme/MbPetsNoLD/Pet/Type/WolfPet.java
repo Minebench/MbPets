@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.DyeColor;
@@ -27,7 +28,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class WolfPet extends Pet implements Ageable, Dyeable<DyeColor> {
+public class WolfPet extends Pet<Wolf> implements Ageable, Dyeable<DyeColor> {
 
     private DyeColor color = null;
     private Boolean isBaby = null;
@@ -81,15 +82,15 @@ public class WolfPet extends Pet implements Ageable, Dyeable<DyeColor> {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
-        ((Wolf) getEntity()).setCollarColor(color);
-        ((Wolf) getEntity()).setTamed(true);
-        ((Wolf) getEntity()).setAgeLock(true);
-        ((Wolf) getEntity()).setSitting(false);
+        super.applyAttributes();
+        getEntity().setCollarColor(color);
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setAgeLock(true);
+        getEntity().setSitting(false);
         if (isBaby) {
-            ((Wolf) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Wolf) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

@@ -25,7 +25,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class MooshroomPet extends Pet implements Ageable {
+public class MooshroomPet extends Pet<MushroomCow> implements Ageable {
 
     private Boolean isBaby = null;
 
@@ -58,7 +58,7 @@ public class MooshroomPet extends Pet implements Ageable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
+        super.applyAttributes();
         ((MushroomCow) getEntity()).setAgeLock(true);
         if (isBaby) {
             ((MushroomCow) getEntity()).setBaby();
