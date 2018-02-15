@@ -7,6 +7,7 @@ import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 
 import java.util.UUID;
@@ -48,5 +49,11 @@ public class EndermanPet extends Pet<Enderman> {
         Location teleportTo = target.getLocation().add(target.getLocation().getDirection().normalize());
         getEntity().teleport(teleportTo);
         getEntity().setTarget((LivingEntity) target);
+    }
+    
+    @Override
+    public void onKill(LivingEntity killed, EntityDeathEvent event) {
+        super.onKill(killed, event);
+        getEntity().setTarget(null);
     }
 }
