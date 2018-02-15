@@ -8,9 +8,6 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.Type.LlamaPet;
 import org.bukkit.Material;
-import org.bukkit.entity.Donkey;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Llama;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -44,14 +41,7 @@ public class EntityRightClickListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onEntityRightClick(PlayerInteractEntityEvent e) {
         final Pet pet = PetManager.getInstance().getPetByEntity(e.getRightClicked());
-        if (pet != null) {
-            if ((pet instanceof DonkeyPet) || pet instanceof LlamaPet) {
-                if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.CHEST) {
-                    e.getPlayer().getInventory().addItem(new ItemStack(Material.CHEST, 1));
-                    e.getPlayer().getInventory().removeItem(new ItemStack(Material.CHEST, 1));
-                    e.setCancelled(true);
-                }
-            }
+        if (pet != null && pet.onRightClick(e.getPlayer(), e)) {
             String newName = pet.getRightClickName();
             pet.getEntity().setCustomName(newName);
             MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), () -> pet.getEntity().setCustomName(pet.getName()), 60L);

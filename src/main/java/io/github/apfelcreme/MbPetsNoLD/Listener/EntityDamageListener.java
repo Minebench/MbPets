@@ -27,7 +27,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class EntityDamageListener implements Listener {
 
     /**
-     * cancels all damage events to make pets invulnerable
+     * call pet damage method
      *
      * @param event
      */
@@ -35,13 +35,8 @@ public class EntityDamageListener implements Listener {
     public void onEntityDamage(EntityDamageEvent event) {
         Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
         if (pet != null) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.FALL
-                    || event.getCause() == EntityDamageEvent.DamageCause.LAVA
-                    || event.getCause() == EntityDamageEvent.DamageCause.DROWNING
-                    || event.getCause() == EntityDamageEvent.DamageCause.CRAMMING) {
+            if (!pet.onDamage(event)) {
                 event.setCancelled(true);
-            } else {
-                event.setDamage(event.getDamage() * pet.getLevel().getReceivedDamageModifier());
             }
         }
     }

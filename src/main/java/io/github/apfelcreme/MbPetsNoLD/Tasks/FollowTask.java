@@ -62,7 +62,7 @@ public class FollowTask {
                     }
 
                     // create a path the pet is going to follow
-                    if (pet.getTarget() instanceof Player) {
+                    if (pet.getTarget() == owner) {
                         if (distance > 3 * 3) { // only try to navigate to player if it isn't already next to it
 
                             // Set the speed back to normal when targeting the owner
@@ -86,8 +86,9 @@ public class FollowTask {
                         handle.getNavigation().a(path, pet.getSpeed());
 
                         // if there is an entity nearby the owner has attacked, let the pet attack that target as well
-                        if (pet.getTarget() instanceof Damageable // target is damageable
-                                && !(pet.getTarget() instanceof Player) // target isn't a player
+                        if (pet.getTarget() != owner // target is not the owner
+                                && pet.getTarget() instanceof Damageable // target is damageable
+                                && (!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
                                 && pet.getEntity().getLocation().distanceSquared(pet.getTarget().getLocation()) < 3.5 * 3.5 // target is nearby
                                 && PetManager.getInstance().getPetByEntity(pet.getTarget()) == null  // target isn't a pet
                                 && (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?

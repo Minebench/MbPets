@@ -17,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.UUID;
+
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -181,5 +183,18 @@ public class MbPets extends JavaPlugin {
      */
     public static void sendMessage(Player target, String message) {
         target.sendMessage(MbPetsConfig.getTextNode("prefix") + message);
+    }
+    
+    /**
+     * sends a message to a player
+     *
+     * @param target  the player's UUID
+     * @param message the key to the message in the config
+     */
+    public static void sendMessage(UUID target, String message) {
+        Player player = Bukkit.getPlayer(target);
+        if (player != null) {
+            sendMessage(player, message);
+        }
     }
 }

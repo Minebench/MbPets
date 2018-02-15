@@ -2,8 +2,10 @@ package io.github.apfelcreme.MbPetsNoLD.Listener;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 
 /**
@@ -36,9 +38,20 @@ public class EntityTeleportListener implements Listener {
     public void onEntityTeleport(EntityTeleportEvent event) {
         Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
         if (pet != null) {
+            pet.onTeleport(event);
             // a pet ran through a portal
+            if (event.getFrom().getWorld() != event.getTo().getWorld()
+                    || event.getFrom().getBlock().getType() == Material.PORTAL
+                    || event.getFrom().getBlock().getType() == Material.ENDER_PORTAL)
             pet.uncall();
         }
-
+    }
+    
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityPortal(EntityPortalEvent event) {
+        Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
+        if (pet != null) {
+            event.setCancelled(true);
+        }
     }
 }

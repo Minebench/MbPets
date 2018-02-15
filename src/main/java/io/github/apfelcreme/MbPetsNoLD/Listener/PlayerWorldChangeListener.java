@@ -30,7 +30,7 @@ public class PlayerWorldChangeListener implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent event) {
         Pet pet = PetManager.getInstance().getPets().get(event.getPlayer().getUniqueId());
         if (pet != null) {
-            pet.uncall();
+            pet.call();
         }
     }
 }

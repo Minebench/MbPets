@@ -1,6 +1,5 @@
 package io.github.apfelcreme.MbPetsNoLD.Listener;
 
-import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
@@ -39,12 +38,10 @@ public class EntityDamagesEntityListener implements Listener {
         if (event.getEntity() instanceof Player && PetManager.getInstance().getPetByEntity(event.getDamager()) != null && !event.getEntity().getWorld().getPVP()) {
             event.setCancelled(true);
         } else if (event.getDamager() instanceof Player) {
+            //Player attacks entity
             Pet pet = PetManager.getInstance().getPets().get(event.getDamager().getUniqueId());
             if (pet != null) {
-                //Player attacks entity
-                pet.setTarget(event.getEntity());
-                pet.setSpeed(MbPetsConfig.getEnhancedPetSpeed(pet.getType()));
-                pet.getEntity().getWorld().playSound(pet.getEntity().getLocation(), MbPetsConfig.getPetSound(pet.getType()), 5, 1);
+                pet.onSpecifyTarget(event.getEntity(), event);
             }
         }
     }

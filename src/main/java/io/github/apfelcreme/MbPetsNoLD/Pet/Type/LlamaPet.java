@@ -5,10 +5,10 @@ import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Llama;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -117,5 +117,16 @@ public class LlamaPet extends Pet implements Dyeable<Llama.Color>, Ageable {
             }
         }
         super.uncall();
+    }
+    
+    @Override
+    public boolean onRightClick(Player player, PlayerInteractEntityEvent event) {
+        boolean r = super.onRightClick(player, event);
+        if (player.getInventory().getItemInMainHand().getType() == Material.CHEST) {
+            player.getInventory().addItem(new ItemStack(Material.CHEST, 1));
+            player.getInventory().removeItem(new ItemStack(Material.CHEST, 1));
+            event.setCancelled(true);
+        }
+        return r;
     }
 }

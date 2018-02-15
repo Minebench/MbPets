@@ -17,6 +17,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTeleportEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
@@ -261,7 +267,7 @@ public abstract class Pet {
         //is there a cooldown on the call?
         if (PetManager.getInstance().getCooldowns().containsKey(owner)
                 && (System.currentTimeMillis() < PetManager.getInstance().getCooldowns().get(owner) + MbPetsConfig.getPetDeathCooldown())) {
-            MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(owner), MbPetsConfig.getTextNode("error.deathCooldown")
+            MbPets.sendMessage(owner, MbPetsConfig.getTextNode("error.deathCooldown")
                     .replace("{0}", new DecimalFormat("0").format((
                             PetManager.getInstance().getCooldowns().get(owner) + MbPetsConfig.getPetDeathCooldown()
                                     - System.currentTimeMillis()) / 1000)));
@@ -270,7 +276,7 @@ public abstract class Pet {
 
         //check for gamemode and worldguard flags
         if (MbPets.getInstance().getServer().getPlayer(owner).getWorld().getDifficulty() == Difficulty.PEACEFUL) {
-            MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(owner), MbPetsConfig.getTextNode("error.gamemodeCreative"));
+            MbPets.sendMessage(owner, MbPetsConfig.getTextNode("error.gamemodeCreative"));
             return;
         } else {
             if (MbPets.getInstance().getPluginWorldGuard() != null) {
@@ -284,10 +290,11 @@ public abstract class Pet {
                                 MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
-                    if (region.getFlags() != null && region.getFlags().get(DefaultFlag.BLOCKED_CMDS) != null
-                            && region.getFlags().get(DefaultFlag.BLOCKED_CMDS).toString().contains("/pet")) {
-                        MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(owner),
-                                MbPetsConfig.getTextNode("error.inFlaggedRegion"));
+                    if ((region.getFlags() != null && region.getFlags().get(DefaultFlag.BLOCKED_CMDS) != null
+                            && region.getFlags().get(DefaultFlag.BLOCKED_CMDS).toString().contains("/pet")) ||
+                            ((region.getFlags() != null && region.getFlags().get(DefaultFlag.ALLOWED_CMDS) != null
+                                    && !region.getFlags().get(DefaultFlag.ALLOWED_CMDS).toString().contains("/pet")))) {
+                        MbPets.sendMessage(owner, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
                 }
@@ -356,6 +363,67 @@ public abstract class Pet {
             }
         });
     }
+    
+    /**
+     * Called when a pet is right clicked by a player
+     * @param player    The player that clicked the pet
+     * @param event     The event of the click
+     * @return          Whether this should actually happen or not
+     */
+    public boolean onRightClick(Player player, PlayerInteractEntityEvent event) {
+        return true;
+    }
+    
+    /**
+     * Called when a player specifies a target for this entity
+     * @param target    The target entity
+     * @param event     The event that triggered this, null if it wasn't an event
+     */
+    public void onSpecifyTarget(Entity target, Event event) {
+        setTarget(target);
+        setSpeed(MbPetsConfig.getEnhancedPetSpeed(getType()));
+        getEntity().getWorld().playSound(getEntity().getLocation(), MbPetsConfig.getPetSound(getType()), 5, 1);
+    }
+    
+    /**
+     * Called when an entity teleports for some reason
+     * @param event The teleport event
+     */
+    public void onTeleport(EntityTeleportEvent event) {}
+    
+    /**
+     * Called when the pet is damaged
+     * @param event The damage event
+     * @return      Whether this should actually happen or not
+     */
+    public boolean onDamage(EntityDamageEvent event) {
+        // cancels some damage events to make pets not as vulnerable to the environment
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL
+                || event.getCause() == EntityDamageEvent.DamageCause.LAVA
+                || event.getCause() == EntityDamageEvent.DamageCause.DROWNING
+                || event.getCause() == EntityDamageEvent.DamageCause.CRAMMING) {
+            return false;
+        }
+        event.setDamage(event.getDamage() * getLevel().getReceivedDamageModifier());
+        return true;
+    }
+    
+    /**
+     * Called when this pet kills an entity
+     * @param killed    The entity killed
+     * @param event     The event that triggered it
+     */
+    public void onKill(LivingEntity killed, EntityDeathEvent event) {
+        if (killed != null) {
+            addExp(MbPetsConfig.getTargetExpReward(killed.getType()));
+        }
+    }
+    
+    /**
+     * Called when this pet dies
+     * @param event The death event
+     */
+    public void onDeath(EntityDeathEvent event) {}
 
     /**
      * removes the pet from the db and returns a specific percentage of the price

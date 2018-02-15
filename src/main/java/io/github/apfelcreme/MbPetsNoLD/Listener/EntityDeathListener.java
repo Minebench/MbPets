@@ -39,7 +39,7 @@ public class EntityDeathListener implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         Pet pet = PetManager.getInstance().getPetByTargetEntity(event.getEntity());
         if (pet != null) {
-            pet.addExp(MbPetsConfig.getTargetExpReward(event.getEntityType()));
+            pet.onKill(event.getEntity(), event);
         }
     }
 
@@ -52,11 +52,11 @@ public class EntityDeathListener implements Listener {
     public void onPetDeath(EntityDeathEvent event) {
         Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
         if (pet != null) {
+            pet.onDeath(event);
             PetManager.getInstance().getCooldowns().put(pet.getOwner(), System.currentTimeMillis());
             pet.uncall();
-            MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(pet.getOwner()),
-                    MbPetsConfig.getTextNode("info.petDied")
-                            .replace("{0}", new DecimalFormat("0").format(MbPetsConfig.getPetDeathCooldown() / 1000)));
+            MbPets.sendMessage(pet.getOwner(), MbPetsConfig.getTextNode("info.petDied")
+                    .replace("{0}", new DecimalFormat("0").format(MbPetsConfig.getPetDeathCooldown() / 1000)));
             event.getDrops().clear();
         }
     }

@@ -2,6 +2,13 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.Location;
+import org.bukkit.entity.Enderman;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityTeleportEvent;
+
 import java.util.UUID;
 
 /**
@@ -35,6 +42,18 @@ public class EndermanPet extends Pet {
     public void applyAttributes() {
         getEntity().setCustomName(getName());
     }
-
-
+    
+    @Override
+    public void onTeleport(EntityTeleportEvent event) {
+        super.onTeleport(event);
+        event.setCancelled(true);
+    }
+    
+    @Override
+    public void onSpecifyTarget(Entity target, Event event) {
+        super.onSpecifyTarget(target, event);
+        Location teleportTo = target.getLocation().add(target.getLocation().getDirection().normalize());
+        getEntity().teleport(teleportTo);
+        ((Enderman) getEntity()).setTarget((LivingEntity) target);
+    }
 }

@@ -4,7 +4,11 @@ import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Material;
 import org.bukkit.entity.Donkey;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -68,5 +72,16 @@ public class DonkeyPet extends Pet implements Ageable {
         } else {
             ((Donkey) getEntity()).setAdult();
         }
+    }
+    
+    @Override
+    public boolean onRightClick(Player player, PlayerInteractEntityEvent event) {
+        boolean r = super.onRightClick(player, event);
+        if (player.getInventory().getItemInMainHand().getType() == Material.CHEST) {
+            player.getInventory().addItem(new ItemStack(Material.CHEST, 1));
+            player.getInventory().removeItem(new ItemStack(Material.CHEST, 1));
+            event.setCancelled(true);
+        }
+        return r;
     }
 }

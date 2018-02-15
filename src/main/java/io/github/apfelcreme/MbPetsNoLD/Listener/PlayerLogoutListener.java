@@ -1,5 +1,6 @@
 package io.github.apfelcreme.MbPetsNoLD.Listener;
 
+import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,9 +33,9 @@ public class PlayerLogoutListener implements Listener {
 	 */
 	@EventHandler
 	public void onLogout(PlayerQuitEvent e) {
-		if (PetManager.getInstance().getPets().containsKey(e.getPlayer().getUniqueId())
-				&& (PetManager.getInstance().getPets().get(e.getPlayer().getUniqueId()) != null)) {
-			PetManager.getInstance().getPets().get(e.getPlayer().getUniqueId()).uncall();
+		Pet pet = PetManager.getInstance().getPets().get(e.getPlayer().getUniqueId());
+		if (pet != null) {
+			pet.uncall();
 		}
 	}
 }

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.apfelcreme</groupId>
 	<artifactId>MbPetsNoLibsDisguises</artifactId>
-	<version>3.0.9-SNAPSHOT</version>
+	<version>3.1-SNAPSHOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -92,10 +92,6 @@
 		<repository>
 			<id>sk89q-repo</id>
 			<url>http://maven.sk89q.com/repo/</url>
-		</repository>
-		<repository>
-			<id>vault-repo</id>
-			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
 		</repository>
 		<repository>
 			<id>minebench-repo</id>
