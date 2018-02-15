@@ -60,26 +60,16 @@ public class MbPets extends JavaPlugin {
         // register commands and listener
         convertRightclickListener = new ConvertRightclickListener();
         getServer().getPluginCommand("pet").setExecutor(new MbPetsCommand());
-        getServer().getPluginCommand("pet").setTabCompleter(
-                new MbPetsTabCompleter());
-        getServer().getPluginManager().registerEvents(
-                convertRightclickListener, this);
-        getServer().getPluginManager().registerEvents(
-                new EntityDamageListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new EntityDeathListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new EntityTeleportListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new PlayerWorldChangeListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new PlayerLogoutListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new EntityRightClickListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new EntityDamagesEntityListener(), this);
-        getServer().getPluginManager().registerEvents(
-                new PlayerLeashItemClickListener(), this);
+        getServer().getPluginCommand("pet").setTabCompleter(new MbPetsTabCompleter());
+        getServer().getPluginManager().registerEvents(convertRightclickListener, this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityTeleportListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerTeleportListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLogoutListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityRightClickListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamagesEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeashItemClickListener(), this);
 
         // loadPets the db connection
         getDatabaseConnector().initConnection();

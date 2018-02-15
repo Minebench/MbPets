@@ -129,13 +129,13 @@ public class FollowTask {
     }
 
     /**
-     * returns the direction an entity is looking at
+     * returns the direction a location is looking at
      *
-     * @param entity the target entity
+     * @param location the location
      * @return a direction
      */
-    public static BlockFace getDirection(Entity entity) {
-        float yaw = entity.getLocation().getYaw();
+    public static BlockFace getDirection(Location location) {
+        float yaw = location.getYaw();
         if (yaw < 0) {
             yaw += 360;
         }
@@ -163,8 +163,19 @@ public class FollowTask {
      * @return          The new location
      */
     public static Location getLocationNextTo(Entity entity, double distance) {
-        Location loc = entity.getLocation();
-        switch (getDirection(entity)) {
+        return getLocationNextTo(entity.getLocation(), distance);
+    }
+    
+    /**
+     * Get a location that is next to an entity
+     *
+     * @param loc       The entity to get the location next to
+     * @param distance  The distance of the location
+     * @return          The new location
+     */
+    public static Location getLocationNextTo(Location loc, double distance) {
+        loc = loc.clone();
+        switch (getDirection(loc)) {
             case NORTH:
                 loc.add(distance, 0, -distance);
                 break;
