@@ -3,6 +3,8 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.entity.Bat;
+import org.bukkit.entity.Entity;
+import org.bukkit.event.Event;
 
 import java.util.UUID;
 
@@ -28,6 +30,12 @@ public class BatPet extends Pet<Bat> {
 
     public BatPet(UUID owner, Integer number) {
         super(owner, PetType.BAT, number);
+    }
+    
+    @Override
+    public void onSpecifyTarget(Entity target, Event event) {
+        super.onSpecifyTarget(target, event);
+        target.addPassenger(getEntity());
     }
 
 }
