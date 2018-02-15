@@ -1,18 +1,13 @@
 package io.github.apfelcreme.MbPetsNoLD.Listener;
 
-import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.scheduler.BukkitTask;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -41,11 +36,11 @@ public class EntityDamagesEntityListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onPlayerEntityDamage(final EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && PetManager.getInstance().getPetByEntity(event.getDamager()) != null) {
+        if (event.getEntity() instanceof Player && PetManager.getInstance().getPetByEntity(event.getDamager()) != null && !event.getEntity().getWorld().getPVP()) {
             event.setCancelled(true);
-        } else {
-            final Pet pet = PetManager.getInstance().getPets().get(event.getDamager().getUniqueId());
-            if (event.getDamager() instanceof Player && pet != null) {
+        } else if (event.getDamager() instanceof Player) {
+            Pet pet = PetManager.getInstance().getPets().get(event.getDamager().getUniqueId());
+            if (pet != null) {
                 //Player attacks entity
                 pet.setTarget(event.getEntity());
                 pet.setSpeed(MbPetsConfig.getEnhancedPetSpeed(pet.getType()));
