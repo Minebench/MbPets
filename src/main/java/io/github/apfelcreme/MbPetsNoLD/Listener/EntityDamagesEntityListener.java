@@ -4,9 +4,11 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -34,15 +36,28 @@ public class EntityDamagesEntityListener implements Listener {
      * @param event
      */
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerEntityDamage(final EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && PetManager.getInstance().getPetByEntity(event.getDamager()) != null && !event.getEntity().getWorld().getPVP()) {
-            event.setCancelled(true);
-        } else if (event.getDamager() instanceof Player) {
+    public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+        // Check if player attacks Pet
+        Player damager = null;
+        if (event.getDamager() instanceof Player) {
+            damager = (Player) event.getDamager();
+        } else if (event.getDamager() instanceof Projectile) {
+            ProjectileSource shooter = ((Projectile) event.getDamager()).getShooter();
+            if (shooter instanceof Player) {
+                damager = (Player) shooter;
+            }
+        }
+        if (damager != null) {
             Pet damaged = PetManager.getInstance().getPetByEntity(event.getEntity());
             if (damaged != null && (!event.getEntity().getWorld().getPVP() || damaged.getOwner().equals(event.getDamager().getUniqueId()))) {
                 event.setCancelled(true);
                 return;
             }
+        }
+        
+        if (event.getEntity() instanceof Player && !event.getEntity().getWorld().getPVP() && PetManager.getInstance().getPetByEntity(event.getDamager()) != null) {
+            event.setCancelled(true);
+        } else if (event.getDamager() instanceof Player) {
             //Player attacks entity
             Pet pet = PetManager.getInstance().getPets().get(event.getDamager().getUniqueId());
             if (pet != null) {
