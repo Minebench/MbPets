@@ -1,7 +1,7 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
-import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.entity.Parrot;
@@ -41,6 +41,7 @@ public class ParrotPet extends Pet<Parrot> implements  Dyeable<Parrot.Variant> {
     public void applyAttributes() {
         super.applyAttributes();
         getEntity().setVariant(color);
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
     }
 
     /**
