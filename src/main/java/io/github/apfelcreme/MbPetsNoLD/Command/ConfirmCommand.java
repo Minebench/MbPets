@@ -116,7 +116,9 @@ public class ConfirmCommand implements SubCommand {
                                         .replace("{0}", petConfiguration.getNumber().toString()));
 
                         // give the player a leash item
-                        chatInput.getSender().getInventory().addItem(PetManager.createCallItem(petConfiguration));
+                        if (MbPetsConfig.isCallItemEnabled()) {
+                            chatInput.getSender().getInventory().addItem(PetManager.createCallItem(petConfiguration));
+                        }
                         MbPets.getInstance().getLogger().info(petConfiguration.getPetDescription().getLogDescription());
                     }
                 } else {

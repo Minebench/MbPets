@@ -568,6 +568,15 @@ public class MbPetsConfig {
     public static long getPetDeathCooldown() {
         return MbPets.getInstance().getConfig().getLong("petDeathCooldown");
     }
+    
+    /**
+     * returns whether or not to give out the call item
+     *
+     * @return whether or not to give out the call item
+     */
+    public static boolean isCallItemEnabled() {
+        return MbPets.getInstance().getConfig().getBoolean("callItem");
+    }
 
     /**
      * returns the language configuration object to access the lang.de.yml

@@ -1,4 +1,5 @@
 callDelay: 1000
+callItem: false
 petDeathCooldown: 60000
 particleTaskDelay: 15
 followTaskDelay: 15
