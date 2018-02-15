@@ -69,7 +69,6 @@ texts:
     inFlaggedRegion: '&cDu befindest dich in einer gesicherten, mobfreien Region. Hier können keine Pets gespawnt werden!'
     cooldown: '&cDu kannst diese Aktion erst wieder in ein paar Sekunden ausführen!'
     deathCooldown: '&cDein Pet ist erst kürzlich gestorben. Du musst noch {0} Sekunden warten, bevor du es wieder rufen kannst!'
-    slimebug: '&cSlimes und Magma-Cubes sind derzeit deaktiviert. Wähle bitte ein anderes Pet!'
 PetTypes:
   BAT:
     displaytext: 'Fledermaus'

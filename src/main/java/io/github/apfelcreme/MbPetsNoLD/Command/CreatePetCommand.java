@@ -42,11 +42,6 @@ public class CreatePetCommand implements SubCommand {
         PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(chatInput.getSender().getUniqueId());
         if (petConfiguration == null) {
             if (chatInput.getType() != null && MbPetsConfig.parseType(chatInput.getType()) != null) {
-                PetType type = MbPetsConfig.parseType(chatInput.getType());
-                if (type == PetType.SLIME || type == PetType.MAGMA_CUBE) {
-                    MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.slimebug"));
-                    return;
-                }
                 petConfiguration = new PetConfiguration(
                         chatInput.getSender().getUniqueId(),
                         MbPetsConfig.parseType(chatInput.getType()),
