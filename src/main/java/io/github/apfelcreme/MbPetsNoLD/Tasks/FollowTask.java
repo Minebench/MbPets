@@ -5,7 +5,6 @@ import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import net.minecraft.server.v1_12_R1.EntityInsentient;
-import net.minecraft.server.v1_12_R1.PathEntity;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
@@ -47,7 +46,6 @@ public class FollowTask {
                 Player owner = MbPets.getInstance().getServer().getPlayer(pet.getOwner());
                 if (entity.getWorld().equals(owner.getWorld())) {
                     EntityInsentient handle = (EntityInsentient) ((CraftEntity) entity).getHandle();
-                    PathEntity path = null;
 
                     if (pet.getTarget() == null || pet.getTarget().isDead()) {
                         // if target is dead make it return to the owner
@@ -72,23 +70,18 @@ public class FollowTask {
                             // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
                             // stand at your exact location and bumps into you continuously
                             Location targetLoc = getLocationNextTo(owner, 2.2);
-                            path = handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ());
+                            handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ(), pet.getSpeed());
                         }
                     } else {
                         // let the pet walk directly to the entity its supposed to kill
-                        path = handle.getNavigation().a(
+                        handle.getNavigation().a(
                                 pet.getTarget().getLocation().getX(),
                                 pet.getTarget().getLocation().getY(),
-                                pet.getTarget().getLocation().getZ());
-                    }
-
-                    if (path != null) {
-                         // let the pet walk the path
-                        handle.getNavigation().a(path, pet.getSpeed());
+                                pet.getTarget().getLocation().getZ(),
+                                pet.getSpeed());
 
                         // if there is an entity nearby the owner has attacked, let the pet attack that target as well
-                        if (pet.getTarget() != owner // target is not the owner
-                                && pet.getTarget() instanceof Damageable // target is damageable
+                        if (pet.getTarget() instanceof Damageable // target is damageable
                                 && (!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
                                 && pet.getEntity().getLocation().distanceSquared(pet.getTarget().getLocation()) < 3.5 * 3.5 // target is nearby
                                 && PetManager.getInstance().getPetByEntity(pet.getTarget()) == null  // target isn't a pet
