@@ -38,6 +38,11 @@ public class EntityDamagesEntityListener implements Listener {
         if (event.getEntity() instanceof Player && PetManager.getInstance().getPetByEntity(event.getDamager()) != null && !event.getEntity().getWorld().getPVP()) {
             event.setCancelled(true);
         } else if (event.getDamager() instanceof Player) {
+            Pet damaged = PetManager.getInstance().getPetByEntity(event.getEntity());
+            if (damaged != null && (!event.getEntity().getWorld().getPVP() || damaged.getOwner().equals(event.getDamager().getUniqueId()))) {
+                event.setCancelled(true);
+                return;
+            }
             //Player attacks entity
             Pet pet = PetManager.getInstance().getPets().get(event.getDamager().getUniqueId());
             if (pet != null) {
