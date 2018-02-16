@@ -100,6 +100,10 @@ public class FollowTask {
                                 handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
                             }
                             
+                            Vector jumpTarget = entity.getLocation().subtract(pet.getTarget().getLocation()).toVector().normalize();
+                            entity.teleport(entity.getLocation().setDirection(jumpTarget));
+                            entity.setVelocity(jumpTarget);
+                            
                             // launch the target into the air and do some damage depending on the pets attack strength and active modifiers
                             pet.getTarget().setVelocity(new Vector(0, 0.5, 0));
                             // can't use owner as that's not compatible with NoCheatPlus :/ TODO: Add compatibility
