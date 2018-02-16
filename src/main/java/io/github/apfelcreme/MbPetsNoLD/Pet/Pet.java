@@ -15,12 +15,12 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
@@ -56,9 +56,10 @@ public class Pet<T extends LivingEntity> {
     private Integer number = null;
     private Double speed = null;
     private Integer exp = null;
-    private Entity target = null;
+    private LivingEntity target = null;
     private PetLevel level = null;
-
+    private EntityTargetEvent.TargetReason targetReason = EntityTargetEvent.TargetReason.UNKNOWN;
+    
     public Pet(UUID owner, PetType type, Integer number) {
         this.owner = owner;
         this.type = type;
@@ -217,7 +218,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @return the target
      */
-    public Entity getTarget() {
+    public LivingEntity getTarget() {
         return target;
     }
 
@@ -226,8 +227,17 @@ public class Pet<T extends LivingEntity> {
      *
      * @param target the target
      */
-    public void setTarget(Entity target) {
+    public void setTarget(LivingEntity target, EntityTargetEvent.TargetReason reason) {
         this.target = target;
+        this.targetReason = reason;
+    }
+    
+    /**
+     * Get the reason for the current target
+     * @return  The TargetReason
+     */
+    public EntityTargetEvent.TargetReason getTargetReason() {
+        return targetReason;
     }
 
     /**
@@ -377,10 +387,11 @@ public class Pet<T extends LivingEntity> {
     /**
      * Called when a player specifies a target for this entity
      * @param target    The target entity
+     * @param reason    The reason why this target happened
      * @param event     The event that triggered this, null if it wasn't an event
      */
-    public void onSpecifyTarget(Entity target, Event event) {
-        setTarget(target);
+    public void onSpecifyTarget(LivingEntity target, EntityTargetEvent.TargetReason reason, Event event) {
+        setTarget(target, reason);
         setSpeed(MbPetsConfig.getEnhancedPetSpeed(getType()));
         getEntity().getWorld().playSound(getEntity().getLocation(), MbPetsConfig.getPetSound(getType()), 5, 1);
     }

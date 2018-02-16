@@ -3,8 +3,9 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.entity.Bat;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityTargetEvent;
 
 import java.util.UUID;
 
@@ -33,8 +34,8 @@ public class BatPet extends Pet<Bat> {
     }
     
     @Override
-    public void onSpecifyTarget(Entity target, Event event) {
-        super.onSpecifyTarget(target, event);
+    public void onSpecifyTarget(LivingEntity target, EntityTargetEvent.TargetReason reason, Event event) {
+        super.onSpecifyTarget(target, reason, event);
         target.addPassenger(getEntity());
     }
 

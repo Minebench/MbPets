@@ -4,7 +4,6 @@ import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -12,6 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 /**
@@ -81,9 +81,9 @@ public class EntityDamagesEntityListener implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-                target((Player) event.getEntity(), MbPets.getInstance().getServer().getPlayer(damagerPet.getOwner()), event);
+                target((Player) event.getEntity(), MbPets.getInstance().getServer().getPlayer(damagerPet.getOwner()), EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER, event);
             } else {
-                target((Player) event.getEntity(), damager, event);
+                target((Player) event.getEntity(), damager, EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER, event);
             }
             
         }
@@ -91,14 +91,14 @@ public class EntityDamagesEntityListener implements Listener {
         // Player attacked entity -> target it
         if (damager instanceof Player) {
             //Player attacks entity
-            target((Player)damager, (LivingEntity) event.getEntity(), event);
+            target((Player)damager, (LivingEntity) event.getEntity(), EntityTargetEvent.TargetReason.OWNER_ATTACKED_TARGET, event);
         }
     }
     
-    private void target(Player petOwner, LivingEntity target, Event event) {
+    private void target(Player petOwner, LivingEntity target, EntityTargetEvent.TargetReason reason, Event event) {
         Pet pet = PetManager.getInstance().getPets().get(petOwner.getUniqueId());
         if (pet != null) {
-            pet.onSpecifyTarget(target, event);
+            pet.onSpecifyTarget(target, reason, event);
         }
     }
 }

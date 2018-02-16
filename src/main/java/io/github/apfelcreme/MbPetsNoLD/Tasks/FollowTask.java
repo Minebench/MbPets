@@ -8,10 +8,11 @@ import net.minecraft.server.v1_12_R1.EntityInsentient;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.entity.Damageable;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.util.Vector;
 
 /**
@@ -49,7 +50,7 @@ public class FollowTask {
 
                     if (pet.getTarget() == null || pet.getTarget().isDead()) {
                         // if target is dead make it return to the owner
-                        pet.setTarget(owner);
+                        pet.setTarget(owner, EntityTargetEvent.TargetReason.TARGET_DIED);
                     }
 
                     double distance = owner.getLocation().distanceSquared(entity.getLocation());
@@ -57,7 +58,7 @@ public class FollowTask {
                         entity.teleport(getLocationNextTo(owner, 2.2));
                     }
                     if (distance > 16 * 16) { // distance to the owner > 16 ? set target to owner
-                        pet.setTarget(owner);
+                        pet.setTarget(owner, EntityTargetEvent.TargetReason.FORGOT_TARGET);
                     }
 
                     // create a path the pet is going to follow
@@ -81,8 +82,7 @@ public class FollowTask {
                                 pet.getSpeed());
 
                         // if there is an entity nearby the owner has attacked, let the pet attack that target as well
-                        if (pet.getTarget() instanceof Damageable // target is damageable
-                                && (!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
+                        if ((!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
                                 && pet.getEntity().getLocation().distanceSquared(pet.getTarget().getLocation()) < 3.5 * 3.5 // target is nearby
                                 && PetManager.getInstance().getPetByEntity(pet.getTarget()) == null  // target isn't a pet
                                 && (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?
@@ -92,7 +92,7 @@ public class FollowTask {
                             // can't use owner as that's not compatible with NoCheatPlus :/ TODO: Add compatibility
                             //((Damageable) pet.getTarget()).damage((float) (MbPetsConfig.getPetAttackStrength(pet.getType()) * pet.getLevel().getAttackStrengthModifier()), owner);
                             
-                            ((Damageable) pet.getTarget()).damage((float) (MbPetsConfig.getPetAttackStrength(pet.getType()) * pet.getLevel().getAttackStrengthModifier()), entity);
+                            pet.getTarget().damage((float) (MbPetsConfig.getPetAttackStrength(pet.getType()) * pet.getLevel().getAttackStrengthModifier()), entity);
                             // sound only necessary if pet entity is damager and not the player
                             pet.getEntity().getWorld().playSound(pet.getEntity().getLocation(), MbPetsConfig.getPetSound(pet.getType()), 5, 1);
                         }
