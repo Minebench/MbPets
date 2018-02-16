@@ -36,6 +36,7 @@ permissions:
       MbPets.reload: true
       MbPets.regenerate: true
       MbPets.despawn: true
+      MbPets.bypass.cooldown: true
   MbPets.pet.*:
     descriptioN: buy all pets (MbPets.pet.<petname>)
   MbPets.call:
@@ -62,3 +63,5 @@ permissions:
     description: reload config
   MbPets.regenerate:
     description: regenerate config
+  MbPets.bypass.cooldown:
+    description: bypass the respawn cooldown

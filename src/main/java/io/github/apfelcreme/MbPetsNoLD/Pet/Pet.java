@@ -273,9 +273,18 @@ public class Pet<T extends LivingEntity> {
         if (oldPet != null) {
             oldPet.uncall();
         }
-
+    
+        Player player = MbPets.getInstance().getServer().getPlayer(owner);
+        if (player == null) {
+            return;
+        }
+        if (!player.hasPermission("MbPets.pet." + type.name().toLowerCase())) {
+            MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.noPermission"));
+            return;
+        }
         //is there a cooldown on the call?
-        if (PetManager.getInstance().getCooldowns().containsKey(owner)
+        if (!player.hasPermission("MbPets.bypass.cooldown")
+                && PetManager.getInstance().getCooldowns().containsKey(owner)
                 && (System.currentTimeMillis() < PetManager.getInstance().getCooldowns().get(owner) + MbPetsConfig.getPetDeathCooldown())) {
             MbPets.sendMessage(owner, MbPetsConfig.getTextNode("error.deathCooldown")
                     .replace("{0}", new DecimalFormat("0").format((
@@ -283,20 +292,19 @@ public class Pet<T extends LivingEntity> {
                                     - System.currentTimeMillis()) / 1000)));
             return;
         }
-
         //check for gamemode and worldguard flags
-        if (MbPets.getInstance().getServer().getPlayer(owner).getWorld().getDifficulty() == Difficulty.PEACEFUL) {
-            MbPets.sendMessage(owner, MbPetsConfig.getTextNode("error.gamemodeCreative"));
+        if (player.getWorld().getDifficulty() == Difficulty.PEACEFUL) {
+            MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.gamemodeCreative"));
             return;
         } else {
             if (MbPets.getInstance().getPluginWorldGuard() != null) {
                 for (ProtectedRegion region : WorldGuardPlugin.inst()
-                        .getRegionManager(MbPets.getInstance().getServer().getPlayer(owner).getWorld())
-                        .getApplicableRegions(MbPets.getInstance().getServer().getPlayer(owner).getLocation())) {
+                        .getRegionManager(player.getWorld())
+                        .getApplicableRegions(player.getLocation())) {
                     if (region.getFlags() != null &&
                             region.getFlag(DefaultFlag.MOB_SPAWNING) != null &&
                             region.getFlags().get(DefaultFlag.MOB_SPAWNING).equals(StateFlag.State.DENY)) {
-                        MbPets.sendMessage(MbPets.getInstance().getServer().getPlayer(owner),
+                        MbPets.sendMessage(player,
                                 MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
@@ -304,7 +312,7 @@ public class Pet<T extends LivingEntity> {
                             && region.getFlags().get(DefaultFlag.BLOCKED_CMDS).toString().contains("/pet")) ||
                             ((region.getFlags() != null && region.getFlags().get(DefaultFlag.ALLOWED_CMDS) != null
                                     && !region.getFlags().get(DefaultFlag.ALLOWED_CMDS).toString().contains("/pet")))) {
-                        MbPets.sendMessage(owner, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
+                        MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
                 }
@@ -334,11 +342,10 @@ public class Pet<T extends LivingEntity> {
      * spawns the pet
      */
     private void spawn() {
-        this.target = MbPets.getInstance().getServer().getPlayer(owner);
+        target = MbPets.getInstance().getServer().getPlayer(owner);
         PetManager.getInstance().getPets().put(owner, this);
         MbPets.getInstance().getServer().getScheduler().runTask(MbPets.getInstance(), () -> {
-            entity = (T) MbPets.getInstance().getServer().getPlayer(owner).getWorld()
-                    .spawnEntity(MbPets.getInstance().getServer().getPlayer(owner).getLocation(), type.getEntityType());
+            entity = (T) target.getWorld().spawnEntity(target.getLocation(), type.getEntityType());
             PetManager.getInstance().getPetEntities().put(entity.getUniqueId(), this);
             if (!FollowTask.isActive()) {
                 FollowTask.create();
