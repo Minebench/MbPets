@@ -4,8 +4,14 @@ import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
+import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.text.DecimalFormat;
@@ -58,6 +64,23 @@ public class EntityDeathListener implements Listener {
             MbPets.sendMessage(pet.getOwner(), MbPetsConfig.getTextNode("info.petDied")
                     .replace("{0}", new DecimalFormat("0").format(MbPetsConfig.getPetDeathCooldown() / 1000)));
             event.getDrops().clear();
+        }
+    }
+    
+    /**
+     * Fix slimes by checking if pet gets damage above remaining life
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSlimeDeath(EntityDamageEvent event) {
+        if ((event.getEntity() instanceof Slime)
+                && ((Slime) event.getEntity()).getSize() > 0
+                && ((Slime) event.getEntity()).getHealth() - event.getFinalDamage() <= 0) {
+            Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
+            if (pet != null) {
+                ((Slime) event.getEntity()).setSize(0);
+            }
         }
     }
 }
