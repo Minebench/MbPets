@@ -73,10 +73,16 @@ public class FollowTask {
                                 Location targetLoc = getLocationNextTo(owner, 2.2);
                                 handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ(), pet.getSpeed());
                             } else {
+                                entity.setSilent(true);
                                 handle.setGoalTarget(((CraftLivingEntity) owner).getHandle(), pet.getTargetReason(), false);
                             }
-                        } else if (handle.getGoalTarget() != null) {
-                            handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
+                        } else {
+                            if (handle.getGoalTarget() != null) {
+                                handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
+                            }
+                            if (entity.isSilent()) {
+                                entity.setSilent(false);
+                            }
                         }
                     } else {
                         if (pet.canNavigate()) {
@@ -87,6 +93,7 @@ public class FollowTask {
                                     pet.getTarget().getLocation().getZ(),
                                     pet.getSpeed());
                         } else {
+                            entity.setSilent(true);
                             handle.setGoalTarget(((CraftLivingEntity) pet.getTarget()).getHandle(), pet.getTargetReason(), false);
                         }
 
@@ -98,6 +105,9 @@ public class FollowTask {
                                         || !MbPets.getInstance().getPluginAnimalProtect().hasOwner(pet.getTarget().getUniqueId()))) { // if it is: is the target protected?
                             if (!pet.canNavigate() && handle.getGoalTarget() != null) {
                                 handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
+                            }
+                            if (entity.isSilent()) {
+                                entity.setSilent(false);
                             }
                             
                             Vector jumpTarget = entity.getLocation().subtract(pet.getTarget().getLocation()).toVector().normalize().multiply(-0.5);
