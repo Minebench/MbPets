@@ -82,6 +82,7 @@ prices:
   ENDERMAN: 35000
   SLIME: 20000
   MAGMA_CUBE: 30000
+  VEX: 35000
   MODIFY: 1000
   SELL: 0.75
 damage:
@@ -106,6 +107,7 @@ damage:
   ENDERMAN: 5
   SLIME: 4
   MAGMA_CUBE: 4
+  VEX: 3
 speed:
   WOLF: 1.7
   OCELOT: 1.7
@@ -128,6 +130,7 @@ speed:
   ENDERMAN: 1.7
   SLIME: 1.5
   MAGMA_CUBE: 1.5
+  VEX: 1.5
 enhancedSpeed:
   WOLF: 3
   OCELOT: 3
@@ -150,6 +153,7 @@ enhancedSpeed:
   ENDERMAN: 3
   SLIME: 2
   MAGMA_CUBE: 2
+  VEX: 2.5
 sound:
   WOLF: 'ENTITY_WOLF_GROWL'
   OCELOT: 'ENTITY_CAT_HISS'
@@ -172,7 +176,9 @@ sound:
   ENDERMAN: 'ENTITY_ENDERMEN_SCREAM'
   SLIME: 'ENTITY_SLIME_SQUISH'
   MAGMA_CUBE: 'ENTITY_MAGMACUBE_SQUISH'
+  VEX: 'ENTITY_VEX_CHARGE'
 expReward:
+  default: 25
   CREEPER: 75
   SKELETON: 50
   SPIDER: 50
@@ -208,3 +214,4 @@ expReward:
   RABBIT: 25
   VILLAGER: 10
   LLAMA: 25
+  VEX: 100

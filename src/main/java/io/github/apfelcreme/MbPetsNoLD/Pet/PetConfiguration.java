@@ -112,10 +112,6 @@ public class PetConfiguration {
             case POLAR_BEAR:
                 isBaby = ((PolarBearPet) pet).isBaby();
                 break;
-            case BAT:
-                break;
-            case IRON_GOLEM:
-                break;
             case RABBIT:
                 isBaby = ((RabbitPet) pet).isBaby();
                 rabbitType = ((RabbitPet) pet).getStyle();
@@ -133,14 +129,10 @@ public class PetConfiguration {
                 isBaby = ((DonkeyPet) pet).isBaby();
                 break;
             case MULE:
-//                horseColor = ((MulePet) pet).getColor();
-//                horseStyle = ((MulePet) pet).getStyle();
                 isBaby = ((MulePet) pet).isBaby();
                 break;
             case LLAMA:
                 llamaColor = ((LlamaPet) pet).getColor();
-                break;
-            case ENDERMAN:
                 break;
             case MAGMA_CUBE:
                 slimeSize = ((MagmaCubePet) pet).getSize();
@@ -314,49 +306,45 @@ public class PetConfiguration {
      * confirms the pet and writes its attributes to the db
      */
     public void confirm() {
-        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), new Runnable() {
+        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
+            Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
+            try {
+                PreparedStatement preparedStatement;
+                //Insert a player;
+                preparedStatement = connection.prepareStatement("INSERT IGNORE INTO MbPets_Player (uuid, playername) VALUES (?, ?)");
+                preparedStatement.setString(1, owner.toString());
+                preparedStatement.setString(2, MbPets.getInstance().getServer().getPlayer(getOwner()).getName());
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
 
-            @Override
-            public void run() {
-                Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
-                try {
-                    PreparedStatement preparedStatement;
-                    //Insert a player;
-                    preparedStatement = connection.prepareStatement("INSERT IGNORE INTO MbPets_Player (uuid, playername) VALUES (?, ?)");
-                    preparedStatement.setString(1, owner.toString());
-                    preparedStatement.setString(2, MbPets.getInstance().getServer().getPlayer(getOwner()).getName());
-                    preparedStatement.executeUpdate();
-                    preparedStatement.close();
+                //Insert a pet
+                preparedStatement = connection.prepareStatement("INSERT INTO " +
+                        "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, parrotcolor, slimesize, number, exp)"
+                        + " VALUES ("
+                        + "(Select playerid from MbPets_Player where uuid = ?),"
+                        + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+                        + ")");
+                preparedStatement.setString(1, owner.toString());
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, type.toString());
+                preparedStatement.setBoolean(4, isBaby);
+                preparedStatement.setString(5, sheepColor != null ? sheepColor.name() : null);
+                preparedStatement.setString(6, wolfColor != null ? wolfColor.name() : null);
+                preparedStatement.setString(7, horseColor != null ? horseColor.name() : null);
+                preparedStatement.setString(8, horseStyle != null ? horseStyle.name() : null);
+                preparedStatement.setString(9, ocelotType != null ? ocelotType.name() : null);
+                preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
+                preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
+                preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
+                preparedStatement.setInt(13, slimeSize != null ? slimeSize : -1);
+                preparedStatement.setInt(14, number);
+                preparedStatement.setInt(15, exp);
+                preparedStatement.executeUpdate();
 
-                    //Insert a pet
-                    preparedStatement = connection.prepareStatement("INSERT INTO " +
-                            "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, parrotcolor, slimesize, number, exp)"
-                            + " VALUES ("
-                            + "(Select playerid from MbPets_Player where uuid = ?),"
-                            + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
-                            + ")");
-                    preparedStatement.setString(1, owner.toString());
-                    preparedStatement.setString(2, name);
-                    preparedStatement.setString(3, type.toString());
-                    preparedStatement.setBoolean(4, isBaby);
-                    preparedStatement.setString(5, sheepColor != null ? sheepColor.name() : null);
-                    preparedStatement.setString(6, wolfColor != null ? wolfColor.name() : null);
-                    preparedStatement.setString(7, horseColor != null ? horseColor.name() : null);
-                    preparedStatement.setString(8, horseStyle != null ? horseStyle.name() : null);
-                    preparedStatement.setString(9, ocelotType != null ? ocelotType.name() : null);
-                    preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
-                    preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
-                    preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
-                    preparedStatement.setInt(13, slimeSize != null ? slimeSize : -1);
-                    preparedStatement.setInt(14, number);
-                    preparedStatement.setInt(15, exp);
-                    preparedStatement.executeUpdate();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    MbPets.getInstance().getDatabaseConnector().closeConnection(connection);
-                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                MbPets.getInstance().getDatabaseConnector().closeConnection(connection);
             }
         });
     }
@@ -440,8 +428,6 @@ public class PetConfiguration {
                 case MULE:
                     pet = new MulePet(owner, number);
                     ((MulePet) pet).setBaby(isBaby);
-//                    ((MulePet) pet).setColor(horseColor);
-//                    ((MulePet) pet).setStyle(horseStyle);
                     break;
                 case LLAMA:
                     pet = new LlamaPet(owner, number);
@@ -459,6 +445,11 @@ public class PetConfiguration {
                     pet = new SlimePet(owner, number);
                     ((SlimePet) pet).setSize(slimeSize);
                     break;
+                case VEX:
+                    pet = new VexPet(owner, number);
+                    break;
+                default:
+                    pet = new Pet(owner, type, number);
             }
             pet.setNumber(number);
             pet.setOwner(owner);
@@ -476,51 +467,30 @@ public class PetConfiguration {
      * @return is the pet configuration finished or not
      */
     public boolean isFinished() {
+        if (name == null) {
+            return false;
+        }
         switch (type) {
             case HORSE:
-                return (name != null && horseColor != null && horseStyle != null);
-            case PIG:
-                return (name != null);
+                return (horseColor != null && horseStyle != null);
             case SHEEP:
-                return (name != null && sheepColor != null);
+                return (sheepColor != null);
             case WOLF:
-                return (name != null && wolfColor != null);
-            case CHICKEN:
-                return (name != null);
-            case COW:
-                return (name != null);
-            case MUSHROOM_COW:
-                return (name != null);
+                return (wolfColor != null);
             case OCELOT:
-                return (name != null && ocelotType != null);
-            case POLAR_BEAR:
-                return (name != null);
-            case BAT:
-                return (name != null);
-            case IRON_GOLEM:
-                return (name != null);
+                return (ocelotType != null);
             case RABBIT:
-                return (name != null && rabbitType != null);
+                return (rabbitType != null);
             case PARROT:
-                return (name != null && parrotColor != null);
-            case SKELETON_HORSE:
-                return (name != null);
-            case UNDEAD_HORSE:
-                return (name != null);
-            case DONKEY:
-                return (name != null);
-            case MULE:
-                return (name != null /*&& horseColor != null && horseStyle != null*/);
+                return (parrotColor != null);
             case LLAMA:
-                return (name != null && llamaColor != null);
-            case ENDERMAN:
-                return (name != null);
+                return (llamaColor != null);
             case MAGMA_CUBE:
-                return (name != null && slimeSize != null);
+                return (slimeSize != null);
             case SLIME:
-                return (name != null && slimeSize != null);
+                return (slimeSize != null);
         }
-        return false;
+        return true;
     }
 
     @Override

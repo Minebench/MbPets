@@ -15,6 +15,8 @@ permissions:
     children: 
       MbPets.user: true
       MbPets.moderator: true
+      MbPets.leash: true
+      MbPets.pet.*: true
   MbPets.user:
     description: buy, call, modify, convert usw. 
     children:
@@ -25,7 +27,6 @@ permissions:
       MbPets.convert: true
       MbPets.print: true
       MbPets.sell: true
-      MbPets.leash: true
   MbPets.moderator:
     description: unregister, monitor, reload, regenerate, despawn
     children:
@@ -35,6 +36,8 @@ permissions:
       MbPets.reload: true
       MbPets.regenerate: true
       MbPets.despawn: true
+  MbPets.pet.*:
+    descriptioN: buy all pets (MbPets.pet.<petname>)
   MbPets.call:
     description: call & uncall pets
   MbPets.buy:

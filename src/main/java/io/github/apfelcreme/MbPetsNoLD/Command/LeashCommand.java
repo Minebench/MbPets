@@ -33,7 +33,7 @@ public class LeashCommand implements SubCommand {
      */
     @Override
     public void execute(ChatInput chatInput) {
-        if (chatInput.getSender().hasPermission("MbPets.leash")) {
+        if (MbPetsConfig.isCallItemEnabled() && chatInput.getSender().hasPermission("MbPets.leash")) {
             Integer number;
             if (chatInput.getNumber() != null) {
                 number = chatInput.getNumber();

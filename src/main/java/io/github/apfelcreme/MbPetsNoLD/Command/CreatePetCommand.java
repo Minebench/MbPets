@@ -41,10 +41,15 @@ public class CreatePetCommand implements SubCommand {
         }
         PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(chatInput.getSender().getUniqueId());
         if (petConfiguration == null) {
-            if (chatInput.getType() != null && MbPetsConfig.parseType(chatInput.getType()) != null) {
+            PetType type = MbPetsConfig.parseType(chatInput.getType());
+            if (type != null) {
+                if (!chatInput.getSender().hasPermission("MbPets.pet." + type.name().toLowerCase())) {
+                    MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noPermission"));
+                    return;
+                }
                 petConfiguration = new PetConfiguration(
                         chatInput.getSender().getUniqueId(),
-                        MbPetsConfig.parseType(chatInput.getType()),
+                        type,
                         PetConfiguration.ConfigurationType.PURCHASE);
             } else {
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.missingType"));

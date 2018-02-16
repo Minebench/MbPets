@@ -14,6 +14,7 @@ import net.zaiyers.AnimalProtect.AnimalProtect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -56,6 +57,13 @@ public class MbPets extends JavaPlugin {
             getDataFolder().mkdir();
         }
         MbPetsConfig.init();
+        
+        Permission allPetsPerm = getServer().getPluginManager().getPermission("MbPets.pet.*");
+        for (PetType petType : PetType.values()) {
+            Permission petPerm = new Permission("MbPets.pet." + petType.name().toLowerCase(), "Allows usage of the " + petType + " pet");
+            petPerm.addParent(allPetsPerm, true);
+            getServer().getPluginManager().addPermission(petPerm);
+        }
 
         // register commands and listener
         convertRightclickListener = new ConvertRightclickListener();

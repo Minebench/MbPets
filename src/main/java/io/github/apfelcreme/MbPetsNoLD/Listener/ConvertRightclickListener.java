@@ -66,11 +66,10 @@ public class ConvertRightclickListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onPlayerRightClick(final PlayerInteractEntityEvent e) {
-        MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
-            if (timers.containsKey(e.getPlayer().getUniqueId())) {
+        if (e.getRightClicked() instanceof LivingEntity && timers.containsKey(e.getPlayer().getUniqueId())) {
+            MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
                 if (PetManager.getInstance().getPetByEntity(e.getRightClicked()) != null) {
-                    // check whether the right-clicked entity isn't already a
-                    // pet
+                    // check whether the right-clicked entity isn't already a pet
                     MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("error.entityIsAlreadyAPet"));
                     stopTimer(e.getPlayer());
                     return;
@@ -97,15 +96,21 @@ public class ConvertRightclickListener implements Listener {
                     stopTimer(e.getPlayer());
                     return;
                 }
-                if (MbPetsConfig.parseType(e.getRightClicked().getType().name()) == null) {
+                PetType petType = MbPetsConfig.parseType(e.getRightClicked().getType().name());
+                if (petType == null) {
                     // allow only available pets for a convert
                     MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("help.TYPE"));
                     stopTimer(e.getPlayer());
                     return;
                 }
+                if (!e.getPlayer().hasPermission("MbPets.pet." + petType.name().toLowerCase())) {
+                    MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("error.noPermission"));
+                    stopTimer(e.getPlayer());
+                    return;
+                }
                 PetConfiguration petConfiguration = new PetConfiguration(
                         e.getPlayer().getUniqueId(),
-                        MbPetsConfig.parseType(e.getRightClicked().getType().name()),
+                        petType,
                         PetConfiguration.ConfigurationType.CONVERSION);
 
                 petConfiguration.setName((e.getRightClicked()).getCustomName());
@@ -143,10 +148,6 @@ public class ConvertRightclickListener implements Listener {
                     case POLAR_BEAR:
                         petConfiguration.setBaby(!((PolarBear) e.getRightClicked()).isAdult());
                         break;
-                    case BAT:
-                        break;
-                    case IRON_GOLEM:
-                        break;
                     case RABBIT:
                         petConfiguration.setBaby(!((Rabbit) e.getRightClicked()).isAdult());
                         petConfiguration.setRabbitType(((Rabbit) e.getRightClicked()).getRabbitType());
@@ -170,30 +171,22 @@ public class ConvertRightclickListener implements Listener {
                         petConfiguration.setType(PetType.MULE);
                         petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
                         break;
-                    case LLAMA:
-                        break;
-                    case ENDERMAN:
-                        break;
                     case MAGMA_CUBE:
                         petConfiguration.setSlimeSize(((MagmaCube) e.getRightClicked()).getSize());
                         break;
                     case SLIME:
                         petConfiguration.setSlimeSize(((Slime) e.getRightClicked()).getSize());
                         break;
-                    default:
-                        MbPets.sendMessage(e.getPlayer(), MbPetsConfig.getTextNode("help.TYPE"));
-                        stopTimer(e.getPlayer());
-                        return;
                 }
-//				if (((LivingEntity) e.getRightClicked()).getCustomName() != null)
-//                  pet.setName(((LivingEntity) e.getRightClicked()).getCustomName());
-//				pet.setOwner(e.getPlayer());
+				if (e.getRightClicked().getCustomName() != null) {
+                    petConfiguration.setName(e.getRightClicked().getCustomName());
+                }
                 petConfiguration.setConvertedEntity(e.getRightClicked()); // for a later despawn
                 PetManager.getInstance().getConfigurations().put(e.getPlayer().getUniqueId(), petConfiguration);
                 MbPets.sendMessage(e.getPlayer(), petConfiguration.getPetDescription().getDescription());
                 stopTimer(e.getPlayer());
-            }
-        });
+            });
+        }
 
     }
 

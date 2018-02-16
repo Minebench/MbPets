@@ -6,7 +6,12 @@ import org.bukkit.DyeColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Llama;
+import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Parrot;
+import org.bukkit.entity.Rabbit;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -139,10 +144,17 @@ public class MbPetsConfig {
     public static DyeColor parseColor(String color) {
         if (color == null)
             return null;
-        for (DyeColor a : DyeColor.values()) {
-            if (languageConfig.getStringList("DyeColors." + a.name() + ".aliases")
-                    .contains(color.toUpperCase())) {
-                return a;
+        try {
+            return DyeColor.valueOf(color.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            color = color.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (DyeColor c : DyeColor.values()) {
+                if (color.equals(c.name().replace("_", ""))
+                        || color.equalsIgnoreCase(languageConfig.getString("DyeColors." + c.name() + ".displaytext"))
+                        || languageConfig.getStringList("DyeColors." + c.name() + ".aliases")
+                        .contains(color.toUpperCase())) {
+                    return c;
+                }
             }
         }
         return null;
@@ -158,10 +170,17 @@ public class MbPetsConfig {
     public static Horse.Color parseHorseColor(String color) {
         if (color == null)
             return null;
-        for (Horse.Color a : Horse.Color.values()) {
-            if (languageConfig.getStringList("HorseColors." + a.name() + ".aliases")
-                    .contains(color.toUpperCase())) {
-                return a;
+        try {
+            return Horse.Color.valueOf(color.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            color = color.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Horse.Color c : Horse.Color.values()) {
+                if (color.equals(c.name().replace("_", ""))
+                        || color.equalsIgnoreCase(languageConfig.getString("HorseColors." + c.name() + ".displaytext"))
+                        || languageConfig.getStringList("HorseColors." + c.name() + ".aliases")
+                        .contains(color.toUpperCase())) {
+                    return c;
+                }
             }
         }
         return null;
@@ -177,10 +196,17 @@ public class MbPetsConfig {
     public static Horse.Style parseHorseStyle(String style) {
         if (style == null)
             return null;
-        for (Horse.Style a : Horse.Style.values()) {
-            if (languageConfig.getStringList("HorseStyles." + a.name() + ".aliases")
-                    .contains(style.toUpperCase())) {
-                return a;
+        try {
+            return Horse.Style.valueOf(style.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            style = style.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Horse.Style a : Horse.Style.values()) {
+                if (style.equals(a.name().replace("_", ""))
+                        || style.equalsIgnoreCase(languageConfig.getString("HorseStyles." + a.name() + ".displaytext"))
+                        || languageConfig.getStringList("HorseStyles." + a.name() + ".aliases")
+                        .contains(style.toUpperCase())) {
+                    return a;
+                }
             }
         }
         return null;
@@ -196,10 +222,17 @@ public class MbPetsConfig {
     public static Ocelot.Type parseOcelotType(String type) {
         if (type == null)
             return null;
-        for (Ocelot.Type a : Ocelot.Type.values()) {
-            if (languageConfig.getStringList("OcelotTypes." + a.name() + ".aliases")
-                    .contains(type.toUpperCase())) {
-                return a;
+        try {
+            return Ocelot.Type.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            type = type.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Ocelot.Type a : Ocelot.Type.values()) {
+                if (type.equals(a.name().replace("_", ""))
+                        || type.equalsIgnoreCase(languageConfig.getString("OcelotTypes." + a.name() + ".displaytext"))
+                        || languageConfig.getStringList("OcelotTypes." + a.name() + ".aliases")
+                        .contains(type.toUpperCase())) {
+                    return a;
+                }
             }
         }
         return null;
@@ -215,10 +248,16 @@ public class MbPetsConfig {
     public static Rabbit.Type parseRabbitType(String type) {
         if (type == null)
             return null;
-        for (Rabbit.Type a : Rabbit.Type.values()) {
-            if (languageConfig.getStringList("RabbitTypes." + a.name() + ".aliases")
-                    .contains(type.toUpperCase())) {
-                return a;
+        try {
+            return Rabbit.Type.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            type = type.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Rabbit.Type a : Rabbit.Type.values()) {
+                if (type.equals(a.name().replace("_", ""))
+                        || type.equalsIgnoreCase(languageConfig.getString("RabbitTypes." + a.name() + ".displaytext"))
+                        || languageConfig.getStringList("RabbitTypes." + a.name() + ".aliases").contains(type)) {
+                    return a;
+                }
             }
         }
         return null;
@@ -234,10 +273,17 @@ public class MbPetsConfig {
     public static Llama.Color parseLlamaColor(String color) {
         if (color == null)
             return null;
-        for (Llama.Color c : Llama.Color.values()) {
-            if (languageConfig.getStringList("LlamaColors." + c.name() + ".aliases")
-                    .contains(color.toUpperCase())) {
-                return c;
+        try {
+            return Llama.Color.valueOf(color.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            color = color.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Llama.Color c : Llama.Color.values()) {
+                if (color.equals(c.name().replace("_", ""))
+                        || color.equalsIgnoreCase(languageConfig.getString("LlamaColors." + c.name() + ".displaytext"))
+                        || languageConfig.getStringList("LlamaColors." + c.name() + ".aliases")
+                        .contains(color.toUpperCase())) {
+                    return c;
+                }
             }
         }
         return null;
@@ -252,10 +298,16 @@ public class MbPetsConfig {
     public static Parrot.Variant parseParrotColor(String color) {
         if (color == null)
             return null;
-        for (Parrot.Variant c : Parrot.Variant.values()) {
-            if (languageConfig.getStringList("ParrotColors." + c.name() + ".aliases")
-                    .contains(color.toUpperCase())) {
-                return c;
+        try {
+            return Parrot.Variant.valueOf(color.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            color = color.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Parrot.Variant c : Parrot.Variant.values()) {
+                if (color.equals(c.name().replace("_", ""))
+                        || color.equalsIgnoreCase(languageConfig.getString("ParrotColors." + c.name() + ".displaytext"))
+                        || languageConfig.getStringList("ParrotColors." + c.name() + ".aliases").contains(color)) {
+                    return c;
+                }
             }
         }
         return null;
@@ -290,10 +342,16 @@ public class MbPetsConfig {
     public static PetType parseType(String type) {
         if (type == null)
             return null;
-        for (PetType petType : PetType.values()) {
-            if (languageConfig.getStringList("PetTypes." + petType.name() + ".aliases")
-                    .contains(type.toUpperCase())) {
-                return petType;
+        try {
+            return PetType.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            type = type.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (PetType petType : PetType.values()) {
+                if (type.equals(petType.name().replace("_", ""))
+                        || type.equalsIgnoreCase(languageConfig.getString("PetTypes." + petType.name() + ".displaytext"))
+                        || languageConfig.getStringList("PetTypes." + petType.name() + ".aliases").contains(type)) {
+                    return petType;
+                }
             }
         }
         return null;
@@ -529,10 +587,19 @@ public class MbPetsConfig {
         if (type == null) {
             return 0;
         }
-        return MbPets.getInstance().getConfig().getInt("expReward." + type.name());
+        return MbPets.getInstance().getConfig().getInt("expReward." + type.name(), getDefaultExpReward());
 
     }
-
+    
+    /**
+     * return the default amount of exp when there is no value defined for an entity
+     *
+     * @return the amount of exp
+     */
+    private static int getDefaultExpReward() {
+        return MbPets.getInstance().getConfig().getInt("expReward.default");
+    }
+    
     /**
      * returns the amount of time that must pass before a pet can be called or uncalled again
      *

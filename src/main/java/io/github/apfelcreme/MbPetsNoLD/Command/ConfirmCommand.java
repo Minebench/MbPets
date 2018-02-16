@@ -46,6 +46,7 @@ public class ConfirmCommand implements SubCommand {
             return;
         }
         if (!MbPets.getInstance().getEconomy().hasAccount(chatInput.getSender())) {
+            MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noAccount"));
             return;
         }
         PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations()
@@ -116,7 +117,7 @@ public class ConfirmCommand implements SubCommand {
                                         .replace("{0}", petConfiguration.getNumber().toString()));
 
                         // give the player a leash item
-                        if (MbPetsConfig.isCallItemEnabled()) {
+                        if (MbPetsConfig.isCallItemEnabled() && chatInput.getSender().hasPermission("MbPets.leash")) {
                             chatInput.getSender().getInventory().addItem(PetManager.createCallItem(petConfiguration));
                         }
                         MbPets.getInstance().getLogger().info(petConfiguration.getPetDescription().getLogDescription());

@@ -65,6 +65,7 @@ texts:
     notYourPet: '&cDas gewählte Tier ist bereits auf jemand anderen gesichert!'
     petNotFinished: '&cDu hast noch nicht alle Eigenschaften angegeben! Gib sie mit &4/pet <Eigenschaft> <Wert>&c an!'
     noVault: '&cDieser Server unterstützt keine Economy!Wechsel mit &4/server&c auf einen anderen Server, um ein Pet zu kaufen!'
+    noAccount: '&cDu hast keinen Economy Account?'
     gamemodeCreative: '&cDu befindest dich im Creative-Modus. Hier können keine Mobs gespawnt werden!'
     inFlaggedRegion: '&cDu befindest dich in einer gesicherten, mobfreien Region. Hier können keine Pets gespawnt werden!'
     cooldown: '&cDu kannst diese Aktion erst wieder in ein paar Sekunden ausführen!'
@@ -72,108 +73,65 @@ texts:
 PetTypes:
   BAT:
     displaytext: 'Fledermaus'
-    aliases:
-    - 'BAT'
-    - 'FLEDERMAUS'
   COW:
     displaytext: 'Kuh'
-    aliases:
-    - 'KUH'
-    - 'COW'
   HORSE:
     displaytext: 'Pferd'
-    aliases:
-    - 'HORSE'
-    - 'PFERD'
   UNDEAD_HORSE:
     displaytext: 'Zombiepferd'
     aliases:
-    - 'ZOMBIEPFERD'
     - 'ZOMBIEHORSE'
-    - 'UNDEAD_HORSE'
   SKELETON_HORSE:
     displaytext: 'Skelettpferd'
     aliases:
-    - 'SKELETTPFERD'
     - 'SKELETTHORSE'
-    - 'SKELETON_HORSE'
   DONKEY:
     displaytext: 'Esel'
-    aliases:
-    - 'DONKEY'
-    - 'ESEL'
   MULE:
     displaytext: 'Maultier'
     aliases:
-    - 'MULE'
-    - 'MAULTIER'
     - 'MAULESEL'
   LLAMA:
     displaytext: 'Lama'
     aliases:
-    - 'LLAMA'
-    - 'LAMA'
     - 'ALPAKA'
   WOLF:
     displaytext: 'Hund'
     aliases:
-    - 'WOLF'
     - 'DOG'
-    - 'HUND'
   OCELOT:
     displaytext: 'Katze'
     aliases:
-    - 'OCELOT'
     - 'CAT'
-    - 'KATZE'
   PIG:
     displaytext: 'Schwein'
-    aliases:
-    - 'PIG'
-    - 'SCHWEIN'
   IRON_GOLEM:
     displaytext: 'Eisengolem'
     aliases:
-    - 'IRON_GOLEM'
-    - 'EISENGOLEM'
-    - 'IRONGOLEM'
     - 'GOLEM'
   CHICKEN:
     displaytext: 'Huhn'
     aliases:
-    - 'CHICKEN'
     - 'CHICK'
-    - 'HUHN'
     - 'KÜKEN'
     - 'HÜHNCHEN'
   MUSHROOM_COW:
     displaytext: 'Pilzkuh'
     aliases:
-    - 'MUSHROOMCOW'
-    - 'MUSHROOM-COW'
-    - 'MUSHROOM_COW'
     - 'MOOSHROOM'
-    - 'PILZKUH'
   POLAR_BEAR:
     displaytext: 'Eisbär'
     aliases:
-    - 'POLAR_BEAR'
-    - 'POLARBEAR'
     - 'POLARBÄR'
     - 'POLARBAER'
-    - 'EISBÄR'
     - 'EISBAER'
   SHEEP:
     displaytext: 'Schaf'
     aliases:
-    - 'SHEEP'
-    - 'SCHAF'
     - 'PULLOVERSCHWEIN'
   RABBIT:
     displaytext: 'Hase'
     aliases:
-    - 'RABBIT'
-    - 'HASE'
     - 'HÄSCHEN'
     - 'KANINCHEN'
     - 'KLOPFER'
@@ -182,279 +140,180 @@ PetTypes:
   PARROT:
     displaytext: 'Papagei'
     aliases:
-    - 'PARROT'
-    - 'PAPAGEI'
     - 'YARR'
   ENDERMAN:
     displaytext: 'Enderman'
     aliases:
-    - 'ENDERMAN'
     - 'ENDERMEN'
     - 'ENDER'
     - 'SLENDERMAN'
   SLIME:
     displaytext: 'Slime'
     aliases:
-    - 'SLIME'
     - 'SCHLEIM'
   MAGMA_CUBE:
     displaytext: 'Magmacube'
     aliases:
-    - 'MAGMA_CUBE'
-    - 'MAGMA-CUBE'
-    - 'MAGMACUBE'
     - 'MAGMA'
     - 'LAVACUBE'
+  VEX:
+    displaytext: 'Vex'
+    aliases:
+    - 'GEIST'
+    - 'PLAGEGEIST'
 DyeColors:
   BLACK:
     displaytext: 'Schwarz'
     aliases:
-    - 'BLACK'
-    - 'SCHWARZ'
     - 'DUNKEL'
   BLUE:
     displaytext: 'Blau'
-    aliases:
-    - 'BLUE'
-    - 'BLAU'
   BROWN:
     displaytext: 'Braun'
-    aliases:
-    - 'BROWN'
-    - 'BRAUN'
   CYAN:
     displaytext: 'Cyan'
     aliases:
-    - 'CYAN'
     - 'TÜRKIS'
   GRAY:
     displaytext: 'Grau'
     aliases:
-    - 'GRAY'
-    - 'GRAU'
+    - 'GREY'
   GREEN:
     displaytext: 'Grün'
     aliases:
-    - 'GREEN'
     - 'GRUEN'
-    - 'GRÜN'
     - 'GRAS'
   LIGHT_BLUE:
     displaytext: 'Hellblau'
     aliases:
-    - 'LIGHT_BLUE'
-    - 'LIGHT-BLUE'
-    - 'LIGHTBLUE'
-    - 'HELLBLAU'
     - 'HIMMELBLAU'
     - 'HIMMEL'
   LIME:
     displaytext: 'Limette'
-    aliases:
-    - 'LIME'
-    - 'LIMETTE'
   MAGENTA:
     displaytext: 'Magenta'
-    aliases:
-    - 'MAGENTA'
   ORANGE:
     displaytext: 'Orange'
-    aliases:
-    - 'ORANGE'
   PINK:
     displaytext: 'Pink'
     aliases:
-    - 'PINK'
     - 'ROSA'
   PURPLE:
     displaytext: 'Lila'
     aliases:
-    - 'PURPLE'
     - 'VIOLETT'
-    - 'LILA'
   RED:
     displaytext: 'Rot'
-    aliases:
-    - 'RED'
-    - 'ROT'
   SILVER:
     displaytext: 'Silber'
-    aliases:
-    - 'SILVER'
-    - 'SILBER'
   WHITE:
     displaytext: 'Weiß'
     aliases:
-    - 'WHITE'
-    - 'WEIß'
     - 'WEISS'
   YELLOW:
     displaytext: 'Gelb'
-    aliases:
-    - 'YELLOW'
-    - 'GELB'
 HorseColors:
   BLACK:
     displaytext: 'Schwarz'
     aliases:
-    - 'BLACK'
-    - 'SCHWARZ'
     - 'DUNKEL'
   BROWN:
     displaytext: 'Braun'
-    aliases:
-    - 'BROWN'
-    - 'BRAUN'
   CHESTNUT:
     displaytext: 'Kastanie'
     aliases:
-    - 'CHESTNUT'
-    - 'KASTANIE'
     - 'NUSS'
   CREAMY:
     displaytext: 'Cremig'
     aliases:
-    - 'CREAMY'
-    - 'CREMIG'
     - 'KREMIG'
   DARK_BROWN:
     displaytext: 'Dunkelbraun'
-    aliases:
-    - 'DARK_BROWN'
-    - 'DARK-BROWN'
-    - 'DARKBROWN'
-    - 'DUNKELBRAUN'
   GRAY:
     displaytext: 'Grau'
     aliases:
-    - 'GRAY'
-    - 'GRAU'
+    - 'GREY'
   WHITE:
     displaytext: 'Weiß'
     aliases:
-    - 'WHITE'
-    - 'WEIß'
     - 'WEISS'
 ParrotColors:
   RED:
     displaytext: 'Rot'
     aliases:
-    - 'RED'
-    - 'ROT'
     - 'BUNT'
   BLUE:
     displaytext: 'Blau'
-    aliases:
-    - 'BLUE'
-    - 'BLAU'
   CYAN:
     displaytext: 'Cyan'
     aliases:
-    - 'CYAN'
     - 'TÜRKIS'
     - 'HELLBLAU'
   GREEN:
     displaytext: 'Grün'
     aliases:
-    - 'GREEN'
-    - 'GRÜN'
     - 'GRUEN'
   GRAY:
     displaytext: 'Grau'
     aliases:
-    - 'GRAY'
-    - 'GRAU'
     - 'GREY'
 HorseStyles:
   BLACK_DOTS:
     displaytext: 'Schwarzfleckig'
     aliases:
-    - 'BLACK_DOTS'
-    - 'BLACK-DOTS'
     - 'BLACK'
     - 'SCHWARZ'
-    - 'SCHWARZFLECKIG'
     - 'BLACKDOTTED'
   NONE:
     displaytext: 'Keiner'
     aliases:
-    - 'NONE'
     - 'KEINS'
     - 'KEINE'
     - 'KEIN'
-    - 'KEINER'
   WHITE:
     displaytext: 'Weiß'
     aliases:
-    - 'WHITE'
-    - 'WEIß'
     - 'WEISS'
   WHITE_DOTS:
     displaytext: 'Weißfleckig'
     aliases:
-    - 'WHITE_DOTS'
-    - 'WHITE-DOTS'
-    - 'WEIßFLECKIG'
     - 'WEISSFLECKIG'
     - 'WHITEDOTTED'
   WHITEFIELD:
     displaytext: 'Milchig'
     aliases:
-    - 'WHITEFIELD'
     - 'WEIßFELD'
     - 'WEISSFELD'
-    - 'MILCHIG'
     - 'VERSCHWOMMEN'
 OcelotTypes:
   WILD_OCELOT:
     displaytext: 'Wild'
-    aliases:
-    - 'WILD_OCELOT'
-    - 'WILD-OCELOT'
-    - 'WILDOCELOT'
-    - 'WILD'
   BLACK_CAT:
     displaytext: 'Schwarz'
     aliases:
-    - 'BLACK_CAT'
-    - 'BLACK-CAT'
-    - 'BLACKCAT'
     - 'BLACK'
-    - 'SCHWARZ'
     - 'DUNKEL'
   RED_CAT:
     displaytext: 'Rot'
     aliases:
-    - 'RED_CAT'
-    - 'RED-CAT'
-    - 'REDCAT'
     - 'RED'
-    - 'ROT'
   SIAMESE_CAT:
     displaytext: 'Siamesisch'
     aliases:
-    - 'SIAMESE_CAT'
-    - 'SIAMESE-CAT'
     - 'SIAMESE'
-    - 'SIAMESISCH'
     - 'SIAM'
 RabbitTypes:
   BLACK:
     displaytext: 'Schwarz'
     aliases:
-    - 'BLACK'
-    - 'SCHWARZ'
     - 'DUNKEL'
   BROWN:
     displaytext: 'Braun'
     aliases:
-    - 'BROWN'
-    - 'BRAUN'
     - 'NORMAL'
   GOLD:
     displaytext: 'Gold'
     aliases:
-    - 'GOLD'
     - 'GELB'
     - 'HELL'
   BLACK_AND_WHITE:
@@ -462,32 +321,22 @@ RabbitTypes:
     aliases:
     - 'PATCHES'
     - 'FLECKEN'
-    - 'FLECKIG'
-    - 'SCHWARZ-WEIß'
     - 'SCHWARZWEIß'
-    - 'SCHWARZ-WEISS'
     - 'SCHWARZWEISS'
   SALT_AND_PEPPER:
     displaytext: 'Pfeffer'
     aliases:
     - 'PEPPER'
-    - 'PFEFFER'
     - 'SALZPFEFFER'
     - 'PFEFFERSALZ'
   WHITE:
     displaytext: 'Weiß'
     aliases:
-    - 'WHITE'
-    - 'WEIß'
     - 'WEISS'
   THE_KILLER_BUNNY:
     displaytext: 'Killerbunny'
     aliases:
-    - 'THE_KILLER_BUNNY'
-    - 'KILLER_BUNNY'
-    - 'KILLER-BUNNY'
     - 'KILLER'
-    - 'KILLERBUNNY'
     - 'KILLERHASE'
     - 'KILLERKANINCHEN'
     - 'BÖSE'
@@ -495,59 +344,44 @@ LlamaColors:
   BROWN:
     displaytext: 'Braun'
     aliases:
-    - 'BROWN'
-    - 'BRAUN'
     - 'DUNKEL'
     - 'DARK'
   CREAMY:
     displaytext: 'Cremig'
     aliases:
-    - 'CREAMY'
-    - 'CREMIG'
     - 'KREMIG'
   GRAY:
     displaytext: 'Grau'
     aliases:
-    - 'GRAY'
-    - 'GRAU'
+    - 'GREY'
   WHITE:
     displaytext: 'Weiß'
     aliases:
-    - 'WHITE'
-    - 'WEIß'
     - 'WEISS'
 SlimeSizes:
   '1':
     displaytext: 'Klein'
     aliases:
-    - '1'
     - 'EINS'
-    - 'KLEIN'
     - 'ONE'
     - 'SHORT'
   '2':
     displaytext: 'Mittel'
     aliases:
-    - '2'
     - 'ZWEI'
-    - 'MITTEL'
     - 'TWO'
     - 'MEDIUM'
     - 'ZWO'
   '3':
     displaytext: 'Groß'
     aliases:
-    - '3'
     - 'DREI'
-    - 'GROß'
     - 'GROSS'
     - 'THREE'
     - 'LARGE'
   '4':
     displaytext: 'Riesig'
     aliases:
-    - '4'
     - 'VIER'
-    - 'RIESIG'
     - 'HUGE'
     - 'FOUR'
