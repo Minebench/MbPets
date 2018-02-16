@@ -51,4 +51,9 @@ public class SlimePet extends Pet<Slime> implements Sizeable {
         super.applyAttributes();
         getEntity().setSize(size);
     }
+    
+    @Override
+    public boolean canNavigate() {
+        return false;
+    }
 }

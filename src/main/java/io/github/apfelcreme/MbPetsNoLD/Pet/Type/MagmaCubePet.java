@@ -61,5 +61,10 @@ public class MagmaCubePet extends Pet<MagmaCube> implements Sizeable {
         super.applyAttributes();
         getEntity().setSize(size);
     }
+    
+    @Override
+    public boolean canNavigate() {
+        return false;
+    }
 
 }

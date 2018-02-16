@@ -38,5 +38,10 @@ public class BatPet extends Pet<Bat> {
         super.onSpecifyTarget(target, reason, event);
         target.addPassenger(getEntity());
     }
+    
+    @Override
+    public boolean canNavigate() {
+        return false;
+    }
 
 }

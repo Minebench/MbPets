@@ -508,6 +508,14 @@ public class Pet<T extends LivingEntity> {
     public void applyAttributes() {
         getEntity().setCustomName(getName());
     }
+    
+    /**
+     * Return whether or not this pet can navigate with a custom PathFinder
+     * @return
+     */
+    public boolean canNavigate() {
+        return true;
+    }
 
     @Override
     public String toString() {

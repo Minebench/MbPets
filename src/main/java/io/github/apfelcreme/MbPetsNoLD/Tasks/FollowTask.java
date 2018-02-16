@@ -7,7 +7,6 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import net.minecraft.server.v1_12_R1.EntityInsentient;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -46,7 +45,7 @@ public class FollowTask {
                 LivingEntity entity = pet.getEntity();
                 Player owner = MbPets.getInstance().getServer().getPlayer(pet.getOwner());
                 if (entity.getWorld().equals(owner.getWorld())) {
-                    EntityInsentient handle = (EntityInsentient) ((CraftEntity) entity).getHandle();
+                    EntityInsentient handle = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
 
                     if (pet.getTarget() == null || pet.getTarget().isDead()) {
                         // if target is dead make it return to the owner
@@ -68,18 +67,28 @@ public class FollowTask {
                             // Set the speed back to normal when targeting the owner
                             pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
 
-                            // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
-                            // stand at your exact location and bumps into you continuously
-                            Location targetLoc = getLocationNextTo(owner, 2.2);
-                            handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ(), pet.getSpeed());
+                            if (pet.canNavigate()) {
+                                // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
+                                // stand at your exact location and bumps into you continuously
+                                Location targetLoc = getLocationNextTo(owner, 2.2);
+                                handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ(), pet.getSpeed());
+                            } else {
+                                handle.setGoalTarget(((CraftLivingEntity) owner).getHandle(), pet.getTargetReason(), false);
+                            }
+                        } else if (handle.getGoalTarget() != null) {
+                            handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
                         }
                     } else {
-                        // let the pet walk directly to the entity its supposed to kill
-                        handle.getNavigation().a(
-                                pet.getTarget().getLocation().getX(),
-                                pet.getTarget().getLocation().getY(),
-                                pet.getTarget().getLocation().getZ(),
-                                pet.getSpeed());
+                        if (pet.canNavigate()) {
+                            // let the pet walk directly to the entity its supposed to kill
+                            handle.getNavigation().a(
+                                    pet.getTarget().getLocation().getX(),
+                                    pet.getTarget().getLocation().getY(),
+                                    pet.getTarget().getLocation().getZ(),
+                                    pet.getSpeed());
+                        } else {
+                            handle.setGoalTarget(((CraftLivingEntity) pet.getTarget()).getHandle(), pet.getTargetReason(), false);
+                        }
 
                         // if there is an entity nearby the owner has attacked, let the pet attack that target as well
                         if ((!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
@@ -87,6 +96,10 @@ public class FollowTask {
                                 && PetManager.getInstance().getPetByEntity(pet.getTarget()) == null  // target isn't a pet
                                 && (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?
                                         || !MbPets.getInstance().getPluginAnimalProtect().hasOwner(pet.getTarget().getUniqueId()))) { // if it is: is the target protected?
+                            if (!pet.canNavigate() && handle.getGoalTarget() != null) {
+                                handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
+                            }
+                            
                             // launch the target into the air and do some damage depending on the pets attack strength and active modifiers
                             pet.getTarget().setVelocity(new Vector(0, 0.5, 0));
                             // can't use owner as that's not compatible with NoCheatPlus :/ TODO: Add compatibility
