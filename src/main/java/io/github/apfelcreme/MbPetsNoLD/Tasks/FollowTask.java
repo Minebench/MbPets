@@ -100,7 +100,7 @@ public class FollowTask {
                                 handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
                             }
                             
-                            Vector jumpTarget = entity.getLocation().subtract(pet.getTarget().getLocation()).toVector().normalize();
+                            Vector jumpTarget = entity.getLocation().subtract(pet.getTarget().getLocation()).toVector().normalize().multiply(-0.5);
                             entity.teleport(entity.getLocation().setDirection(jumpTarget));
                             entity.setVelocity(jumpTarget);
                             
