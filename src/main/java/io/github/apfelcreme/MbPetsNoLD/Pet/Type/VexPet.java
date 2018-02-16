@@ -2,10 +2,10 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
-import org.bukkit.entity.Bat;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Vex;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 import java.util.UUID;
@@ -32,6 +32,18 @@ public class VexPet extends Pet<Vex> {
 
     public VexPet(UUID owner, Integer number) {
         super(owner, PetType.VEX, number);
+    }
+    
+    @Override
+    public void onSpecifyTarget(LivingEntity target, EntityTargetEvent.TargetReason reason, Event event) {
+        super.onSpecifyTarget(target, reason, event);
+        getEntity().setTarget(target);
+    }
+    
+    @Override
+    public void onKill(LivingEntity killed, EntityDeathEvent event) {
+        super.onKill(killed, event);
+        getEntity().setTarget(null);
     }
 
 }
