@@ -59,6 +59,12 @@ public class FollowTask {
                     if (distance > 16 * 16) { // distance to the owner > 16 ? set target to owner
                         pet.setTarget(owner, EntityTargetEvent.TargetReason.FORGOT_TARGET);
                     }
+                    
+                    if (entity.getLocation().getBlock().getType().isSolid()) {
+                        entity.setGlowing(true);
+                    } else if (entity.isGlowing()) {
+                        entity.setGlowing(false);
+                    }
 
                     // create a path the pet is going to follow
                     if (pet.getTarget() == owner) {
