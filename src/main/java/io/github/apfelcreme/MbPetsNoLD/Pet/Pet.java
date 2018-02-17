@@ -514,6 +514,7 @@ public class Pet<T extends LivingEntity> {
      */
     public void applyAttributes() {
         getEntity().setCustomName(getName());
+        getEntity().setCustomNameVisible(true);
     }
     
     /**
