@@ -211,7 +211,7 @@ public class PetManager {
      * @return
      */
     public Pet getPetByEntity(Entity entity) {
-        return petEntities.get(entity.getUniqueId());
+        return entity != null ? petEntities.get(entity.getUniqueId()) : null;
     }
 
     /**
