@@ -9,6 +9,7 @@ database:
   password: ''
   database: 'minebench'
   url: 'localhost:3306'
+  url-parameters: ''
 level:
   '1':
     expThreshold: 0

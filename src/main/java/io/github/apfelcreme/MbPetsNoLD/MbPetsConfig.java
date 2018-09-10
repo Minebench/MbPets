@@ -99,6 +99,15 @@ public class MbPetsConfig {
     }
 
     /**
+     * returns the database url
+     *
+     * @return the database url
+     */
+    public static String getDbUrlParameters() {
+        return MbPets.getInstance().getConfig().getString("database.url-parameters");
+    }
+
+    /**
      * should the hikari connection pool be used
      *
      * @return true or false

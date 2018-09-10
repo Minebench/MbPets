@@ -2,10 +2,12 @@ package io.github.apfelcreme.MbPetsNoLD.Database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -35,16 +37,58 @@ public class HikariCPConnection extends DatabaseConnector {
     @Override
     public void initConnection() {
         if (MbPetsConfig.getDatabase() != null && !MbPetsConfig.getDatabase().isEmpty()) {
-            Class c = org.slf4j.impl.StaticLoggerBinder.class; // used to prevent minimizer from removing the logger binder
             HikariConfig hikariConfig = new HikariConfig();
-            hikariConfig.setJdbcUrl("jdbc:mysql://" + MbPetsConfig.getDbUrl()
-                    + "/" + MbPetsConfig.getDatabase());
+
+            String dataSourceClassName = tryDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
+            if (dataSourceClassName == null) {
+                dataSourceClassName = tryDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            }
+            if (dataSourceClassName != null) {
+                MbPets.getInstance().getLogger().log(Level.INFO, "Using " + dataSourceClassName + " database source");
+                hikariConfig.setDataSourceClassName(dataSourceClassName);
+            }
+
+            if (dataSourceClassName == null) {
+                String driverClassName = tryDriverClassName("org.mariadb.jdbc.Driver");
+                if (driverClassName == null) {
+                    driverClassName = tryDriverClassName("com.mysql.cj.jdbc.Driver");
+                }
+                if (driverClassName == null) {
+                    driverClassName = tryDriverClassName("com.mysql.jdbc.Driver");
+                }
+
+                if (driverClassName != null) {
+                    MbPets.getInstance().getLogger().log(Level.INFO, "Using " + driverClassName + " database driver");
+                    hikariConfig.setDriverClassName(driverClassName);
+                } else {
+                    throw new RuntimeException("Could not find database driver or data source class! Plugin wont work without a database!");
+                }
+            }
+
+            hikariConfig.addDataSourceProperty("url", "jdbc:mysql://" + MbPetsConfig.getDbUrl() + "/" + MbPetsConfig.getDatabase() + MbPetsConfig.getDbUrlParameters());
             hikariConfig.setUsername(MbPetsConfig.getDbUser());
             hikariConfig.setPassword(MbPetsConfig.getDbPassword());
+            hikariConfig.setConnectionTimeout(5000);
 
             dataSource = new HikariDataSource(hikariConfig);
             initTables();
         }
+    }
+
+    private String tryDriverClassName(String className) {
+        try {
+            Class.forName(className).newInstance();
+            return className;
+        } catch (Exception ignored) {}
+        return null;
+    }
+
+    private String tryDataSourceClassName(String className) {
+        try {
+            Class.forName(className);
+            return className;
+        } catch (Exception ignored) {}
+        return null;
     }
 
     /**
