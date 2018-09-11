@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -89,7 +90,11 @@ public class PetManager {
             int expThreshold = MbPets.getInstance().getConfig().getInt("level." + key + ".expThreshold");
             Effect effect = null;
             if (!MbPets.getInstance().getConfig().getString("level." + key + ".effect").isEmpty()) {
-                effect = Effect.valueOf(MbPets.getInstance().getConfig().getString("level." + key + ".effect"));
+                try {
+                    effect = Effect.valueOf(MbPets.getInstance().getConfig().getString("level." + key + ".effect"));
+                } catch (IllegalArgumentException e) {
+                    MbPets.getInstance().getLogger().log(Level.SEVERE, "Invalid effect for level " + key + ": " + MbPets.getInstance().getConfig().getString("level." + key + ".effect"));
+                }
             }
             levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, effect, expThreshold));
         }
