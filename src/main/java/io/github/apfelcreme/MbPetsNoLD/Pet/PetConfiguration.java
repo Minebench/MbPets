@@ -140,6 +140,9 @@ public class PetConfiguration {
             case SLIME:
                 slimeSize = ((SlimePet) pet).getSize();
                 break;
+            case TURTLE:
+                isBaby = ((TurtlePet) pet).isBaby();
+                break;
         }
         this.configurationType = configurationType;
         switch (configurationType) {
@@ -447,6 +450,10 @@ public class PetConfiguration {
                     break;
                 case VEX:
                     pet = new VexPet(owner, number);
+                    break;
+                case TURTLE:
+                    pet = new TurtlePet(owner, number);
+                    ((TurtlePet) pet).setBaby(isBaby);
                     break;
                 default:
                     pet = new Pet(owner, type, number);

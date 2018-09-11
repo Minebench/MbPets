@@ -26,14 +26,14 @@ import java.util.Map;
  */
 public class PetLevel {
 
-    private Integer level;
-    private Double attackStrengthModifier;
-    private Double receivedDamageModifier;
+    private int level;
+    private double attackStrengthModifier;
+    private double receivedDamageModifier;
     private Effect effect;
-    private Integer expThreshold;
+    private int expThreshold;
 
-    private PetLevel(Integer level, Double attackStrengthModifier, Double receivedDamageModifier,
-                     Effect effect, Integer expThreshold) {
+    public PetLevel(int level, double attackStrengthModifier, double receivedDamageModifier,
+                    Effect effect, int expThreshold) {
         this.level = level;
         this.attackStrengthModifier = attackStrengthModifier;
         this.receivedDamageModifier = receivedDamageModifier;
@@ -42,56 +42,23 @@ public class PetLevel {
     }
 
     /**
-     * creates a pet level object from the amount of exp the pet has
+     * Get a pet level object from the amount of exp the pet has
      *
      * @param currentExp the pets current amount of exp
      * @return the level that results from the amount of exp
      */
-    public static PetLevel from(Integer currentExp) {
-        Integer level = null;
-        Double attackStrengthModifier = null;
-        Double receivedDamageModifier = null;
-        Effect effect = null;
-        Integer expThreshold = null;
-        ConfigurationSection levels = MbPets.getInstance().getConfig().getConfigurationSection("level");
-        for (Map.Entry<String, Object> entry : levels.getValues(false).entrySet()) {
-            if (currentExp >= MbPets.getInstance().getConfig().getInt("level." + entry.getKey() + ".expThreshold")) {
-                level = Integer.parseInt(entry.getKey());
-                attackStrengthModifier = MbPets.getInstance().getConfig().getDouble("level." + entry.getKey() + ".attackStrengthModifier");
-                receivedDamageModifier = MbPets.getInstance().getConfig().getDouble("level." + entry.getKey() + ".receivedDamageModifier");
-                expThreshold = MbPets.getInstance().getConfig().getInt("level." + entry.getKey() + ".expThreshold");
-                if (!MbPets.getInstance().getConfig().getString("level." + entry.getKey() + ".effect").isEmpty()) {
-                    effect = Effect.valueOf(MbPets.getInstance().getConfig().getString("level." + entry.getKey() + ".effect"));
-                }
-            }
-        }
-        return new PetLevel(level, attackStrengthModifier, receivedDamageModifier, effect, expThreshold);
+    public static PetLevel from(int currentExp) {
+        return PetManager.getInstance().getLevelFromExp(currentExp);
     }
 
     /**
-     * creates a pet level object from the amount of exp the pet haswwwwww
+     * Get a pet level object from the amount of exp the pet has
      *
      * @param level the level
      * @return the level that results from the amount of exp
      */
-    public static PetLevel fromLevel(Integer level) {
-        int highestLevel = 0;
-        for (String key : MbPets.getInstance().getConfig().getConfigurationSection("level").getKeys(false)) {
-            if (Integer.parseInt(key) > highestLevel) {
-                highestLevel = Integer.parseInt(key);
-            }
-        }
-        if (level > highestLevel) {
-            level = highestLevel;
-        }
-        Double attackStrengthModifier = MbPets.getInstance().getConfig().getDouble("level." + level + ".attackStrengthModifier");
-        Double receivedDamageModifier = MbPets.getInstance().getConfig().getDouble("level." + level + ".receivedDamageModifier");
-        Integer expThreshold = MbPets.getInstance().getConfig().getInt("level." + level + ".expThreshold");
-        Effect effect = null;
-        if (!MbPets.getInstance().getConfig().getString("level." + level + ".effect").isEmpty()) {
-            effect = Effect.valueOf(MbPets.getInstance().getConfig().getString("level." + level + ".effect"));
-        }
-        return new PetLevel(level, attackStrengthModifier, receivedDamageModifier, effect, expThreshold);
+    public static PetLevel fromLevel(int level) {
+        return PetManager.getInstance().getLevel(level);
 
     }
 
@@ -100,7 +67,7 @@ public class PetLevel {
      *
      * @return the pet level
      */
-    public Integer getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -109,7 +76,7 @@ public class PetLevel {
      *
      * @return the attack strength modifier
      */
-    public Double getAttackStrengthModifier() {
+    public double getAttackStrengthModifier() {
         return attackStrengthModifier;
     }
 
@@ -118,7 +85,7 @@ public class PetLevel {
      *
      * @return the received damage modifier
      */
-    public Double getReceivedDamageModifier() {
+    public double getReceivedDamageModifier() {
         return receivedDamageModifier;
     }
 
@@ -136,7 +103,7 @@ public class PetLevel {
      *
      * @return
      */
-    public Integer getExpThreshold() {
+    public int getExpThreshold() {
         return expThreshold;
     }
 

@@ -1,15 +1,14 @@
 package io.github.apfelcreme.MbPetsNoLD.Tasks;
 
+import com.destroystokyo.paper.entity.Pathfinder;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
-import net.minecraft.server.v1_12_R1.EntityInsentient;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.util.Vector;
@@ -42,10 +41,11 @@ public class FollowTask {
     public static void create() {
         taskId = MbPets.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(MbPets.getInstance(), () -> {
             for (Pet pet : PetManager.getInstance().getPets().values()) {
-                LivingEntity entity = pet.getEntity();
+                Mob entity = pet.getEntity();
                 Player owner = MbPets.getInstance().getServer().getPlayer(pet.getOwner());
                 if (entity.getWorld().equals(owner.getWorld())) {
-                    EntityInsentient handle = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
+                    Pathfinder pathfinder = entity.getPathfinder();
+                    //EntityInsentient handle = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
 
                     if (pet.getTarget() == null || pet.getTarget().isDead()) {
                         // if target is dead make it return to the owner
@@ -73,35 +73,15 @@ public class FollowTask {
                             // Set the speed back to normal when targeting the owner
                             pet.setSpeed(MbPetsConfig.getPetSpeed(pet.getType()));
 
-                            if (pet.canNavigate()) {
-                                // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
-                                // stand at your exact location and bumps into you continuously
-                                Location targetLoc = getLocationNextTo(owner, 2.2);
-                                handle.getNavigation().a(targetLoc.getX(), targetLoc.getY(), targetLoc.getZ(), pet.getSpeed());
-                            } else {
-                                entity.setSilent(true);
-                                handle.setGoalTarget(((CraftLivingEntity) owner).getHandle(), pet.getTargetReason(), false);
-                            }
-                        } else {
-                            if (handle.getGoalTarget() != null) {
-                                handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
-                            }
-                            if (entity.isSilent()) {
-                                entity.setSilent(false);
+                            // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
+                            // stand at your exact location and bumps into you continuously
+                            if (!pathfinder.moveTo(getLocationNextTo(owner, 2.2), pet.getSpeed())) {
+                                pet.uncall();
                             }
                         }
                     } else {
-                        if (pet.canNavigate()) {
-                            // let the pet walk directly to the entity its supposed to kill
-                            handle.getNavigation().a(
-                                    pet.getTarget().getLocation().getX(),
-                                    pet.getTarget().getLocation().getY(),
-                                    pet.getTarget().getLocation().getZ(),
-                                    pet.getSpeed());
-                        } else {
-                            entity.setSilent(true);
-                            handle.setGoalTarget(((CraftLivingEntity) pet.getTarget()).getHandle(), pet.getTargetReason(), false);
-                        }
+                        // let the pet walk directly to the entity its supposed to kill
+                        pathfinder.moveTo(pet.getTarget(), pet.getSpeed());
 
                         // if there is an entity nearby the owner has attacked, let the pet attack that target as well
                         if ((!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
@@ -109,9 +89,7 @@ public class FollowTask {
                                 && PetManager.getInstance().getPetByEntity(pet.getTarget()) == null  // target isn't a pet
                                 && (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?
                                         || !MbPets.getInstance().getPluginAnimalProtect().hasOwner(pet.getTarget().getUniqueId()))) { // if it is: is the target protected?
-                            if (!pet.canNavigate() && handle.getGoalTarget() != null) {
-                                handle.setGoalTarget(null, EntityTargetEvent.TargetReason.UNKNOWN, false);
-                            }
+
                             if (entity.isSilent()) {
                                 entity.setSilent(false);
                             }

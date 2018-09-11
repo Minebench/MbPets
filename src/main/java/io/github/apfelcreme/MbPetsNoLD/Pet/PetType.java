@@ -42,7 +42,8 @@ public enum PetType {
     ENDERMAN(EntityType.ENDERMAN),
     MAGMA_CUBE(EntityType.MAGMA_CUBE),
     SLIME(EntityType.SLIME),
-    VEX(EntityType.VEX);
+    VEX(EntityType.VEX),
+    TURTLE(EntityType.TURTLE);
 
     private EntityType entityType;
 

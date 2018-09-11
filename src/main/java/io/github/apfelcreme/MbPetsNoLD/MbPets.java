@@ -48,6 +48,7 @@ public class MbPets extends JavaPlugin {
 
     private static DatabaseConnector databaseConnector = null;
     private Economy economy = null;
+    private boolean worldGuardEnabled = false;
 
     public void onEnable() {
         instance = this;
@@ -57,7 +58,7 @@ public class MbPets extends JavaPlugin {
             getDataFolder().mkdir();
         }
         MbPetsConfig.init();
-        
+
         Permission allPetsPerm = getServer().getPluginManager().getPermission("MbPets.pet.*");
         for (PetType petType : PetType.values()) {
             Permission petPerm = new Permission("MbPets.pet." + petType.name().toLowerCase(), "Allows usage of the " + petType + " pet");
@@ -97,6 +98,9 @@ public class MbPets extends JavaPlugin {
             if (economyProvider != null) {
                 economy = economyProvider.getProvider();
             }
+        }
+        if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
+            worldGuardEnabled = true;
         }
     }
 
@@ -160,8 +164,8 @@ public class MbPets extends JavaPlugin {
     /**
      * @return world guard instance
      */
-    public WorldGuardPlugin getPluginWorldGuard() {
-        return (WorldGuardPlugin) MbPets.getInstance().getServer().getPluginManager().getPlugin("WorldGuard");
+    public boolean isWorldGuardEnabled() {
+        return worldGuardEnabled;
     }
 
     /**
