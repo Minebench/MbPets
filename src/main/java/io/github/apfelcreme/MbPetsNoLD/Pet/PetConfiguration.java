@@ -33,7 +33,7 @@ public class PetConfiguration {
 
     private UUID owner = null;
     private PetType type = null;
-    private Integer number = null;
+    private int number = -1;
     private String name = null;
     private Boolean isBaby = false;
     private Horse.Style horseStyle = null;
@@ -44,10 +44,10 @@ public class PetConfiguration {
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
-    private Integer slimeSize = null;
-    private Integer exp = 0;
+    private int slimeSize = -1;
+    private int exp = 0;
 
-    private Double price = null;
+    private double price = 0;
     private ConfigurationType configurationType = null;
 
     private Entity convertedEntity = null;
@@ -177,11 +177,11 @@ public class PetConfiguration {
         this.type = type;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -193,11 +193,11 @@ public class PetConfiguration {
         this.name = name;
     }
 
-    public Boolean getBaby() {
+    public boolean getBaby() {
         return isBaby;
     }
 
-    public void setBaby(Boolean baby) {
+    public void setBaby(boolean baby) {
         isBaby = baby;
     }
 
@@ -265,27 +265,27 @@ public class PetConfiguration {
         this.parrotColor = parrotColor;
     }
 
-    public Integer getSlimeSize() {
+    public int getSlimeSize() {
         return slimeSize;
     }
 
-    public void setSlimeSize(Integer slimeSize) {
+    public void setSlimeSize(int slimeSize) {
         this.slimeSize = slimeSize;
     }
 
-    public Integer getExp() {
+    public int getExp() {
         return exp;
     }
 
-    public void setExp(Integer exp) {
+    public void setExp(int exp) {
         this.exp = exp;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -339,7 +339,7 @@ public class PetConfiguration {
                 preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
                 preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
                 preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
-                preparedStatement.setInt(13, slimeSize != null ? slimeSize : -1);
+                preparedStatement.setInt(13, slimeSize);
                 preparedStatement.setInt(14, number);
                 preparedStatement.setInt(15, exp);
                 preparedStatement.executeUpdate();
@@ -474,7 +474,7 @@ public class PetConfiguration {
      * @return is the pet configuration finished or not
      */
     public boolean isFinished() {
-        if (name == null) {
+        if (name == null || price <= 0) {
             return false;
         }
         switch (type) {
@@ -493,9 +493,9 @@ public class PetConfiguration {
             case LLAMA:
                 return (llamaColor != null);
             case MAGMA_CUBE:
-                return (slimeSize != null);
+                return (slimeSize != -1);
             case SLIME:
-                return (slimeSize != null);
+                return (slimeSize != -1);
         }
         return true;
     }

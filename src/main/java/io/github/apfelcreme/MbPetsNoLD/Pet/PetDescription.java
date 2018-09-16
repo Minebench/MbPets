@@ -46,7 +46,7 @@ public class PetDescription {
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
-    private int slimeSize = 0;
+    private int slimeSize = -1;
     private int exp;
     private double price;
 

@@ -370,7 +370,7 @@ public class Pet<T extends Mob> {
     public void delete() {
         PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(owner);
         if (petConfiguration != null) {
-            if (petConfiguration.getNumber() != null && petConfiguration.getNumber().equals(number)) {
+            if (petConfiguration.getNumber() > 0 && petConfiguration.getNumber() == number) {
                 PetManager.getInstance().getConfigurations().remove(owner);
             }
         }
