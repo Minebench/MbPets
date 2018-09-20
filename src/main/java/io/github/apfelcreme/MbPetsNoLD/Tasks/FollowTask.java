@@ -75,9 +75,7 @@ public class FollowTask {
 
                             // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
                             // stand at your exact location and bumps into you continuously
-                            if (!pathfinder.moveTo(getLocationNextTo(owner, 2.2), pet.getSpeed())) {
-                                pet.uncall();
-                            }
+                            pathfinder.moveTo(getLocationNextTo(owner, 2.2), pet.getSpeed());
                         }
                     } else {
                         // let the pet walk directly to the entity its supposed to kill
