@@ -15,52 +15,52 @@ level:
     expThreshold: 0
     attackStrengthModifier: 1.0
     receivedDamageModifier: 0.5
-    effect: ''
+    particle: ''
   '2':
     expThreshold: 250
     attackStrengthModifier: 1.1
     receivedDamageModifier: 0.45
-    effect: ''
+    particle: ''
   '3':
     expThreshold: 1000
     attackStrengthModifier: 1.2
     receivedDamageModifier: 0.4
-    effect: ''
+    particle: ''
   '4':
     expThreshold: 2000
     attackStrengthModifier: 1.3
     receivedDamageModifier: 0.35
-    effect: ''
+    particle: ''
   '5':
     expThreshold: 5000
     attackStrengthModifier: 1.4
     receivedDamageModifier: 0.3
-    effect: ''
+    particle: ''
   '6':
     expThreshold: 7500
     attackStrengthModifier: 1.5
     receivedDamageModifier: 0.25
-    effect: 'PORTAL'
+    particle: 'PORTAL'
   '7':
     expThreshold: 10000
     attackStrengthModifier: 1.6
     receivedDamageModifier: 0.2
-    effect: 'HEART'
+    particle: 'HEART'
   '8':
     expThreshold: 15000
     attackStrengthModifier: 1.7
     receivedDamageModifier: 0.15
-    effect: 'LAVA_POP'
+    particle: 'LAVA'
   '9':
     expThreshold: 20000
     attackStrengthModifier: 1.8
     receivedDamageModifier: 0.1
-    effect: 'NOTE'
+    particle: 'NOTE'
   '10':
     expThreshold: 50000
     attackStrengthModifier: 1.9
     receivedDamageModifier: 0.05
-    effect: 'FLAME'
+    particle: 'FLAME'
 prices:
   WOLF: 10000
   OCELOT: 10000

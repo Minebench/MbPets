@@ -1,10 +1,6 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet;
 
-import io.github.apfelcreme.MbPetsNoLD.MbPets;
-import org.bukkit.Effect;
-import org.bukkit.configuration.ConfigurationSection;
-
-import java.util.Map;
+import org.bukkit.Particle;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -29,15 +25,15 @@ public class PetLevel {
     private int level;
     private double attackStrengthModifier;
     private double receivedDamageModifier;
-    private Effect effect;
+    private Particle particle;
     private int expThreshold;
 
     public PetLevel(int level, double attackStrengthModifier, double receivedDamageModifier,
-                    Effect effect, int expThreshold) {
+                    Particle particle, int expThreshold) {
         this.level = level;
         this.attackStrengthModifier = attackStrengthModifier;
         this.receivedDamageModifier = receivedDamageModifier;
-        this.effect = effect;
+        this.particle = particle;
         this.expThreshold = expThreshold;
     }
 
@@ -90,12 +86,12 @@ public class PetLevel {
     }
 
     /**
-     * returns the effect
+     * returns the particle
      *
-     * @return the effect
+     * @return the particle
      */
-    public Effect getEffect() {
-        return effect;
+    public Particle getParticle() {
+        return particle;
     }
 
     /**
@@ -112,7 +108,7 @@ public class PetLevel {
         return "PetLevel{" +
                 "level=" + level +
                 ", attackStrengthModifier=" + attackStrengthModifier +
-                ", effect=" + effect +
+                ", particle=" + particle +
                 '}';
     }
 }

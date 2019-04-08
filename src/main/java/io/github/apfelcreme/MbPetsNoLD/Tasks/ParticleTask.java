@@ -38,13 +38,12 @@ public class ParticleTask {
             @Override
             public void run() {
                 for (Pet pet : PetManager.getInstance().getPets().values()) {
-                    if (pet.getLevel() != null && pet.getLevel().getEffect() != null) {
+                    if (pet.getLevel() != null && pet.getLevel().getParticle() != null) {
                         for (int i = 0; i < 3; i++) {
-                            pet.getEntity().getWorld().playEffect(
+                            pet.getEntity().getWorld().spawnParticle(
+                                    pet.getLevel().getParticle(),
                                     pet.getEntity().getLocation(),
-                                    pet.getLevel().getEffect(),
-                                    1,
-                                    64
+                                    64, 2, 2, 2
                             );
                         }
                     }

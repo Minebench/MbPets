@@ -5,6 +5,7 @@ import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
@@ -88,15 +89,19 @@ public class PetManager {
             double attackStrengthModifier = MbPets.getInstance().getConfig().getDouble("level." + key + ".attackStrengthModifier");
             double receivedDamageModifier = MbPets.getInstance().getConfig().getDouble("level." + key + ".receivedDamageModifier");
             int expThreshold = MbPets.getInstance().getConfig().getInt("level." + key + ".expThreshold");
-            Effect effect = null;
-            if (!MbPets.getInstance().getConfig().getString("level." + key + ".effect").isEmpty()) {
+            Particle particle = null;
+            String particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".particle");
+            if (particleStr == null) {
+                particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".effect");
+            }
+            if (!particleStr.isEmpty()) {
                 try {
-                    effect = Effect.valueOf(MbPets.getInstance().getConfig().getString("level." + key + ".effect"));
+                    particle = Particle.valueOf(particleStr);
                 } catch (IllegalArgumentException e) {
                     MbPets.getInstance().getLogger().log(Level.SEVERE, "Invalid effect for level " + key + ": " + MbPets.getInstance().getConfig().getString("level." + key + ".effect"));
                 }
             }
-            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, effect, expThreshold));
+            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, expThreshold));
         }
 
         this.levels = levels.entrySet().stream()

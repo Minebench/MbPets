@@ -357,7 +357,7 @@ public class Pet<T extends Mob> {
             if (!FollowTask.isActive()) {
                 FollowTask.create();
             }
-            if (!ParticleTask.isActive() && (getLevel().getEffect() != null)) {
+            if (!ParticleTask.isActive() && (getLevel().getParticle() != null)) {
                 ParticleTask.create();
             }
             applyAttributes();
