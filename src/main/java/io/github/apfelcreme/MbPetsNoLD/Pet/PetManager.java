@@ -3,7 +3,6 @@ package io.github.apfelcreme.MbPetsNoLD.Pet;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
@@ -129,24 +128,7 @@ public class PetManager {
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     if (MbPetsConfig.parseType(resultSet.getString("type")) != null) {
-                        PetConfiguration petConfiguration = new PetConfiguration(
-                                UUID.fromString(resultSet.getString("uuid")),
-                                MbPetsConfig.parseType(resultSet.getString("type")),
-                                PetConfiguration.ConfigurationType.PURCHASE);
-                        petConfiguration.setNumber(resultSet.getInt("number"));
-                        petConfiguration.setName(resultSet.getString("petname"));
-                        petConfiguration.setBaby(resultSet.getBoolean("baby"));
-                        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
-                        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
-                        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
-                        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
-                        petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
-                        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
-                        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
-                        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
-                        petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
-                        petConfiguration.setExp(resultSet.getInt("exp"));
-                        return petConfiguration.getPet();
+                        return createPet(resultSet);
                     }
                 }
             }
@@ -171,28 +153,12 @@ public class PetManager {
                 PreparedStatement statement = connection
                         .prepareStatement("SELECT * from MbPets_Pet pet " +
                                 "left join MbPets_Player player on pet.playerId = player.playerId " +
-                                "WHERE player.uuid = ?");
+                                "WHERE player.uuid = ? " +
+                                "ORDER BY petId");
                 statement.setString(1, owner.toString());
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
-                    PetConfiguration petConfiguration = new PetConfiguration(
-                            UUID.fromString(resultSet.getString("uuid")),
-                            MbPetsConfig.parseType(resultSet.getString("type")),
-                            PetConfiguration.ConfigurationType.PURCHASE);
-                    petConfiguration.setNumber(resultSet.getInt("number"));
-                    petConfiguration.setName(resultSet.getString("petname"));
-                    petConfiguration.setBaby(resultSet.getBoolean("baby"));
-                    petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
-                    petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
-                    petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
-                    petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
-                    petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
-                    petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
-                    petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
-                    petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
-                    petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
-                    petConfiguration.setExp(resultSet.getInt("exp"));
-                    pets.add(petConfiguration.getPet());
+                    pets.add(createPet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -201,6 +167,27 @@ public class PetManager {
             MbPets.getInstance().getDatabaseConnector().closeConnection(connection);
         }
         return pets;
+    }
+
+    private Pet createPet(ResultSet resultSet) throws SQLException {
+        PetConfiguration petConfiguration = new PetConfiguration(
+                UUID.fromString(resultSet.getString("uuid")),
+                MbPetsConfig.parseType(resultSet.getString("type")),
+                PetConfiguration.ConfigurationType.PURCHASE);
+        petConfiguration.setNumber(resultSet.getInt("number"));
+        petConfiguration.setName(resultSet.getString("petname"));
+        petConfiguration.setBaby(resultSet.getBoolean("baby"));
+        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
+        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
+        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
+        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
+        petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
+        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
+        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
+        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
+        petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
+        petConfiguration.setExp(resultSet.getInt("exp"));
+        return petConfiguration.getPet();
     }
 
     /**
