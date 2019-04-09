@@ -154,7 +154,7 @@ public class PetManager {
                         .prepareStatement("SELECT * from MbPets_Pet pet " +
                                 "left join MbPets_Player player on pet.playerId = player.playerId " +
                                 "WHERE player.uuid = ? " +
-                                "ORDER BY petId");
+                                "ORDER BY pet.number");
                 statement.setString(1, owner.toString());
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
