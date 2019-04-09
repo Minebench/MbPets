@@ -3,6 +3,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -305,19 +306,20 @@ public class Pet<T extends Mob> {
                 LocalPlayer lp = WorldGuardPlugin.inst().wrapPlayer(player);
                 RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(lp.getWorld());
                 if (rm != null) {
-                    boolean mobSpawning = rm.getApplicableRegions(lp.getLocation().toVector()).queryState(lp, Flags.MOB_SPAWNING) != StateFlag.State.DENY;
+                    BlockVector3 vector = lp.getLocation().toVector().toBlockPoint();
+                    boolean mobSpawning = rm.getApplicableRegions(vector).queryState(lp, Flags.MOB_SPAWNING) != StateFlag.State.DENY;
                     if (!mobSpawning) {
                         MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
 
-                    Set<String> blockedCommands = rm.getApplicableRegions(lp.getLocation().toVector()).queryValue(lp, Flags.BLOCKED_CMDS);
+                    Set<String> blockedCommands = rm.getApplicableRegions(vector).queryValue(lp, Flags.BLOCKED_CMDS);
                     if (blockedCommands != null && blockedCommands.contains("/pet")) {
                         MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
 
-                    Set<String> allowedCommands = rm.getApplicableRegions(lp.getLocation().toVector()).queryValue(lp, Flags.ALLOWED_CMDS);
+                    Set<String> allowedCommands = rm.getApplicableRegions(vector).queryValue(lp, Flags.ALLOWED_CMDS);
                     if (allowedCommands != null && !allowedCommands.contains("/pet")) {
                         MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
