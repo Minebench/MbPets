@@ -21,16 +21,16 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
-import org.bukkit.entity.Cow;
+import org.bukkit.entity.Turtle;
 
 import java.util.UUID;
 
-public class TurtlePet extends Pet<Cow> implements Ageable {
+public class TurtlePet extends Pet<Turtle> implements Ageable {
 
     private Boolean isBaby = null;
 
     public TurtlePet(UUID owner, Integer number) {
-        super(owner, PetType.COW, number);
+        super(owner, PetType.TURTLE, number);
     }
 
     /**
