@@ -43,7 +43,9 @@ public class ParticleTask {
                             pet.getEntity().getWorld().spawnParticle(
                                     pet.getLevel().getParticle(),
                                     pet.getEntity().getLocation(),
-                                    64, 2, 2, 2
+                                    64, // count
+                                    1, 1.5, 1, // max random offset
+                                    pet.getLevel().getParticleData()
                             );
                         }
                     }

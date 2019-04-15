@@ -26,14 +26,16 @@ public class PetLevel {
     private double attackStrengthModifier;
     private double receivedDamageModifier;
     private Particle particle;
+    private final Object particleData;
     private int expThreshold;
 
     public PetLevel(int level, double attackStrengthModifier, double receivedDamageModifier,
-                    Particle particle, int expThreshold) {
+                    Particle particle, Object particleData, int expThreshold) {
         this.level = level;
         this.attackStrengthModifier = attackStrengthModifier;
         this.receivedDamageModifier = receivedDamageModifier;
         this.particle = particle;
+        this.particleData = particleData;
         this.expThreshold = expThreshold;
     }
 
@@ -92,6 +94,15 @@ public class PetLevel {
      */
     public Particle getParticle() {
         return particle;
+    }
+
+    /**
+     * Extra data for the display of the particle
+     *
+     * @return the extra particle data
+     */
+    public Object getParticleData() {
+        return particleData;
     }
 
     /**
