@@ -45,7 +45,8 @@ public class ParticleTask {
                                     pet.getEntity().getLocation(),
                                     64, // count
                                     1, 1.5, 1, // max random offset
-                                    pet.getLevel().getParticleData()
+                                    pet.getLevel().getParticleExtra(),
+                                    pet.getLevel().getParticle().getDataType() != Void.TYPE ? pet.getLevel().getParticleData() : null
                             );
                         }
                     }

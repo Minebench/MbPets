@@ -83,7 +83,7 @@ public class PetManager {
 
     private void loadLevels() {
         Map<Integer, PetLevel> levels = new LinkedHashMap<>();
-        levels.put(0, new PetLevel(0, 0, 0, null, 0, 0));
+        levels.put(0, new PetLevel(0, 0, 0, null, 0.01, null, 0));
         ConfigurationSection levelConfig = MbPets.getInstance().getConfig().getConfigurationSection("level");
         for (String key : levelConfig.getKeys(false)) {
             int level = Integer.parseInt(key);
@@ -95,49 +95,52 @@ public class PetManager {
             if (particleStr == null) {
                 particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".effect");
             }
-            Object particleData = MbPets.getInstance().getConfig().get("level." + key + ".particleData", 0.01);
+            double particleExtra = MbPets.getInstance().getConfig().getDouble("level." + key + ".particleExtra", 0.01);
+            Object particleData = MbPets.getInstance().getConfig().get("level." + key + ".particleData", null);
             if (!particleStr.isEmpty()) {
                 try {
                     particle = Particle.valueOf(particleStr);
-                    switch (particle) {
-                        case REDSTONE:
-                            Color color = Color.RED;
-                            float size = 1;
-                            if (particleData instanceof String) {
-                                String[] parts = ((String) particleData).split(",");
-                                if (parts.length == 1) {
-                                    size = Float.parseFloat(parts[0]);
-                                } else if (parts.length >= 3) {
-                                    color = Color.fromRGB(
-                                            Integer.parseInt(parts[0]),
-                                            Integer.parseInt(parts[1]),
-                                            Integer.parseInt(parts[2])
-                                    );
-                                    if (parts.length >= 4) {
-                                        size = Float.parseFloat(parts[3]);
+                    if (particleData != null) {
+                        switch (particle) {
+                            case REDSTONE:
+                                Color color = Color.RED;
+                                float size = 1;
+                                if (particleData instanceof String) {
+                                    String[] parts = ((String) particleData).split(",");
+                                    if (parts.length == 1) {
+                                        size = Float.parseFloat(parts[0]);
+                                    } else if (parts.length >= 3) {
+                                        color = Color.fromRGB(
+                                                Integer.parseInt(parts[0]),
+                                                Integer.parseInt(parts[1]),
+                                                Integer.parseInt(parts[2])
+                                        );
+                                        if (parts.length >= 4) {
+                                            size = Float.parseFloat(parts[3]);
+                                        }
                                     }
+                                } else if (particleData instanceof Float) {
+                                    size = (float) particleData;
+                                } else if (particleData instanceof Integer) {
+                                    color = Color.fromRGB((int) particleData);
                                 }
-                            } else if (particleData instanceof Float) {
-                                size = (float) particleData;
-                            } else if (particleData instanceof Integer) {
-                                color = Color.fromRGB((int) particleData);
-                            }
-                            particleData = new Particle.DustOptions(color, size);
-                            break;
-                        case ITEM_CRACK:
-                            particleData = new ItemStack(Material.matchMaterial(String.valueOf(particleData)));
-                            break;
-                        case BLOCK_CRACK:
-                        case BLOCK_DUST:
-                        case FALLING_DUST:
-                            particleData = Bukkit.createBlockData(String.valueOf(particleData));
-                            break;
+                                particleData = new Particle.DustOptions(color, size);
+                                break;
+                            case ITEM_CRACK:
+                                particleData = new ItemStack(Material.matchMaterial(String.valueOf(particleData)));
+                                break;
+                            case BLOCK_CRACK:
+                            case BLOCK_DUST:
+                            case FALLING_DUST:
+                                particleData = Bukkit.createBlockData(String.valueOf(particleData));
+                                break;
+                        }
                     }
                 } catch (IllegalArgumentException e) {
                     MbPets.getInstance().getLogger().log(Level.SEVERE, "Invalid effect for level " + key + ": " + particleStr + " - " + particleData + " - " + e.getMessage());
                 }
             }
-            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, particleData, expThreshold));
+            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, particleExtra, particleData, expThreshold));
         }
 
         this.levels = levels.entrySet().stream()
