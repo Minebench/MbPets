@@ -99,7 +99,7 @@ public class PetManager {
             Object particleData = MbPets.getInstance().getConfig().get("level." + key + ".particleData", null);
             if (!particleStr.isEmpty()) {
                 try {
-                    particle = Particle.valueOf(particleStr);
+                    particle = Particle.valueOf(particleStr.toUpperCase());
                     if (particleData != null) {
                         switch (particle) {
                             case REDSTONE:
