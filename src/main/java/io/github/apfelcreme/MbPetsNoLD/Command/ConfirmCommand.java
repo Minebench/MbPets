@@ -114,7 +114,7 @@ public class ConfirmCommand implements SubCommand {
                         // send some messages
                         MbPets.sendMessage(chatInput.getSender(),
                                 MbPetsConfig.getTextNode("info.petConfirmed")
-                                        .replace("{0}", petConfiguration.getNumber().toString()));
+                                        .replace("{0}", String.valueOf(petConfiguration.getNumber())));
 
                         // give the player a leash item
                         if (MbPetsConfig.isCallItemEnabled() && chatInput.getSender().hasPermission("MbPets.leash")) {

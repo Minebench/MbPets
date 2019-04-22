@@ -3,10 +3,13 @@ package io.github.apfelcreme.MbPetsNoLD.Pet;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Tasks.FollowTask;
@@ -16,6 +19,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -26,6 +30,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -46,16 +51,16 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class Pet<T extends LivingEntity> {
+public class Pet<T extends Mob> {
 
-    private UUID owner = null;
+    private UUID owner;
     private String name = null;
-    private PetType type = null;
-    private Double price = 0.0;
+    private PetType type;
+    private double price;
     private T entity = null;
-    private Integer number = null;
-    private Double speed = null;
-    private Integer exp = null;
+    private int number ;
+    private double speed;
+    private int exp;
     private LivingEntity target = null;
     private PetLevel level = null;
     private EntityTargetEvent.TargetReason targetReason = EntityTargetEvent.TargetReason.UNKNOWN;
@@ -127,7 +132,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @return the price
      */
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -136,7 +141,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @param price the price
      */
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -163,7 +168,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @return the number
      */
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -172,7 +177,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @param number the number
      */
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -181,7 +186,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @return the speed
      */
-    public Double getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
@@ -190,7 +195,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @param speed the speed
      */
-    public void setSpeed(Double speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -199,7 +204,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @return the exp
      */
-    public Integer getExp() {
+    public int getExp() {
         return exp;
     }
 
@@ -208,7 +213,7 @@ public class Pet<T extends LivingEntity> {
      *
      * @param exp the exp
      */
-    public void setExp(Integer exp) {
+    public void setExp(int exp) {
         this.exp = exp;
         this.level = PetLevel.from(exp);
     }
@@ -297,21 +302,25 @@ public class Pet<T extends LivingEntity> {
             MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.gamemodeCreative"));
             return;
         } else {
-            if (MbPets.getInstance().getPluginWorldGuard() != null) {
-                for (ProtectedRegion region : WorldGuardPlugin.inst()
-                        .getRegionManager(player.getWorld())
-                        .getApplicableRegions(player.getLocation())) {
-                    if (region.getFlags() != null &&
-                            region.getFlag(DefaultFlag.MOB_SPAWNING) != null &&
-                            region.getFlags().get(DefaultFlag.MOB_SPAWNING).equals(StateFlag.State.DENY)) {
-                        MbPets.sendMessage(player,
-                                MbPetsConfig.getTextNode("error.inFlaggedRegion"));
+            if (MbPets.getInstance().isWorldGuardEnabled()) {
+                LocalPlayer lp = WorldGuardPlugin.inst().wrapPlayer(player);
+                RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(lp.getWorld());
+                if (rm != null) {
+                    BlockVector3 vector = lp.getLocation().toVector().toBlockPoint();
+                    boolean mobSpawning = rm.getApplicableRegions(vector).queryState(lp, Flags.MOB_SPAWNING) != StateFlag.State.DENY;
+                    if (!mobSpawning) {
+                        MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
-                    if ((region.getFlags() != null && region.getFlags().get(DefaultFlag.BLOCKED_CMDS) != null
-                            && region.getFlags().get(DefaultFlag.BLOCKED_CMDS).toString().contains("/pet")) ||
-                            ((region.getFlags() != null && region.getFlags().get(DefaultFlag.ALLOWED_CMDS) != null
-                                    && !region.getFlags().get(DefaultFlag.ALLOWED_CMDS).toString().contains("/pet")))) {
+
+                    Set<String> blockedCommands = rm.getApplicableRegions(vector).queryValue(lp, Flags.BLOCKED_CMDS);
+                    if (blockedCommands != null && blockedCommands.contains("/pet")) {
+                        MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
+                        return;
+                    }
+
+                    Set<String> allowedCommands = rm.getApplicableRegions(vector).queryValue(lp, Flags.ALLOWED_CMDS);
+                    if (allowedCommands != null && !allowedCommands.contains("/pet")) {
                         MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
                         return;
                     }
@@ -350,7 +359,7 @@ public class Pet<T extends LivingEntity> {
             if (!FollowTask.isActive()) {
                 FollowTask.create();
             }
-            if (!ParticleTask.isActive() && (getLevel().getEffect() != null)) {
+            if (!ParticleTask.isActive() && (getLevel().getParticle() != null)) {
                 ParticleTask.create();
             }
             applyAttributes();
@@ -363,7 +372,7 @@ public class Pet<T extends LivingEntity> {
     public void delete() {
         PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(owner);
         if (petConfiguration != null) {
-            if (petConfiguration.getNumber() != null && petConfiguration.getNumber().equals(number)) {
+            if (petConfiguration.getNumber() > 0 && petConfiguration.getNumber() == number) {
                 PetManager.getInstance().getConfigurations().remove(owner);
             }
         }

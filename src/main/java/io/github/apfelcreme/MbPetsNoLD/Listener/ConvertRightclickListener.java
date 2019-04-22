@@ -178,7 +178,7 @@ public class ConvertRightclickListener implements Listener {
                         petConfiguration.setSlimeSize(((Slime) e.getRightClicked()).getSize());
                         break;
                 }
-				if (e.getRightClicked().getCustomName() != null) {
+                if (e.getRightClicked().getCustomName() != null) {
                     petConfiguration.setName(e.getRightClicked().getCustomName());
                 }
                 petConfiguration.setConvertedEntity(e.getRightClicked()); // for a later despawn

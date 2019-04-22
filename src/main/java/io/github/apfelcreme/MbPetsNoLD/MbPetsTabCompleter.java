@@ -39,7 +39,7 @@ public class MbPetsTabCompleter implements TabCompleter {
                                       String arg2, String[] args) {
         ArrayList<String> list = new ArrayList<String>();
         if (args.length > 1) {
-            Operation operation = Operation.valueOf(args[args.length - 2].toUpperCase());
+            Operation operation = Operation.getOperation(args[args.length - 2]);
             PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(((Player)commandSender).getUniqueId());
             if (operation != null) {
                 switch (operation) {

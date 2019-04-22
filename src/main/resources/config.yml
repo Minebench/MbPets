@@ -15,52 +15,52 @@ level:
     expThreshold: 0
     attackStrengthModifier: 1.0
     receivedDamageModifier: 0.5
-    effect: ''
+    particle: ''
   '2':
     expThreshold: 250
     attackStrengthModifier: 1.1
     receivedDamageModifier: 0.45
-    effect: ''
+    particle: ''
   '3':
     expThreshold: 1000
     attackStrengthModifier: 1.2
     receivedDamageModifier: 0.4
-    effect: ''
+    particle: ''
   '4':
     expThreshold: 2000
     attackStrengthModifier: 1.3
     receivedDamageModifier: 0.35
-    effect: ''
+    particle: ''
   '5':
     expThreshold: 5000
     attackStrengthModifier: 1.4
     receivedDamageModifier: 0.3
-    effect: ''
+    particle: ''
   '6':
     expThreshold: 7500
     attackStrengthModifier: 1.5
     receivedDamageModifier: 0.25
-    effect: 'PORTAL'
+    particle: 'PORTAL'
   '7':
     expThreshold: 10000
     attackStrengthModifier: 1.6
     receivedDamageModifier: 0.2
-    effect: 'HEART'
+    particle: 'HEART'
   '8':
     expThreshold: 15000
     attackStrengthModifier: 1.7
     receivedDamageModifier: 0.15
-    effect: 'LAVA_POP'
+    particle: 'LAVA'
   '9':
     expThreshold: 20000
     attackStrengthModifier: 1.8
     receivedDamageModifier: 0.1
-    effect: 'NOTE'
+    particle: 'NOTE'
   '10':
     expThreshold: 50000
     attackStrengthModifier: 1.9
     receivedDamageModifier: 0.05
-    effect: 'FLAME'
+    particle: 'FLAME'
 prices:
   WOLF: 10000
   OCELOT: 10000
@@ -68,6 +68,7 @@ prices:
   RABBIT: 15000
   HORSE: 20000
   COW: 15000
+  TURTLE: 15000
   BAT: 15000
   MUSHROOM_COW: 20000
   CHICKEN: 15000
@@ -93,6 +94,7 @@ damage:
   RABBIT: 3
   HORSE: 4
   COW: 3
+  TURTLE: 3
   BAT: 3
   MUSHROOM_COW: 4
   CHICKEN: 3
@@ -116,6 +118,7 @@ speed:
   RABBIT: 1.5
   HORSE: 2
   COW: 1.5
+  TURTLE: 1.5
   BAT: 1.7
   MUSHROOM_COW: 1.5
   CHICKEN: 1.7
@@ -139,6 +142,7 @@ enhancedSpeed:
   RABBIT: 2
   HORSE: 4
   COW: 2
+  TURTLE: 2
   BAT: 3
   MUSHROOM_COW: 2
   CHICKEN: 3
@@ -162,6 +166,7 @@ sound:
   RABBIT: 'ENTITY_RABBIT_ATTACK'
   HORSE: 'ENTITY_HORSE_GALLOP'
   COW: 'ENTITY_COW_STEP'
+  TURTLE: 'ENTITY_TURTLE_STEP'
   BAT: 'ENTITY_BAT_LOOP'
   DONKEY: 'ENTITY_DONKEY_ANGRY'
   MULE: 'ENTITY_MULE_AMBIENT'
@@ -182,9 +187,12 @@ expReward:
   default: 25
   CREEPER: 75
   SKELETON: 50
+  STRAY: 50
   SPIDER: 50
   GIANT: 250
   ZOMBIE: 50
+  HUSK: 50
+  DROWNED: 50
   SLIME: 25
   GHAST: 200
   PIG_ZOMBIE: 75
@@ -204,6 +212,8 @@ expReward:
   PAROT: 25
   SHEEP: 25
   COW: 25
+  TURTLE: 25
+  DOLPHIN: 25
   CHICKEN: 25
   SQUID: 25
   WOLF: 50
@@ -216,3 +226,4 @@ expReward:
   VILLAGER: 10
   LLAMA: 25
   VEX: 100
+  PHANTOM: 75

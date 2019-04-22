@@ -42,7 +42,7 @@ public class PlayerLeashItemClickListener implements Listener {
     public void onPlayerLeashClick(final PlayerInteractEvent event) {
         MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
             if ((event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-                if (event.getMaterial() == Material.CARROT_STICK) {
+                if (event.getMaterial() == Material.CARROT_ON_A_STICK) {
                     if (cooldowns.get(event.getPlayer().getUniqueId()) == null
                             || ((cooldowns.get(event.getPlayer().getUniqueId()) + MbPetsConfig.getCallDelay()) < System.currentTimeMillis())) {
                         String regex = ChatColor.stripColor(MbPetsConfig.getTextNode("info.leashTitle")

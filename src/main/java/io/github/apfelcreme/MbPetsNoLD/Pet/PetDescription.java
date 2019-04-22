@@ -33,11 +33,11 @@ import java.util.UUID;
  */
 public class PetDescription {
 
-    private PetType type = null;
-    private UUID owner = null;
-    private Integer number = null;
-    private String name = null;
-    private Boolean isBaby = null;
+    private PetType type;
+    private UUID owner;
+    private int number;
+    private String name;
+    private boolean isBaby = false;
     private Horse.Style horseStyle = null;
     private Horse.Color horseColor = null;
     private DyeColor sheepColor = null;
@@ -46,9 +46,9 @@ public class PetDescription {
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
-    private Integer slimeSize = null;
-    private Integer exp = null;
-    private Double price = null;
+    private int slimeSize = -1;
+    private int exp;
+    private double price;
 
     /**
      * creates a description for a pet object
@@ -188,18 +188,18 @@ public class PetDescription {
             case ENDERMAN:
                 break;
             case MAGMA_CUBE:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Size").replace("{1}", slimeSize != null ? MbPetsConfig.getNode("SlimeSizes." + slimeSize + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "))).append("\n");
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Size").replace("{1}", slimeSize > 0 ? MbPetsConfig.getNode("SlimeSizes." + slimeSize + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "))).append("\n");
                 break;
             case SLIME:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Size").replace("{1}", slimeSize != null ? MbPetsConfig.getNode("SlimeSizes." + slimeSize + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "))).append("\n");
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Size").replace("{1}", slimeSize > 0 ? MbPetsConfig.getNode("SlimeSizes." + slimeSize + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "))).append("\n");
                 break;
             default:
 
                 break;
         }
-        stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Exp").replace("{1}", exp.toString())).append("\n");
-        if (price != null) {
-            stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Wert").replace("{1}", price.toString())).append("\n");
+        stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Exp").replace("{1}", String.valueOf(exp))).append("\n");
+        if (price > 0) {
+            stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Wert").replace("{1}", String.valueOf(price))).append("\n");
         }
         return stringBuilder.toString();
     }
@@ -213,14 +213,14 @@ public class PetDescription {
         return MbPetsConfig
                 .getTextNode("info.listElement")
                 .replace(
-                        "{0}", number.toString())
+                        "{0}", String.valueOf(number))
                 .replace(
                         "{1}", name == null || name.isEmpty() ? "unbenannt"
                                 : name)
                 .replace(
                         "{2}", MbPetsConfig.getNode("PetTypes." + type.name() + ".displaytext"))
                 .replace(
-                        "{3}", "Lv. " + PetLevel.from(exp).getLevel().toString());
+                        "{3}", "Lv. " + PetLevel.from(exp).getLevel());
     }
 
     public String getLogDescription() {

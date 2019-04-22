@@ -3,7 +3,11 @@ package io.github.apfelcreme.MbPetsNoLD.Pet;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,6 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -39,24 +45,29 @@ public class PetManager {
     /**
      * a {@link HashMap} which contains all pets
      */
-    private HashMap<UUID, Pet> pets;
+    private Map<UUID, Pet> pets;
 
     /**
      * a {@link HashMap} which contains all pets
      */
-    private HashMap<UUID, Pet> petEntities;
+    private Map<UUID, Pet> petEntities;
 
     /**
      * a {@link HashMap} which contains players and the last time their pet died
      * pets
      */
-    private HashMap<UUID, Long> cooldowns;
+    private Map<UUID, Long> cooldowns;
 
     /**
      * a {@link HashMap} which contains all current configurations (= Pet which
      * are currently in configuration and not yet spawned nor confirmed)
      */
-    private HashMap<UUID, PetConfiguration> configurations;
+    private Map<UUID, PetConfiguration> configurations;
+
+    /**
+     * The {@link LinkedHashMap} of all levels in ascending order and with the level number as the key
+     */
+    private Map<Integer, PetLevel> levels;
 
     /**
      * constructor
@@ -66,6 +77,75 @@ public class PetManager {
         petEntities = new HashMap<>();
         cooldowns = new HashMap<>();
         configurations = new HashMap<>();
+
+        loadLevels();
+    }
+
+    private void loadLevels() {
+        Map<Integer, PetLevel> levels = new LinkedHashMap<>();
+        levels.put(0, new PetLevel(0, 0, 0, null, 0.01, null, 0));
+        ConfigurationSection levelConfig = MbPets.getInstance().getConfig().getConfigurationSection("level");
+        for (String key : levelConfig.getKeys(false)) {
+            int level = Integer.parseInt(key);
+            double attackStrengthModifier = MbPets.getInstance().getConfig().getDouble("level." + key + ".attackStrengthModifier");
+            double receivedDamageModifier = MbPets.getInstance().getConfig().getDouble("level." + key + ".receivedDamageModifier");
+            int expThreshold = MbPets.getInstance().getConfig().getInt("level." + key + ".expThreshold");
+            Particle particle = null;
+            String particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".particle");
+            if (particleStr == null) {
+                particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".effect");
+            }
+            double particleExtra = MbPets.getInstance().getConfig().getDouble("level." + key + ".particleExtra", 0.01);
+            Object particleData = MbPets.getInstance().getConfig().get("level." + key + ".particleData", null);
+            if (!particleStr.isEmpty()) {
+                try {
+                    particle = Particle.valueOf(particleStr.toUpperCase());
+                    if (particleData != null) {
+                        switch (particle) {
+                            case REDSTONE:
+                                Color color = Color.RED;
+                                float size = 1;
+                                if (particleData instanceof String) {
+                                    String[] parts = ((String) particleData).split(",");
+                                    if (parts.length == 1) {
+                                        size = Float.parseFloat(parts[0]);
+                                    } else if (parts.length >= 3) {
+                                        color = Color.fromRGB(
+                                                Integer.parseInt(parts[0]),
+                                                Integer.parseInt(parts[1]),
+                                                Integer.parseInt(parts[2])
+                                        );
+                                        if (parts.length >= 4) {
+                                            size = Float.parseFloat(parts[3]);
+                                        }
+                                    }
+                                } else if (particleData instanceof Float) {
+                                    size = (float) particleData;
+                                } else if (particleData instanceof Integer) {
+                                    color = Color.fromRGB((int) particleData);
+                                }
+                                particleData = new Particle.DustOptions(color, size);
+                                break;
+                            case ITEM_CRACK:
+                                particleData = new ItemStack(Material.matchMaterial(String.valueOf(particleData)));
+                                break;
+                            case BLOCK_CRACK:
+                            case BLOCK_DUST:
+                            case FALLING_DUST:
+                                particleData = Bukkit.createBlockData(String.valueOf(particleData));
+                                break;
+                        }
+                    }
+                } catch (IllegalArgumentException e) {
+                    MbPets.getInstance().getLogger().log(Level.SEVERE, "Invalid effect for level " + key + ": " + particleStr + " - " + particleData + " - " + e.getMessage());
+                }
+            }
+            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, particleExtra, particleData, expThreshold));
+        }
+
+        this.levels = levels.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     /**
@@ -88,24 +168,7 @@ public class PetManager {
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     if (MbPetsConfig.parseType(resultSet.getString("type")) != null) {
-                        PetConfiguration petConfiguration = new PetConfiguration(
-                                UUID.fromString(resultSet.getString("uuid")),
-                                MbPetsConfig.parseType(resultSet.getString("type")),
-                                PetConfiguration.ConfigurationType.PURCHASE);
-                        petConfiguration.setNumber(resultSet.getInt("number"));
-                        petConfiguration.setName(resultSet.getString("petname"));
-                        petConfiguration.setBaby(resultSet.getBoolean("baby"));
-                        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
-                        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
-                        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
-                        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
-                        petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
-                        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
-                        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
-                        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
-                        petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
-                        petConfiguration.setExp(resultSet.getInt("exp"));
-                        return petConfiguration.getPet();
+                        return createPet(resultSet);
                     }
                 }
             }
@@ -130,28 +193,12 @@ public class PetManager {
                 PreparedStatement statement = connection
                         .prepareStatement("SELECT * from MbPets_Pet pet " +
                                 "left join MbPets_Player player on pet.playerId = player.playerId " +
-                                "WHERE player.uuid = ?");
+                                "WHERE player.uuid = ? " +
+                                "ORDER BY pet.number");
                 statement.setString(1, owner.toString());
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
-                    PetConfiguration petConfiguration = new PetConfiguration(
-                            UUID.fromString(resultSet.getString("uuid")),
-                            MbPetsConfig.parseType(resultSet.getString("type")),
-                            PetConfiguration.ConfigurationType.PURCHASE);
-                    petConfiguration.setNumber(resultSet.getInt("number"));
-                    petConfiguration.setName(resultSet.getString("petname"));
-                    petConfiguration.setBaby(resultSet.getBoolean("baby"));
-                    petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
-                    petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
-                    petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
-                    petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
-                    petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
-                    petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
-                    petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
-                    petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
-                    petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
-                    petConfiguration.setExp(resultSet.getInt("exp"));
-                    pets.add(petConfiguration.getPet());
+                    pets.add(createPet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -160,6 +207,27 @@ public class PetManager {
             MbPets.getInstance().getDatabaseConnector().closeConnection(connection);
         }
         return pets;
+    }
+
+    private Pet createPet(ResultSet resultSet) throws SQLException {
+        PetConfiguration petConfiguration = new PetConfiguration(
+                UUID.fromString(resultSet.getString("uuid")),
+                MbPetsConfig.parseType(resultSet.getString("type")),
+                PetConfiguration.ConfigurationType.PURCHASE);
+        petConfiguration.setNumber(resultSet.getInt("number"));
+        petConfiguration.setName(resultSet.getString("petname"));
+        petConfiguration.setBaby(resultSet.getBoolean("baby"));
+        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
+        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
+        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
+        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
+        petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
+        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
+        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
+        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
+        petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
+        petConfiguration.setExp(resultSet.getInt("exp"));
+        return petConfiguration.getPet();
     }
 
     /**
@@ -190,7 +258,7 @@ public class PetManager {
      * @return the item
      */
     private static ItemStack createItem(String name, Integer number) {
-        ItemStack callItem = new ItemStack(Material.CARROT_STICK, 1);
+        ItemStack callItem = new ItemStack(Material.CARROT_ON_A_STICK, 1);
         ItemMeta meta = callItem.getItemMeta();
         meta.setDisplayName(MbPetsConfig.getTextNode("info.leashTitle")
                 .replace("{0}", ChatColor.translateAlternateColorCodes('&', name)));
@@ -271,14 +339,14 @@ public class PetManager {
      *
      * @return a map of entity UUIDs to pets
      */
-    public HashMap<UUID,Pet> getPetEntities() {
+    public Map<UUID,Pet> getPetEntities() {
         return petEntities;
     }
 
     /**
      * @return the cooldowns
      */
-    public HashMap<UUID, Long> getCooldowns() {
+    public Map<UUID, Long> getCooldowns() {
         return cooldowns;
     }
 
@@ -287,6 +355,47 @@ public class PetManager {
      */
     public Map<UUID, PetConfiguration> getConfigurations() {
         return configurations;
+    }
+
+
+    /**
+     * @return the levels
+     */
+    public Map<Integer, PetLevel> getLevels() {
+        return levels;
+    }
+
+    /**
+     * Get the pet level object from the level number
+     *
+     * @param level the level
+     * @return the level with that number or the first/laste one if it is below/above it
+     */
+    public PetLevel getLevel(int level) {
+        if (levels.containsKey(level)) {
+            return levels.get(level);
+        } else if (level < levels.keySet().iterator().next()) {
+            return levels.values().iterator().next();
+        } else {
+            return getLevel(levels.keySet().stream().min(Comparator.reverseOrder()).get());
+        }
+    }
+
+    /**
+     * Get the pet level object from the amount of exp the pet has
+     *
+     * @param currentExp the pets current amount of exp
+     * @return the level that results from the amount of exp
+     */
+    public PetLevel getLevelFromExp(int currentExp) {
+        PetLevel foundLevel = null;
+        for (PetLevel level : levels.values()) {
+            if (level.getExpThreshold() > currentExp) {
+                break;
+            }
+            foundLevel = level;
+        }
+        return foundLevel;
     }
 
     /**

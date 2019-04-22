@@ -41,8 +41,8 @@ public class EntityTeleportListener implements Listener {
             pet.onTeleport(event);
             // a pet ran through a portal
             if (event.getFrom().getWorld() != event.getTo().getWorld()
-                    || event.getFrom().getBlock().getType() == Material.PORTAL
-                    || event.getFrom().getBlock().getType() == Material.ENDER_PORTAL)
+                    || event.getFrom().getBlock().getType() == Material.NETHER_PORTAL
+                    || event.getFrom().getBlock().getType() == Material.END_PORTAL)
             pet.uncall();
         }
     }

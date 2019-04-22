@@ -38,13 +38,16 @@ public class ParticleTask {
             @Override
             public void run() {
                 for (Pet pet : PetManager.getInstance().getPets().values()) {
-                    if (pet.getLevel() != null && pet.getLevel().getEffect() != null) {
+                    if (pet.getLevel() != null && pet.getLevel().getParticle() != null) {
                         for (int i = 0; i < 3; i++) {
-                            pet.getEntity().getWorld().spigot().playEffect(pet.getEntity().getLocation(),
-                                    pet.getLevel().getEffect(), 0, 0,
-                                    (float) (-1 + Math.random() * 2),
-                                    (float) (Math.random() * 2),
-                                    (float) (-1 + Math.random() * 2), 0, 1, 50);
+                            pet.getEntity().getWorld().spawnParticle(
+                                    pet.getLevel().getParticle(),
+                                    pet.getEntity().getLocation(),
+                                    64, // count
+                                    1, 1.5, 1, // max random offset
+                                    pet.getLevel().getParticleExtra(),
+                                    pet.getLevel().getParticle().getDataType() != Void.TYPE ? pet.getLevel().getParticleData() : null
+                            );
                         }
                     }
                 }
