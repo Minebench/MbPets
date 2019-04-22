@@ -1,4 +1,4 @@
-name: MbPetsNoLD
+name: MbPets
 version: '${minecraft.plugin.version}'
 main: io.github.apfelcreme.MbPetsNoLD.MbPets
 depend: [UUIDDB]
