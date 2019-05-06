@@ -82,21 +82,23 @@ public class PetManager {
     }
 
     private void loadLevels() {
-        Map<Integer, PetLevel> levels = new LinkedHashMap<>();
-        levels.put(0, new PetLevel(0, 0, 0, null, 0.01, null, 0));
-        ConfigurationSection levelConfig = MbPets.getInstance().getConfig().getConfigurationSection("level");
-        for (String key : levelConfig.getKeys(false)) {
+        Map<Integer, PetLevel> levels = new TreeMap<>();
+        levels.put(0, new PetLevel(0, 0, 0, null, 0, 0.01, null, 0));
+        ConfigurationSection levelsConfig = MbPets.getInstance().getConfig().getConfigurationSection("level");
+        for (String key : levelsConfig.getKeys(false)) {
+            ConfigurationSection levelConfig = levelsConfig.getConfigurationSection(key);
             int level = Integer.parseInt(key);
-            double attackStrengthModifier = MbPets.getInstance().getConfig().getDouble("level." + key + ".attackStrengthModifier");
-            double receivedDamageModifier = MbPets.getInstance().getConfig().getDouble("level." + key + ".receivedDamageModifier");
-            int expThreshold = MbPets.getInstance().getConfig().getInt("level." + key + ".expThreshold");
+            double attackStrengthModifier = levelConfig.getDouble("attackStrengthModifier");
+            double receivedDamageModifier = levelConfig.getDouble("receivedDamageModifier");
+            int expThreshold = levelConfig.getInt("expThreshold");
             Particle particle = null;
-            String particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".particle");
+            String particleStr = levelConfig.getString("particle");
             if (particleStr == null) {
-                particleStr = MbPets.getInstance().getConfig().getString("level." + key + ".effect");
+                particleStr = levelConfig.getString("effect");
             }
-            double particleExtra = MbPets.getInstance().getConfig().getDouble("level." + key + ".particleExtra", 0.01);
-            Object particleData = MbPets.getInstance().getConfig().get("level." + key + ".particleData", null);
+            int particleCount = levelsConfig.getInt("particleCount", 32);
+            double particleExtra = levelConfig.getDouble("particleExtra", 0.01);
+            Object particleData = levelConfig.get("particleData", null);
             if (!particleStr.isEmpty()) {
                 try {
                     particle = Particle.valueOf(particleStr.toUpperCase());
@@ -140,12 +142,10 @@ public class PetManager {
                     MbPets.getInstance().getLogger().log(Level.SEVERE, "Invalid effect for level " + key + ": " + particleStr + " - " + particleData + " - " + e.getMessage());
                 }
             }
-            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, particleExtra, particleData, expThreshold));
+            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, particleCount, particleExtra, particleData, expThreshold));
         }
 
-        this.levels = levels.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        this.levels = levels;
     }
 
     /**

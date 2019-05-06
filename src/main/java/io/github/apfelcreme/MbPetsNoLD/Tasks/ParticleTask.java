@@ -39,16 +39,14 @@ public class ParticleTask {
             public void run() {
                 for (Pet pet : PetManager.getInstance().getPets().values()) {
                     if (pet.getLevel() != null && pet.getLevel().getParticle() != null) {
-                        for (int i = 0; i < 3; i++) {
-                            pet.getEntity().getWorld().spawnParticle(
-                                    pet.getLevel().getParticle(),
-                                    pet.getEntity().getLocation(),
-                                    64, // count
-                                    1, 1.5, 1, // max random offset
-                                    pet.getLevel().getParticleExtra(),
-                                    pet.getLevel().getParticle().getDataType() != Void.TYPE ? pet.getLevel().getParticleData() : null
-                            );
-                        }
+                        pet.getEntity().getWorld().spawnParticle(
+                                pet.getLevel().getParticle(),
+                                pet.getEntity().getLocation(),
+                                pet.getLevel().getParticleCount(), // count
+                                1, 1.5, 1, // max random offset
+                                pet.getLevel().getParticleExtra(),
+                                pet.getLevel().getParticle().getDataType() != Void.TYPE ? pet.getLevel().getParticleData() : null
+                        );
                     }
                 }
             }
