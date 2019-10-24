@@ -85,7 +85,7 @@ public class OcelotPet extends Pet<Ocelot> implements Ageable, Styleable<Ocelot.
     public void applyAttributes() {
         super.applyAttributes();
         getEntity().setCatType(style);
-        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+//        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
         getEntity().setAgeLock(true);
         if (isBaby) {
             getEntity().setBaby();
