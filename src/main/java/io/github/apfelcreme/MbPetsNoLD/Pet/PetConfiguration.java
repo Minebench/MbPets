@@ -44,6 +44,7 @@ public class PetConfiguration {
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
+    private Fox.Type foxType = null;
     private int slimeSize = -1;
     private int exp = 0;
 
@@ -118,6 +119,10 @@ public class PetConfiguration {
                 break;
             case PARROT:
                 parrotColor = ((ParrotPet) pet).getColor();
+                break;
+            case FOX:
+                foxType = ((FoxPet) pet).getStyle();
+                isBaby = ((FoxPet) pet).isBaby();
                 break;
             case SKELETON_HORSE:
                 isBaby = ((SkeletonHorsePet) pet).isBaby();
@@ -265,6 +270,14 @@ public class PetConfiguration {
         this.parrotColor = parrotColor;
     }
 
+    public Fox.Type getFoxType() {
+        return foxType;
+    }
+
+    public void setFoxType(Fox.Type foxType) {
+        this.foxType = foxType;
+    }
+
     public int getSlimeSize() {
         return slimeSize;
     }
@@ -322,10 +335,10 @@ public class PetConfiguration {
 
                 //Insert a pet
                 preparedStatement = connection.prepareStatement("INSERT INTO " +
-                        "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, parrotcolor, slimesize, number, exp)"
+                        "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, parrotcolor, foxtype, slimesize, number, exp)"
                         + " VALUES ("
                         + "(Select playerid from MbPets_Player where uuid = ?),"
-                        + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+                        + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
                         + ")");
                 preparedStatement.setString(1, owner.toString());
                 preparedStatement.setString(2, name);
@@ -339,9 +352,10 @@ public class PetConfiguration {
                 preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
                 preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
                 preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
-                preparedStatement.setInt(13, slimeSize);
-                preparedStatement.setInt(14, number);
-                preparedStatement.setInt(15, exp);
+                preparedStatement.setString(13, foxType != null ? foxType.name() : null);
+                preparedStatement.setInt(14, slimeSize);
+                preparedStatement.setInt(15, number);
+                preparedStatement.setInt(16, exp);
                 preparedStatement.executeUpdate();
 
             } catch (SQLException e) {
@@ -415,6 +429,11 @@ public class PetConfiguration {
                 case PARROT:
                     pet = new ParrotPet(owner, number);
                     ((ParrotPet) pet).setColor(parrotColor);
+                    break;
+                case FOX:
+                    pet = new FoxPet(owner, number);
+                    ((FoxPet) pet).setBaby(isBaby);
+                    ((FoxPet) pet).setStyle(foxType);
                     break;
                 case SKELETON_HORSE:
                     pet = new SkeletonHorsePet(owner, number);
@@ -490,6 +509,8 @@ public class PetConfiguration {
                 return (rabbitType != null);
             case PARROT:
                 return (parrotColor != null);
+            case FOX:
+                return (foxType != null);
             case LLAMA:
                 return (llamaColor != null);
             case MAGMA_CUBE:
@@ -516,6 +537,7 @@ public class PetConfiguration {
                 ", rabbitType=" + rabbitType +
                 ", llamaColor=" + llamaColor +
                 ", parrotColor=" + parrotColor +
+                ", foxType=" + foxType +
                 ", slimeSize=" + slimeSize +
                 ", exp=" + exp +
                 ", price=" + price +

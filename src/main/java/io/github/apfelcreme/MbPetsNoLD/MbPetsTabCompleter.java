@@ -79,6 +79,9 @@ public class MbPetsTabCompleter implements TabCompleter {
                                 case RABBIT:
                                     list.addAll(getDisplayTexts("RabbitTypes"));
                                     break;
+                                case FOX:
+                                    list.addAll(getDisplayTexts("FoxTypes"));
+                                    break;
                                 default:
                                     break;
                             }
@@ -86,6 +89,7 @@ public class MbPetsTabCompleter implements TabCompleter {
                             list.addAll(getDisplayTexts("HorseStyles"));
                             list.addAll(getDisplayTexts("OcelotTypes"));
                             list.addAll(getDisplayTexts("RabbitTypes"));
+                            list.addAll(getDisplayTexts("FoxTypes"));
                         }
                         break;
                     case TYPE:

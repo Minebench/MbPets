@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.*;
 
 import java.util.UUID;
@@ -46,6 +45,7 @@ public class PetDescription {
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
+    private Fox.Type foxType = null;
     private int slimeSize = -1;
     private int exp;
     private double price;
@@ -73,6 +73,7 @@ public class PetDescription {
         if (pet instanceof RabbitPet) this.rabbitType = ((RabbitPet) pet).getStyle();
         if (pet instanceof LlamaPet) this.llamaColor = ((LlamaPet) pet).getColor();
         if (pet instanceof ParrotPet) this.parrotColor = ((ParrotPet) pet).getColor();
+        if (pet instanceof FoxPet) this.foxType = ((FoxPet) pet).getStyle();
         if (pet instanceof Sizeable) this.slimeSize = ((Sizeable) pet).getSize();
     }
 
@@ -97,6 +98,7 @@ public class PetDescription {
         this.rabbitType = petConfiguration.getRabbitType();
         this.llamaColor = petConfiguration.getLlamaColor();
         this.parrotColor = petConfiguration.getParrotColor();
+        this.foxType = petConfiguration.getFoxType();
         this.slimeSize = petConfiguration.getSlimeSize();
     }
 
@@ -167,6 +169,10 @@ public class PetDescription {
             case PARROT:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", parrotColor != null ? MbPetsConfig.getNode("ParrotColors." + parrotColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableParrotColors(), ", "))).append("\n");
                 break;
+            case FOX:
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", foxType != null ? MbPetsConfig.getNode("FoxTypes." + foxType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableFoxTypes(), ", "))).append("\n");
+                break;
             case SKELETON_HORSE:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 break;
@@ -233,6 +239,7 @@ public class PetDescription {
                 ", ocelotType=" + ocelotType +
                 ", rabbitType=" + rabbitType +
                 ", llamaColor=" + llamaColor +
+                ", foxType=" + foxType +
                 ", slimeSize=" + slimeSize +
                 ", exp=" + exp +
                 ", price=" + price;

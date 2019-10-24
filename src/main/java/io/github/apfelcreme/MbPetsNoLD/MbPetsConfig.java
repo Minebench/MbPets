@@ -6,12 +6,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Llama;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Parrot;
-import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -299,6 +294,32 @@ public class MbPetsConfig {
     }
 
     /**
+     * returns a Fox.Type from the chat input given. e.g. /pet ... color red
+     * will return Fox.Type.RED
+     *
+     * @param style the style name
+     * @return the actual style
+     */
+    public static Fox.Type parseFoxType(String style) {
+        if (style == null)
+            return null;
+        try {
+            return Fox.Type.valueOf(style.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            style = style.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (Fox.Type s : Fox.Type.values()) {
+                if (style.equals(s.name().replace("_", ""))
+                        || style.equalsIgnoreCase(languageConfig.getString("FoxTypes." + s.name() + ".displaytext"))
+                        || languageConfig.getStringList("FoxTypes." + s.name() + ".aliases")
+                        .contains(style.toUpperCase())) {
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * returns a Parrot.Color from the chat input given.
      *
      * @param color the color name
@@ -449,7 +470,7 @@ public class MbPetsConfig {
      * @return a list of Strings that contains the names of all available RabbitStyles
      */
     public static List<String> getAvailableRabbitTypes() {
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         for (Rabbit.Type style : Rabbit.Type.values()) {
             String typ = languageConfig.getString("RabbitTypes." + style.name() + ".displaytext");
             if (typ != null) {
@@ -484,6 +505,22 @@ public class MbPetsConfig {
         List<String> strings = new ArrayList<>();
         for (Parrot.Variant color : Parrot.Variant.values()) {
             String c = languageConfig.getString("ParrotColors." + color.name() + ".displaytext");
+            if (c != null) {
+                strings.add(c);
+            }
+        }
+        return strings;
+    }
+
+    /**
+     * returns a list of Strings that contains the names of all available ParrotColors
+     *
+     * @return a list of Strings that contains the names of all available ParrotColors
+     */
+    public static List<String> getAvailableFoxTypes() {
+        List<String> strings = new ArrayList<>();
+        for (Fox.Type style : Fox.Type.values()) {
+            String c = languageConfig.getString("FoxTypes." + style.name() + ".displaytext");
             if (c != null) {
                 strings.add(c);
             }

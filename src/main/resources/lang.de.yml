@@ -141,6 +141,11 @@ PetTypes:
     displaytext: 'Papagei'
     aliases:
     - 'YARR'
+  FOX:
+    displaytext: 'Fuchs'
+    aliases:
+      - 'FOX'
+      - 'FUCHS'
   ENDERMAN:
     displaytext: 'Enderman'
     aliases:
@@ -358,6 +363,20 @@ LlamaColors:
     displaytext: 'Weiß'
     aliases:
     - 'WEISS'
+FoxTypes:
+  RED:
+    displaytext: 'Rot'
+    aliases:
+      - 'RED'
+      - 'ROT'
+  SNOW:
+    displaytext: 'Schnee'
+    aliases:
+      - 'SNOW'
+      - 'SCHNEE'
+      - 'WEIß'
+      - 'WEISS'
+      - 'WHITE'
 SlimeSizes:
   '1':
     displaytext: 'Klein'

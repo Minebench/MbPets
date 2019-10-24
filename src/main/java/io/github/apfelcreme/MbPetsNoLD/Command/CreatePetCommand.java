@@ -82,6 +82,8 @@ public class CreatePetCommand implements SubCommand {
                 petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(chatInput.getStyle()));
             } else if (petConfiguration.getType() == PetType.RABBIT) {
                 petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(chatInput.getStyle()));
+            } else if (petConfiguration.getType() == PetType.FOX) {
+                petConfiguration.setFoxType(MbPetsConfig.parseFoxType(chatInput.getStyle()));
             }
         }
 

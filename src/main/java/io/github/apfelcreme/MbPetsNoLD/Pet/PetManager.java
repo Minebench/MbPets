@@ -225,6 +225,7 @@ public class PetManager {
         petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
         petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
         petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
+        petConfiguration.setFoxType(MbPetsConfig.parseFoxType(resultSet.getString("foxType")));
         petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
         petConfiguration.setExp(resultSet.getInt("exp"));
         return petConfiguration.getPet();

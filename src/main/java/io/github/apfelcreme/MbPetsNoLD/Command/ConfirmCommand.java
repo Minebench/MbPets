@@ -37,97 +37,99 @@ public class ConfirmCommand implements SubCommand {
      */
     public void execute(ChatInput chatInput) {
 
-        if (!chatInput.getSender().hasPermission("MbPets.confirm")) {
-            MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noPermission"));
-            return;
-        }
-        if (!MbPets.getInstance().isVaultEnabled() || MbPets.getInstance().getEconomy() == null) {
-            MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noVault"));
-            return;
-        }
-        if (!MbPets.getInstance().getEconomy().hasAccount(chatInput.getSender())) {
-            MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noAccount"));
-            return;
-        }
-        PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations()
-                .get(chatInput.getSender().getUniqueId());
-        if (petConfiguration != null) {
-            if (petConfiguration.isFinished()) {
-                if (MbPets.getInstance().getEconomy()
-                        .getBalance(MbPets.getInstance().getServer()
-                                .getPlayer(petConfiguration.getOwner())) >= petConfiguration.getPrice()) {
 
-                    // delete an old pet that has the same number
-                    Pet oldPet = PetManager.getInstance().loadPet(chatInput.getSender().getUniqueId(), petConfiguration.getNumber());
-                    if (oldPet != null) {
-                        oldPet.delete();
-                    } else if (petConfiguration.getConfigurationType() == PetConfiguration.ConfigurationType.MODIFICATION) {
-                        // can't modify non-existent pet
-                        MbPets.getInstance().getLogger().log(Level.WARNING, chatInput.getSender().getName() + "/" + chatInput.getSender().getUniqueId() + " tried to modify pet that doesn't exist?");
-                        return;
-                    }
+        // spawn and enter into the db
+        MbPets.getInstance().getServer().getScheduler().runTask(MbPets.getInstance(), () -> {
+            if (!chatInput.getSender().hasPermission("MbPets.confirm")) {
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noPermission"));
+                return;
+            }
+            if (!MbPets.getInstance().isVaultEnabled() || MbPets.getInstance().getEconomy() == null) {
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noVault"));
+                return;
+            }
+            if (!MbPets.getInstance().getEconomy().hasAccount(chatInput.getSender())) {
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noAccount"));
+                return;
+            }
+            PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations()
+                    .get(chatInput.getSender().getUniqueId());
+            if (petConfiguration != null) {
+                if (petConfiguration.isFinished()) {
+                    if (MbPets.getInstance().getEconomy()
+                            .getBalance(MbPets.getInstance().getServer()
+                                    .getPlayer(petConfiguration.getOwner())) >= petConfiguration.getPrice()) {
 
-                    // spawn and enter into the db
-                    EconomyResponse response = MbPets.getInstance().getEconomy()
-                            .withdrawPlayer(MbPets.getInstance().getServer().getPlayer(petConfiguration.getOwner()), petConfiguration.getPrice());
-                    if (response.transactionSuccess()) {
+                        // delete an old pet that has the same number
+                        Pet oldPet = PetManager.getInstance().loadPet(chatInput.getSender().getUniqueId(), petConfiguration.getNumber());
+                        if (oldPet != null) {
+                            oldPet.delete();
+                        } else if (petConfiguration.getConfigurationType() == PetConfiguration.ConfigurationType.MODIFICATION) {
+                            // can't modify non-existent pet
+                            MbPets.getInstance().getLogger().log(Level.WARNING, chatInput.getSender().getName() + "/" + chatInput.getSender().getUniqueId() + " tried to modify pet that doesn't exist?");
+                            return;
+                        }
+                        EconomyResponse response = MbPets.getInstance().getEconomy()
+                                .withdrawPlayer(MbPets.getInstance().getServer().getPlayer(petConfiguration.getOwner()), petConfiguration.getPrice());
+                        if (response.transactionSuccess()) {
 
-                        // if the to-spawn entity is a requested conversion, the "old" entity is stored.
-                        // it gets despawned now.
-                        // any protection it had is getting deleted
-                        if (petConfiguration.getConvertedEntity() != null) {
-                            if (MbPets.getInstance().getPluginAnimalProtect() != null &&
-                                    MbPets.getInstance().getPluginAnimalProtect()
-                                            .hasOwner(petConfiguration.getConvertedEntity().getUniqueId())) {
-                                //entity a protected animal
-                                MbPets.getInstance()
-                                        .getPluginAnimalProtect()
-                                        .unprotectAnimal(
-                                                petConfiguration.getConvertedEntity()
-                                                        .getUniqueId());
-                                MbPets.getInstance()
-                                        .getLogger()
-                                        .info("Animal "
-                                                + petConfiguration.getConvertedEntity()
-                                                .getUniqueId()
-                                                .toString()
-                                                + "/ "
-                                                + petConfiguration.getConvertedEntity().getType()
-                                                .toString()
-                                                + " has been removed. The protection was deleted!");
+                            // if the to-spawn entity is a requested conversion, the "old" entity is stored.
+                            // it gets despawned now.
+                            // any protection it had is getting deleted
+                            if (petConfiguration.getConvertedEntity() != null) {
+                                if (MbPets.getInstance().getPluginAnimalProtect() != null &&
+                                        MbPets.getInstance().getPluginAnimalProtect()
+                                                .hasOwner(petConfiguration.getConvertedEntity().getUniqueId())) {
+                                    //entity a protected animal
+                                    MbPets.getInstance()
+                                            .getPluginAnimalProtect()
+                                            .unprotectAnimal(
+                                                    petConfiguration.getConvertedEntity()
+                                                            .getUniqueId());
+                                    MbPets.getInstance()
+                                            .getLogger()
+                                            .info("Animal "
+                                                    + petConfiguration.getConvertedEntity()
+                                                    .getUniqueId()
+                                                    .toString()
+                                                    + "/ "
+                                                    + petConfiguration.getConvertedEntity().getType()
+                                                    .toString()
+                                                    + " has been removed. The protection was deleted!");
+                                }
+                                petConfiguration.getConvertedEntity().remove();
                             }
-                            petConfiguration.getConvertedEntity().remove();
+
+                            // despawn any currently spawned pet
+                            Pet currentlySpawnedPet = PetManager.getInstance().getPets().get(chatInput.getSender().getUniqueId());
+                            if (currentlySpawnedPet != null) {
+                                currentlySpawnedPet.uncall();
+                            }
+
+                            // enter into db
+                            petConfiguration.confirm();
+
+                            // remove the configuration object
+                            PetManager.getInstance().getConfigurations().remove(chatInput.getSender().getUniqueId());
+
+                            // send some messages
+                            MbPets.sendMessage(chatInput.getSender(),
+                                    MbPetsConfig.getTextNode("info.petConfirmed")
+                                            .replace("{0}", String.valueOf(petConfiguration.getNumber())));
+
+                            // give the player a leash item
+                            if (MbPetsConfig.isCallItemEnabled() && chatInput.getSender().hasPermission("MbPets.leash")) {
+                                chatInput.getSender().getInventory().addItem(PetManager.createCallItem(petConfiguration));
+                            }
+                            MbPets.getInstance().getLogger().info(petConfiguration.getPetDescription().getLogDescription());
                         }
-
-                        // despawn any currently spawned pet
-                        Pet currentlySpawnedPet = PetManager.getInstance().getPets().get(chatInput.getSender().getUniqueId());
-                        if (currentlySpawnedPet != null) {
-                            currentlySpawnedPet.uncall();
-                        }
-
-                        // enter into db
-                        petConfiguration.confirm();
-
-                        // remove the configuration object
-                        PetManager.getInstance().getConfigurations().remove(chatInput.getSender().getUniqueId());
-
-                        // send some messages
-                        MbPets.sendMessage(chatInput.getSender(),
-                                MbPetsConfig.getTextNode("info.petConfirmed")
-                                        .replace("{0}", String.valueOf(petConfiguration.getNumber())));
-
-                        // give the player a leash item
-                        if (MbPetsConfig.isCallItemEnabled() && chatInput.getSender().hasPermission("MbPets.leash")) {
-                            chatInput.getSender().getInventory().addItem(PetManager.createCallItem(petConfiguration));
-                        }
-                        MbPets.getInstance().getLogger().info(petConfiguration.getPetDescription().getLogDescription());
+                    } else {
+                        MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.notThatMuchMoney"));
                     }
                 } else {
-                    MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.notThatMuchMoney"));
+                    MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.petNotFinished"));
                 }
-            } else {
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.petNotFinished"));
             }
-        }
+        });
     }
 }
