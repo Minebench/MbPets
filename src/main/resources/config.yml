@@ -63,7 +63,8 @@ level:
     particle: 'FLAME'
 prices:
   WOLF: 10000
-  OCELOT: 10000
+  CAT: 10000
+  OCELOT: 12500
   SHEEP: 15000
   RABBIT: 15000
   HORSE: 20000
@@ -90,6 +91,7 @@ prices:
   SELL: 0.75
 damage:
   WOLF: 4
+  CAT: 4
   OCELOT: 4
   SHEEP: 3
   RABBIT: 3
@@ -115,6 +117,7 @@ damage:
   VEX: 3
 speed:
   WOLF: 1.7
+  CAT: 1.7
   OCELOT: 1.7
   SHEEP: 1.5
   RABBIT: 1.5
@@ -140,6 +143,7 @@ speed:
   VEX: 1.5
 enhancedSpeed:
   WOLF: 3
+  CAT: 3
   OCELOT: 3
   SHEEP: 2
   RABBIT: 2
@@ -165,6 +169,7 @@ enhancedSpeed:
   VEX: 2.5
 sound:
   WOLF: 'ENTITY_WOLF_GROWL'
+  CAT: 'ENTITY_CAT_HISS'
   OCELOT: 'ENTITY_CAT_HISS'
   SHEEP: 'ENTITY_SHEEP_STEP'
   RABBIT: 'ENTITY_RABBIT_ATTACK'
@@ -197,6 +202,7 @@ expReward:
   GIANT: 250
   ZOMBIE: 50
   HUSK: 50
+  CAT: 40
   DROWNED: 50
   SLIME: 25
   GHAST: 200

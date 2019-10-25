@@ -26,7 +26,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class FoxPet extends Pet implements Styleable<Fox.Type>, Ageable {
+public class FoxPet extends Pet<Fox> implements Styleable<Fox.Type>, Ageable {
 
     private Boolean isBaby = null;
     private Fox.Type style = null;
@@ -81,7 +81,6 @@ public class FoxPet extends Pet implements Styleable<Fox.Type>, Ageable {
     @Override
     public void applyAttributes() {
         getEntity().setCustomName(getName());
-        System.out.println(style);
         ((Fox) getEntity()).setFoxType(style);
         ((Fox) getEntity()).setAgeLock(true);
 

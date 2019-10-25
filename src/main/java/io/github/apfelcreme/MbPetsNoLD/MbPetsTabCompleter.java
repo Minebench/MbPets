@@ -73,8 +73,8 @@ public class MbPetsTabCompleter implements TabCompleter {
                                 case HORSE:
                                     list.addAll(getDisplayTexts("HorseStyles"));
                                     break;
-                                case OCELOT:
-                                    list.addAll(getDisplayTexts("OcelotTypes"));
+                                case CAT:
+                                    list.addAll(getDisplayTexts("CatTypes"));
                                     break;
                                 case RABBIT:
                                     list.addAll(getDisplayTexts("RabbitTypes"));
@@ -87,7 +87,7 @@ public class MbPetsTabCompleter implements TabCompleter {
                             }
                         } else {
                             list.addAll(getDisplayTexts("HorseStyles"));
-                            list.addAll(getDisplayTexts("OcelotTypes"));
+                            list.addAll(getDisplayTexts("CatTypes"));
                             list.addAll(getDisplayTexts("RabbitTypes"));
                             list.addAll(getDisplayTexts("FoxTypes"));
                         }
@@ -102,8 +102,8 @@ public class MbPetsTabCompleter implements TabCompleter {
             }
         }
         //remove duplicates & sort
-        List<String> ret = new ArrayList<String>();
-        ret.addAll(new HashSet<String>(list));
+        List<String> ret = new ArrayList<>();
+        ret.addAll(new HashSet<>(list));
         Collections.sort(ret);
         return ret;
     }

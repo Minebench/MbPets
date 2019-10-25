@@ -41,7 +41,7 @@ public class PetDescription {
     private Horse.Color horseColor = null;
     private DyeColor sheepColor = null;
     private DyeColor wolfColor = null;
-    private Ocelot.Type ocelotType = null;
+    private Cat.Type catType = null;
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
@@ -69,7 +69,7 @@ public class PetDescription {
 //        if (pet instanceof MulePet) this.horseStyle = ((MulePet) pet).getStyle();
         if (pet instanceof SheepPet) this.sheepColor = ((SheepPet) pet).getColor();
         if (pet instanceof WolfPet) this.wolfColor = ((WolfPet) pet).getColor();
-        if (pet instanceof OcelotPet) this.ocelotType = ((OcelotPet) pet).getStyle();
+        if (pet instanceof CatPet) this.catType = ((CatPet) pet).getStyle();
         if (pet instanceof RabbitPet) this.rabbitType = ((RabbitPet) pet).getStyle();
         if (pet instanceof LlamaPet) this.llamaColor = ((LlamaPet) pet).getColor();
         if (pet instanceof ParrotPet) this.parrotColor = ((ParrotPet) pet).getColor();
@@ -94,7 +94,7 @@ public class PetDescription {
         this.horseStyle = petConfiguration.getHorseStyle();
         this.sheepColor = petConfiguration.getSheepColor();
         this.wolfColor = petConfiguration.getWolfColor();
-        this.ocelotType = petConfiguration.getOcelotType();
+        this.catType = petConfiguration.getCatType();
         this.rabbitType = petConfiguration.getRabbitType();
         this.llamaColor = petConfiguration.getLlamaColor();
         this.parrotColor = petConfiguration.getParrotColor();
@@ -142,6 +142,10 @@ public class PetDescription {
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", wolfColor != null ? MbPetsConfig.getNode("DyeColors." + wolfColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", "))).append("\n");
                 break;
+            case CAT:
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
+                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", catType != null ? MbPetsConfig.getNode("CatTypes." + catType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableCatTypes(), ", "))).append("\n");
+                break;
             case CHICKEN:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 break;
@@ -153,7 +157,6 @@ public class PetDescription {
                 break;
             case OCELOT:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", ocelotType != null ? MbPetsConfig.getNode("OcelotTypes." + ocelotType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableOcelotStyles(), ", "))).append("\n");
                 break;
             case POLAR_BEAR:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
@@ -236,7 +239,7 @@ public class PetDescription {
                 ", horseColor=" + horseColor +
                 ", sheepColor=" + sheepColor +
                 ", wolfColor=" + wolfColor +
-                ", ocelotType=" + ocelotType +
+                ", catType=" + catType +
                 ", rabbitType=" + rabbitType +
                 ", llamaColor=" + llamaColor +
                 ", foxType=" + foxType +

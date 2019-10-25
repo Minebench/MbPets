@@ -3,15 +3,15 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
-import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Ocelot.Type;
+import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.entity.Cat;
+import org.bukkit.entity.Fox;
 
 import java.util.UUID;
 
 /**
- * Copyright (C) 2016 Lord36 aka Apfelcreme
+ * Copyright (C) 2019 Lord36 aka Apfelcreme
  * <p>
  * This program is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -28,12 +28,33 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class OcelotPet extends Pet<Ocelot> implements Ageable {
+public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
 
     private Boolean isBaby = null;
+    private Cat.Type style = null;
 
-    public OcelotPet(UUID owner, Integer number) {
-        super(owner, PetType.OCELOT, number);
+    public CatPet(UUID owner, Integer number) {
+        super(owner, PetType.CAT, number);
+    }
+
+    /**
+     * returns the style of the pet
+     *
+     * @return the style of the pet
+     */
+    @Override
+    public Cat.Type getStyle() {
+        return style;
+    }
+
+    /**
+     * sets the style
+     *
+     * @param style the style
+     */
+    @Override
+    public void setStyle(Cat.Type style) {
+        this.style = style;
     }
 
     /**
@@ -47,7 +68,7 @@ public class OcelotPet extends Pet<Ocelot> implements Ageable {
     }
 
     /**
-     * sets the "age"
+     * set the "age"
      *
      * @param isBaby true or false
      */
@@ -56,15 +77,17 @@ public class OcelotPet extends Pet<Ocelot> implements Ageable {
         this.isBaby = isBaby;
     }
 
-
     /**
      * applies all attributes to the entity
      */
     @Override
     public void applyAttributes() {
-        super.applyAttributes();
-//        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        getEntity().setCustomName(getName());
+        getEntity().setCatType(style);
         getEntity().setAgeLock(true);
+        getEntity().setTamed(true);
+        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+
         if (isBaby) {
             getEntity().setBaby();
         } else {

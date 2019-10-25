@@ -25,6 +25,7 @@ public enum PetType {
     PIG(EntityType.PIG),
     SHEEP(EntityType.SHEEP),
     WOLF(EntityType.WOLF),
+    CAT(EntityType.CAT),
     CHICKEN(EntityType.CHICKEN),
     COW(EntityType.COW),
     MUSHROOM_COW(EntityType.MUSHROOM_COW),

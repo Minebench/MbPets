@@ -40,7 +40,7 @@ public class PetConfiguration {
     private Horse.Color horseColor = null;
     private DyeColor sheepColor = null;
     private DyeColor wolfColor = null;
-    private Ocelot.Type ocelotType = null;
+    private Cat.Type catType = null;
     private Rabbit.Type rabbitType = null;
     private Llama.Color llamaColor = null;
     private Parrot.Variant parrotColor = null;
@@ -97,6 +97,10 @@ public class PetConfiguration {
                 wolfColor = ((WolfPet) pet).getColor();
                 isBaby = ((WolfPet) pet).isBaby();
                 break;
+            case CAT:
+                catType = ((CatPet) pet).getStyle();
+                isBaby = ((CatPet) pet).isBaby();
+                break;
             case CHICKEN:
                 isBaby = ((ChickenPet) pet).isBaby();
                 break;
@@ -108,7 +112,6 @@ public class PetConfiguration {
                 break;
             case OCELOT:
                 isBaby = ((OcelotPet) pet).isBaby();
-                ocelotType = ((OcelotPet) pet).getStyle();
                 break;
             case POLAR_BEAR:
                 isBaby = ((PolarBearPet) pet).isBaby();
@@ -238,12 +241,12 @@ public class PetConfiguration {
         this.wolfColor = wolfColor;
     }
 
-    public Ocelot.Type getOcelotType() {
-        return ocelotType;
+    public Cat.Type getCatType() {
+        return catType;
     }
 
-    public void setOcelotType(Ocelot.Type ocelotType) {
-        this.ocelotType = ocelotType;
+    public void setCatType(Cat.Type catType) {
+        this.catType = catType;
     }
 
     public Rabbit.Type getRabbitType() {
@@ -335,7 +338,7 @@ public class PetConfiguration {
 
                 //Insert a pet
                 preparedStatement = connection.prepareStatement("INSERT INTO " +
-                        "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, ocelottype, rabbittype, llamacolor, parrotcolor, foxtype, slimesize, number, exp)"
+                        "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, cattype, rabbittype, llamacolor, parrotcolor, foxtype, slimesize, number, exp)"
                         + " VALUES ("
                         + "(Select playerid from MbPets_Player where uuid = ?),"
                         + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
@@ -348,7 +351,7 @@ public class PetConfiguration {
                 preparedStatement.setString(6, wolfColor != null ? wolfColor.name() : null);
                 preparedStatement.setString(7, horseColor != null ? horseColor.name() : null);
                 preparedStatement.setString(8, horseStyle != null ? horseStyle.name() : null);
-                preparedStatement.setString(9, ocelotType != null ? ocelotType.name() : null);
+                preparedStatement.setString(9, catType != null ? catType.name() : null);
                 preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
                 preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
                 preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
@@ -394,6 +397,11 @@ public class PetConfiguration {
                     ((WolfPet) pet).setBaby(isBaby);
                     ((WolfPet) pet).setColor(wolfColor);
                     break;
+                case CAT:
+                    pet = new CatPet(owner, number);
+                    ((CatPet) pet).setBaby(isBaby);
+                    ((CatPet) pet).setStyle(catType);
+                    break;
                 case CHICKEN:
                     pet = new ChickenPet(owner, number);
                     ((ChickenPet) pet).setBaby(isBaby);
@@ -409,7 +417,6 @@ public class PetConfiguration {
                 case OCELOT:
                     pet = new OcelotPet(owner, number);
                     ((OcelotPet) pet).setBaby(isBaby);
-                    ((OcelotPet) pet).setStyle(ocelotType);
                     break;
                 case POLAR_BEAR:
                     pet = new PolarBearPet(owner, number);
@@ -503,8 +510,8 @@ public class PetConfiguration {
                 return (sheepColor != null);
             case WOLF:
                 return (wolfColor != null);
-            case OCELOT:
-                return (ocelotType != null);
+            case CAT:
+                return (catType != null);
             case RABBIT:
                 return (rabbitType != null);
             case PARROT:
@@ -533,7 +540,7 @@ public class PetConfiguration {
                 ", horseColor=" + horseColor +
                 ", sheepColor=" + sheepColor +
                 ", wolfColor=" + wolfColor +
-                ", ocelotType=" + ocelotType +
+                ", catType=" + catType +
                 ", rabbitType=" + rabbitType +
                 ", llamaColor=" + llamaColor +
                 ", parrotColor=" + parrotColor +

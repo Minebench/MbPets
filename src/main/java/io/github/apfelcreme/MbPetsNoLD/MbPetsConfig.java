@@ -217,24 +217,25 @@ public class MbPetsConfig {
     }
 
     /**
-     * returns an Ocelot.Style from the chat input given. e.g. /pet ... style
+     * returns an Cat.Type from the chat input given. e.g. /pet ... style
      * ...
      *
      * @param type
      * @return
      */
-    public static Ocelot.Type parseOcelotType(String type) {
+    public static Cat.Type parseCatType(String type) {
         if (type == null)
             return null;
         try {
-            return Ocelot.Type.valueOf(type.toUpperCase());
+            return Cat.Type.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
             type = type.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
-            for (Ocelot.Type a : Ocelot.Type.values()) {
+            for (Cat.Type a : Cat.Type.values()) {
                 if (type.equals(a.name().replace("_", ""))
-                        || type.equalsIgnoreCase(languageConfig.getString("OcelotTypes." + a.name() + ".displaytext"))
-                        || languageConfig.getStringList("OcelotTypes." + a.name() + ".aliases")
+                        || type.equalsIgnoreCase(languageConfig.getString("CatTypes." + a.name() + ".displaytext"))
+                        || languageConfig.getStringList("CatTypes." + a.name() + ".aliases")
                         .contains(type.toUpperCase())) {
+                    System.out.println(type + " => " + a);
                     return a;
                 }
             }
@@ -363,8 +364,8 @@ public class MbPetsConfig {
 
 
     /**
-     * returs a PetType from the chat input given. e.g. /pet ... type katze
-     * will return PetType.OCELOT
+     * returs a PetType from the chat input given. e.g. /pet ... type dog
+     * will return PetType.WOLF
      *
      * @param type the type
      * @return the matching PetType
@@ -393,7 +394,7 @@ public class MbPetsConfig {
      * @return a list of Strings that contains the names of all available pet-types
      */
     public static List<String> getAvailableTypes() {
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         for (PetType type : PetType.values()) {
             strings.add(languageConfig.getString("PetTypes." + type.name() + ".displaytext"));
         }
@@ -406,7 +407,7 @@ public class MbPetsConfig {
      * @returna list of Strings that contains the names of all available DyeColors
      */
     public static List<String> getAvailableDyeColors() {
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         for (DyeColor color : DyeColor.values()) {
             String typ = languageConfig.getString("DyeColors." + color.name() + ".displaytext");
             if (typ != null) {
@@ -422,7 +423,7 @@ public class MbPetsConfig {
      * @return a list of Strings that contains the names of all available HorseColors
      */
     public static List<String> getAvailableHorseColors() {
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         for (Horse.Color color : Horse.Color.values()) {
             String typ = languageConfig.getString("HorseColors." + color.name() + ".displaytext");
             if (typ != null) {
@@ -438,7 +439,7 @@ public class MbPetsConfig {
      * @return a list of Strings that contains the names of all available HorseStyles
      */
     public static List<String> getAvailableHorseStyles() {
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
         for (Horse.Style style : Horse.Style.values()) {
             String typ = languageConfig.getString("HorseStyles." + style.name() + ".displaytext");
             if (typ != null) {
@@ -449,14 +450,14 @@ public class MbPetsConfig {
     }
 
     /**
-     * returns a list of Strings that contains the names of all available OcelotStyles
+     * returns a list of Strings that contains the names of all available CatTypes
      *
-     * @return a list of Strings that contains the names of all available OcelotStyles
+     * @return a list of Strings that contains the names of all available CatTypes
      */
-    public static List<String> getAvailableOcelotStyles() {
-        List<String> strings = new ArrayList<String>();
-        for (Ocelot.Type style : Ocelot.Type.values()) {
-            String typ = languageConfig.getString("OcelotTypes." + style.name() + ".displaytext");
+    public static List<String> getAvailableCatTypes() {
+        List<String> strings = new ArrayList<>();
+        for (Cat.Type style : Cat.Type.values()) {
+            String typ = languageConfig.getString("CatTypes." + style.name() + ".displaytext");
             if (typ != null) {
                 strings.add(typ);
             }

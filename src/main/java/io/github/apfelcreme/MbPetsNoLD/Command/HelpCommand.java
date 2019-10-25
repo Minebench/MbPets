@@ -88,10 +88,6 @@ public class HelpCommand implements SubCommand {
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
                                 .replace("{0}", ChatColor.DARK_GREEN + "Baby")
                                 .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Style")
-                                .replace("{1}", ChatColor.DARK_GRAY +
-                                        StringUtils.join(MbPetsConfig.getAvailableOcelotStyles(), ", ")));
                 break;
             case PIG:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
@@ -172,12 +168,20 @@ public class HelpCommand implements SubCommand {
                 break;
             case WOLF:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
+                        .replace("{0}", ChatColor.DARK_GREEN + "Baby")
+                        .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Color")
-                                .replace("{1}", ChatColor.DARK_GRAY +
-                                        StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", ")));
+                        .replace("{0}", ChatColor.DARK_GREEN + "Color")
+                        .replace("{1}", ChatColor.DARK_GRAY +
+                                StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", ")));
+            case CAT:
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
+                        .replace("{0}", ChatColor.DARK_GREEN + "Baby")
+                        .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
+                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
+                        .replace("{0}", ChatColor.DARK_GREEN + "Color")
+                        .replace("{1}", ChatColor.DARK_GRAY +
+                                StringUtils.join(MbPetsConfig.getAvailableCatTypes(), ", ")));
                 break;
             default:
                 MbPets.sendMessage(chatInput.getSender(), ChatColor.DARK_GREEN + "keine");

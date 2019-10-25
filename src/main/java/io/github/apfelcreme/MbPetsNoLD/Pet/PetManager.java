@@ -221,7 +221,7 @@ public class PetManager {
         petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
         petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
         petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
-        petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(resultSet.getString("ocelotType")));
+        petConfiguration.setCatType(MbPetsConfig.parseCatType(resultSet.getString("catType")));
         petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
         petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
         petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));

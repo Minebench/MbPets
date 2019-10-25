@@ -80,7 +80,7 @@ public abstract class DatabaseConnector {
                                     + "wolfcolor VARCHAR(50),"
                                     + "horsecolor VARCHAR(50),"
                                     + "horsestyle VARCHAR(50),"
-                                    + "ocelottype VARCHAR(50),"
+                                    + "cattype VARCHAR(50),"
                                     + "rabbittype VARCHAR(50),"
                                     + "llamacolor VARCHAR(50),"
                                     + "parrotcolor VARCHAR(50),"

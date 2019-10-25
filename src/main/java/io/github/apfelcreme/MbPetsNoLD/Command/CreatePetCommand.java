@@ -78,8 +78,8 @@ public class CreatePetCommand implements SubCommand {
         if (chatInput.getStyle() != null) {
             if (petConfiguration.getType() == PetType.HORSE/*|| petConfiguration.getType() == PetType.MULE*/) {
                 petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(chatInput.getStyle()));
-            } else if (petConfiguration.getType() == PetType.OCELOT) {
-                petConfiguration.setOcelotType(MbPetsConfig.parseOcelotType(chatInput.getStyle()));
+            } else if (petConfiguration.getType() == PetType.CAT) {
+                petConfiguration.setCatType(MbPetsConfig.parseCatType(chatInput.getStyle()));
             } else if (petConfiguration.getType() == PetType.RABBIT) {
                 petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(chatInput.getStyle()));
             } else if (petConfiguration.getType() == PetType.FOX) {

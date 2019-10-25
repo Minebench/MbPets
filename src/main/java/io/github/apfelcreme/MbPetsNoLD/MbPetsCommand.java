@@ -214,8 +214,8 @@ public class MbPetsCommand implements CommandExecutor {
                                         + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", "));
                                 possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.RABBIT.name() + ".displaytext") + ")\n"
                                         + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableRabbitTypes(), ", "));
-                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.OCELOT.name() + ".displaytext") + ")\n"
-                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableOcelotStyles(), ", "));
+                                possibleValues.add("(" + MbPetsConfig.getNode("PetTypes." + PetType.CAT.name() + ".displaytext") + ")\n"
+                                        + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableCatTypes(), ", "));
                                 break;
                             case TYPE:
                                 possibleValues.add(StringUtils.join(MbPetsConfig.getAvailableTypes(), ", "));

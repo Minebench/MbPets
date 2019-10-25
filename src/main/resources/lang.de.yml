@@ -99,10 +99,14 @@ PetTypes:
     displaytext: 'Hund'
     aliases:
     - 'DOG'
-  OCELOT:
+  CAT:
     displaytext: 'Katze'
     aliases:
-    - 'CAT'
+      - 'KATZE'
+  OCELOT:
+    displaytext: 'Ozelot'
+    aliases:
+    - 'OZELOT'
   PIG:
     displaytext: 'Schwein'
   IRON_GOLEM:
@@ -290,23 +294,52 @@ HorseStyles:
     - 'WEIßFELD'
     - 'WEISSFELD'
     - 'VERSCHWOMMEN'
-OcelotTypes:
-  WILD_OCELOT:
-    displaytext: 'Wild'
-  BLACK_CAT:
-    displaytext: 'Schwarz'
+CatTypes:
+  TABBY:
+    displaytext: 'Getigert'
     aliases:
-    - 'BLACK'
-    - 'DUNKEL'
-  RED_CAT:
+      - 'TIGER'
+  BLACK:
+    displaytext: 'Panther'
+    aliases:
+      - 'TUXEDO'
+  RED:
     displaytext: 'Rot'
     aliases:
-    - 'RED'
-  SIAMESE_CAT:
+      - 'GESTREIFT'
+  SIAMESE:
     displaytext: 'Siamesisch'
     aliases:
-    - 'SIAMESE'
-    - 'SIAM'
+      - 'SIAM'
+  BRITISH_SHORTHAIR:
+    displaytext: 'Kurzhaar'
+    aliases:
+      - 'BRITISCH'
+      - 'SHORTHAIR'
+  CALICO:
+    displaytext: 'Calico'
+    aliases:
+      - 'DREIFARBIG'
+  PERSIAN:
+    displaytext: 'Persisch'
+    aliases:
+      - 'PERSER'
+  RAGDOLL:
+    displaytext: 'Ragdoll'
+    aliases:
+      - 'RAGDOLL'
+  WHITE:
+    displaytext: 'Weiß'
+    aliases:
+      - 'WEISS'
+  JELLIE:
+    displaytext: 'Jellie'
+    aliases:
+      - 'JELLIE'
+  ALL_BLACK:
+    displaytext: 'Schwarz'
+    aliases:
+      - 'DUNKEL'
 RabbitTypes:
   BLACK:
     displaytext: 'Schwarz'
