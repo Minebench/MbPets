@@ -1,5 +1,7 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet;
 
+import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Sizeable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Type.*;
@@ -80,78 +82,21 @@ public class PetConfiguration {
         this.type = pet.getType();
         this.name = pet.getName();
         this.exp = pet.getExp();
-        switch (type) {
-            case HORSE:
-                horseColor = ((HorsePet) pet).getColor();
-                horseStyle = ((HorsePet) pet).getStyle();
-                isBaby = ((HorsePet) pet).isBaby();
-                break;
-            case PIG:
-                isBaby = ((PigPet) pet).isBaby();
-                break;
-            case SHEEP:
-                sheepColor = ((SheepPet) pet).getColor();
-                isBaby = ((SheepPet) pet).isBaby();
-                break;
-            case WOLF:
-                wolfColor = ((WolfPet) pet).getColor();
-                isBaby = ((WolfPet) pet).isBaby();
-                break;
-            case CAT:
-                catType = ((CatPet) pet).getStyle();
-                isBaby = ((CatPet) pet).isBaby();
-                break;
-            case CHICKEN:
-                isBaby = ((ChickenPet) pet).isBaby();
-                break;
-            case COW:
-                isBaby = ((CowPet) pet).isBaby();
-                break;
-            case MUSHROOM_COW:
-                isBaby = ((MooshroomPet) pet).isBaby();
-                break;
-            case OCELOT:
-                isBaby = ((OcelotPet) pet).isBaby();
-                break;
-            case POLAR_BEAR:
-                isBaby = ((PolarBearPet) pet).isBaby();
-                break;
-            case RABBIT:
-                isBaby = ((RabbitPet) pet).isBaby();
-                rabbitType = ((RabbitPet) pet).getStyle();
-                break;
-            case PARROT:
-                parrotColor = ((ParrotPet) pet).getColor();
-                break;
-            case FOX:
-                foxType = ((FoxPet) pet).getStyle();
-                isBaby = ((FoxPet) pet).isBaby();
-                break;
-            case SKELETON_HORSE:
-                isBaby = ((SkeletonHorsePet) pet).isBaby();
-                break;
-            case UNDEAD_HORSE:
-                isBaby = ((UndeadHorsePet) pet).isBaby();
-                break;
-            case DONKEY:
-                isBaby = ((DonkeyPet) pet).isBaby();
-                break;
-            case MULE:
-                isBaby = ((MulePet) pet).isBaby();
-                break;
-            case LLAMA:
-                llamaColor = ((LlamaPet) pet).getColor();
-                break;
-            case MAGMA_CUBE:
-                slimeSize = ((MagmaCubePet) pet).getSize();
-                break;
-            case SLIME:
-                slimeSize = ((SlimePet) pet).getSize();
-                break;
-            case TURTLE:
-                isBaby = ((TurtlePet) pet).isBaby();
-                break;
-        }
+
+        if (pet instanceof Ageable) this.isBaby = ((Ageable) pet).isBaby();
+        if (pet instanceof HorsePet) this.horseColor = ((HorsePet) pet).getColor();
+        if (pet instanceof HorsePet) this.horseStyle = ((HorsePet) pet).getStyle();
+//        if (pet instanceof MulePet) this.horseColor = ((MulePet) pet).getColor();
+//        if (pet instanceof MulePet) this.horseStyle = ((MulePet) pet).getStyle();
+        if (pet instanceof SheepPet) this.sheepColor = ((SheepPet) pet).getColor();
+        if (pet instanceof WolfPet) this.wolfColor = ((WolfPet) pet).getColor();
+        if (pet instanceof CatPet) this.catType = ((CatPet) pet).getStyle();
+        if (pet instanceof RabbitPet) this.rabbitType = ((RabbitPet) pet).getStyle();
+        if (pet instanceof LlamaPet) this.llamaColor = ((LlamaPet) pet).getColor();
+        if (pet instanceof ParrotPet) this.parrotColor = ((ParrotPet) pet).getColor();
+        if (pet instanceof FoxPet) this.foxType = ((FoxPet) pet).getStyle();
+        if (pet instanceof Sizeable) this.slimeSize = ((Sizeable) pet).getSize();
+
         this.configurationType = configurationType;
         switch (configurationType) {
             case PURCHASE:
@@ -417,6 +362,10 @@ public class PetConfiguration {
                 case OCELOT:
                     pet = new OcelotPet(owner, number);
                     ((OcelotPet) pet).setBaby(isBaby);
+                    break;
+                case PANDA:
+                    pet = new PandaPet(owner, number);
+                    ((PandaPet) pet).setBaby(isBaby);
                     break;
                 case POLAR_BEAR:
                     pet = new PolarBearPet(owner, number);

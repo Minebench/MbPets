@@ -131,9 +131,6 @@ public class PetDescription {
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", horseColor != null ? MbPetsConfig.getNode("HorseColors." + horseColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", "))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", horseStyle != null ? MbPetsConfig.getNode("HorseStyles." + horseStyle.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", "))).append("\n");
                 break;
-            case PIG:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
             case SHEEP:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", sheepColor != null ? MbPetsConfig.getNode("DyeColors." + sheepColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", "))).append("\n");
@@ -146,19 +143,16 @@ public class PetDescription {
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", catType != null ? MbPetsConfig.getNode("CatTypes." + catType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableCatTypes(), ", "))).append("\n");
                 break;
+            case PIG:
             case CHICKEN:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
             case COW:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
             case MUSHROOM_COW:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
             case OCELOT:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
+            case PANDA:
             case POLAR_BEAR:
+            case SKELETON_HORSE:
+            case UNDEAD_HORSE:
+            case DONKEY:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 break;
             case BAT:
@@ -176,15 +170,6 @@ public class PetDescription {
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", foxType != null ? MbPetsConfig.getNode("FoxTypes." + foxType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableFoxTypes(), ", "))).append("\n");
                 break;
-            case SKELETON_HORSE:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
-            case UNDEAD_HORSE:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
-            case DONKEY:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
             case MULE:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
 //                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", horseColor != null ? MbPetsConfig.getNode("HorseColors." + horseColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", "))).append("\n");
@@ -197,8 +182,6 @@ public class PetDescription {
             case ENDERMAN:
                 break;
             case MAGMA_CUBE:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Size").replace("{1}", slimeSize > 0 ? MbPetsConfig.getNode("SlimeSizes." + slimeSize + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "))).append("\n");
-                break;
             case SLIME:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Size").replace("{1}", slimeSize > 0 ? MbPetsConfig.getNode("SlimeSizes." + slimeSize + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableSlimeSizes(), ", "))).append("\n");
                 break;

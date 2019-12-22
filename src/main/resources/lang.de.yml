@@ -123,6 +123,11 @@ PetTypes:
     displaytext: 'Pilzkuh'
     aliases:
     - 'MOOSHROOM'
+  PANDA:
+    displaytext: 'Panda'
+    aliases:
+    - 'PANDABÄR'
+    - 'PANDABAER'
   POLAR_BEAR:
     displaytext: 'Eisbär'
     aliases:

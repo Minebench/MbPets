@@ -121,9 +121,6 @@ public class ConvertRightclickListener implements Listener {
                         petConfiguration.setHorseColor(((Horse) e.getRightClicked()).getColor());
                         petConfiguration.setHorseStyle(((Horse) e.getRightClicked()).getStyle());
                         break;
-                    case PIG:
-                        petConfiguration.setBaby(!((Pig) e.getRightClicked()).isAdult());
-                        break;
                     case SHEEP:
                         petConfiguration.setBaby(!((Sheep) e.getRightClicked()).isAdult());
                         petConfiguration.setSheepColor(((Sheep) e.getRightClicked()).getColor());
@@ -136,20 +133,14 @@ public class ConvertRightclickListener implements Listener {
                         petConfiguration.setBaby(!((Cat) e.getRightClicked()).isAdult());
                         petConfiguration.setCatType(((Cat) e.getRightClicked()).getCatType());
                         break;
+                    case PIG:
                     case CHICKEN:
-                        petConfiguration.setBaby(!((Chicken) e.getRightClicked()).isAdult());
-                        break;
                     case COW:
-                        petConfiguration.setBaby(!((Cow) e.getRightClicked()).isAdult());
-                        break;
                     case MUSHROOM_COW:
-                        petConfiguration.setBaby(!((MushroomCow) e.getRightClicked()).isAdult());
-                        break;
                     case OCELOT:
-                        petConfiguration.setBaby(!((Ocelot) e.getRightClicked()).isAdult());
-                        break;
+                    case PANDA:
                     case POLAR_BEAR:
-                        petConfiguration.setBaby(!((PolarBear) e.getRightClicked()).isAdult());
+                        petConfiguration.setBaby(!((Ageable) e.getRightClicked()).isAdult());
                         break;
                     case RABBIT:
                         petConfiguration.setBaby(!((Rabbit) e.getRightClicked()).isAdult());

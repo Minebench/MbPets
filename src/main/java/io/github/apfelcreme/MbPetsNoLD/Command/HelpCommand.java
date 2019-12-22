@@ -56,16 +56,6 @@ public class HelpCommand implements SubCommand {
         MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Head"));
         PetType type = MbPetsConfig.parseType(chatInput.getType());
         switch (type) {
-            case CHICKEN:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                break;
-            case COW:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                break;
             case HORSE:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
                                 .replace("{0}", ChatColor.DARK_GREEN + "Baby")
@@ -79,22 +69,15 @@ public class HelpCommand implements SubCommand {
                                 .replace("{1}", ChatColor.DARK_GRAY +
                                         StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", ")));
                 break;
+            case CHICKEN:
+            case COW:
             case MUSHROOM_COW:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                break;
             case OCELOT:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                break;
             case PIG:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                break;
+            case PANDA:
             case POLAR_BEAR:
+            case SKELETON_HORSE:
+            case UNDEAD_HORSE:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
                         .replace("{0}", ChatColor.DARK_GREEN + "Baby")
                         .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
@@ -155,16 +138,6 @@ public class HelpCommand implements SubCommand {
                         .replace("{0}", ChatColor.DARK_GREEN + "Color")
                         .replace("{1}", ChatColor.DARK_GRAY +
                                 StringUtils.join(MbPetsConfig.getAvailableParrotColors(), ", ")));
-                break;
-            case SKELETON_HORSE:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
-                break;
-            case UNDEAD_HORSE:
-                MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")
-                                .replace("{0}", ChatColor.DARK_GREEN + "Baby")
-                                .replace("{1}", MbPetsConfig.getTextNode("help.BABY")));
                 break;
             case WOLF:
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.Element")

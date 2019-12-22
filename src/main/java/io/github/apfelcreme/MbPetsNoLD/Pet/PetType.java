@@ -31,6 +31,7 @@ public enum PetType {
     MUSHROOM_COW(EntityType.MUSHROOM_COW),
     OCELOT(EntityType.OCELOT),
     POLAR_BEAR(EntityType.POLAR_BEAR),
+    PANDA(EntityType.PANDA),
     BAT(EntityType.BAT),
     IRON_GOLEM(EntityType.IRON_GOLEM),
     RABBIT(EntityType.RABBIT),
