@@ -79,10 +79,6 @@
 
 	<repositories>
 		<repository>
-			<id>paper-repo</id>
-			<url>https://destroystokyo.com/repo/repository/maven-snapshots/</url>
-		</repository>
-		<repository>
 			<id>sk89q-repo</id>
 			<url>http://maven.sk89q.com/repo/</url>
 		</repository>
@@ -94,8 +90,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.destroystokyo.paper</groupId>
-			<artifactId>paper-api</artifactId>
+			<groupId>de.minebench.origami</groupId>
+			<artifactId>origami-api</artifactId>
 			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>

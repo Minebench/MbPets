@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.entity.Fox;
@@ -81,13 +82,19 @@ public class FoxPet extends Pet<Fox> implements Styleable<Fox.Type>, Ageable {
     @Override
     public void applyAttributes() {
         getEntity().setCustomName(getName());
-        ((Fox) getEntity()).setFoxType(style);
-        ((Fox) getEntity()).setAgeLock(true);
+        getEntity().setFoxType(style);
+        getEntity().setAgeLock(true);
+        org.bukkit.entity.AnimalTamer owner = MbPets.getInstance().getServer().getPlayer(getOwner());
+        if (owner == null) {
+            owner = MbPets.getInstance().getServer().getOfflinePlayer(getOwner());
+        }
+        getEntity().setFirstTrustedPlayer(owner);
+        getEntity().setSecondTrustedPlayer(owner);
 
         if (isBaby) {
-            ((Fox) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((Fox) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }
