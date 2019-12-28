@@ -76,6 +76,7 @@ public class MbPets extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityTeleportListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerTeleportListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLogoutListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityPickupItemListener(), this);
         getServer().getPluginManager().registerEvents(new EntityRightClickListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDamagesEntityListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeashItemClickListener(), this);
