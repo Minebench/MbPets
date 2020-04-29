@@ -2,7 +2,7 @@ name: MbPets
 version: '${minecraft.plugin.version}'
 main: io.github.apfelcreme.MbPetsNoLD.MbPets
 depend: [UUIDDB]
-softdepend: [AnimalProtect, Vault]
+softdepend: [AnimalProtect, Vault, WorldGuard]
 api-version: '1.14'
 commands:
    pet:
