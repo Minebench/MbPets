@@ -1,12 +1,13 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Cat;
-import org.bukkit.entity.Fox;
 
 import java.util.UUID;
 
@@ -87,6 +88,7 @@ public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
         getEntity().setAgeLock(true);
         getEntity().setTamed(true);
         getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.CAT_AVOID_ENTITY);
 
         if (isBaby) {
             getEntity().setBaby();

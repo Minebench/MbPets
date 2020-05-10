@@ -1,12 +1,11 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
-import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
-import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Ocelot.Type;
 
 import java.util.UUID;
 
@@ -65,6 +64,7 @@ public class OcelotPet extends Pet<Ocelot> implements Ageable {
         super.applyAttributes();
 //        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
         getEntity().setAgeLock(true);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.OCELOT_AVOID_ENTITY);
         if (isBaby) {
             getEntity().setBaby();
         } else {
