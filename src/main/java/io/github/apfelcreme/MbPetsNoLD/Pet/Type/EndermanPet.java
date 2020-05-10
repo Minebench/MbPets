@@ -1,7 +1,9 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.LivingEntity;
@@ -55,5 +57,12 @@ public class EndermanPet extends Pet<Enderman> {
     public void onKill(LivingEntity killed, EntityDeathEvent event) {
         super.onKill(killed, event);
         getEntity().setTarget(null);
+    }
+
+    @Override
+    public void applyAttributes() {
+        super.applyAttributes();
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PICKUP_BLOCK);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PLACE_BLOCK);
     }
 }

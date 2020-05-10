@@ -1,9 +1,11 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Rabbit;
 
 import java.util.UUID;
@@ -89,5 +91,7 @@ public class RabbitPet extends Pet<Rabbit> implements Ageable, Styleable<Rabbit.
         } else {
             getEntity().setAdult();
         }
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RABBIT_AVOID_TARGET);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RABBIT_PANIC);
     }
 }

@@ -1,10 +1,12 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Wolf;
 
@@ -92,5 +94,6 @@ public class WolfPet extends Pet<Wolf> implements Ageable, Dyeable<DyeColor> {
         } else {
             getEntity().setAdult();
         }
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.WOLF_AVOID_ENTITY);
     }
 }

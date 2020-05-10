@@ -18,9 +18,11 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Panda;
 
 import java.util.UUID;
@@ -65,5 +67,7 @@ public class PandaPet extends Pet<Panda> implements Ageable {
         } else {
             getEntity().setAdult();
         }
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PANDA_AVOID);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PANDA_PANIC);
     }
 }

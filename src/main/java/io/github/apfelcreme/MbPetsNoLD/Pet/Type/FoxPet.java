@@ -1,10 +1,12 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Fox;
 
 import java.util.UUID;
@@ -90,6 +92,10 @@ public class FoxPet extends Pet<Fox> implements Styleable<Fox.Type>, Ageable {
         }
         getEntity().setFirstTrustedPlayer(owner);
         getEntity().setSecondTrustedPlayer(owner);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_EAT_BERRIES);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_PANIC);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_SEEK_SHELTER);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_STALK_PREY);
 
         if (isBaby) {
             getEntity().setBaby();

@@ -1,10 +1,12 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Llama;
 import org.bukkit.entity.Player;
@@ -97,6 +99,7 @@ public class LlamaPet extends Pet<Llama> implements Dyeable<Llama.Color>, Ageabl
         } else {
             getEntity().setAdult();
         }
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.LLAMA_ATTACK_WOLF);
     }
 
     /**
@@ -106,12 +109,12 @@ public class LlamaPet extends Pet<Llama> implements Dyeable<Llama.Color>, Ageabl
     public void uncall() {
         Player player = MbPets.getInstance().getServer().getPlayer(getOwner());
         if (player != null) {
-            if (((Llama) getEntity()).getInventory().getDecor() != null) {
+            if (getEntity().getInventory().getDecor() != null) {
                 if (player.getInventory().firstEmpty() >= 0) {
-                    player.getInventory().addItem(((Llama)getEntity()).getInventory().getDecor());
+                    player.getInventory().addItem(getEntity().getInventory().getDecor());
                 } else {
                     player.getWorld().dropItemNaturally(player.getLocation(),
-                            ((Llama)getEntity()).getInventory().getDecor());
+                            getEntity().getInventory().getDecor());
                 }
             }
         }

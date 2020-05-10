@@ -1,7 +1,9 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Vex;
 
 import java.util.UUID;
@@ -35,4 +37,9 @@ public class VexPet extends Pet<Vex> {
         return false;
     }
 
+    @Override
+    public void applyAttributes() {
+        super.applyAttributes();
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.VEX_COPY_TARGET_OF_OWNER);
+    }
 }
