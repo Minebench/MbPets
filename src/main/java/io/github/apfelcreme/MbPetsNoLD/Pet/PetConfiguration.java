@@ -430,6 +430,9 @@ public class PetConfiguration {
                     pet = new TurtlePet(owner, number);
                     ((TurtlePet) pet).setBaby(isBaby);
                     break;
+                case BEE:
+                    pet = new BeePet(owner, number);
+                    break;
                 default:
                     pet = new Pet(owner, type, number);
             }

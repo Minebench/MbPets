@@ -46,7 +46,8 @@ public enum PetType {
     MAGMA_CUBE(EntityType.MAGMA_CUBE),
     SLIME(EntityType.SLIME),
     VEX(EntityType.VEX),
-    TURTLE(EntityType.TURTLE);
+    TURTLE(EntityType.TURTLE),
+    BEE(EntityType.BEE);
 
     private EntityType entityType;
 
