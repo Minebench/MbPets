@@ -9,6 +9,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,22 +41,25 @@ public class MbPetsConfig {
      * init
      */
     public static void init() {
-        MbPets.getInstance().saveResource("config.yml", false);
-        MbPets.getInstance().saveResource("lang.de.yml", false);
-
-
-        languageConfigFile = new File(MbPets.getInstance().getDataFolder() + "/lang.de.yml");
-        languageConfig = YamlConfiguration.loadConfiguration(languageConfigFile);
+        reloadConfig();
     }
 
 
     /**
-     * reloads the language file
+     * reloads the config file
      */
-    public static void reloadLanguageConfig() {
-        languageConfigFile = new File(MbPets.getInstance().getDataFolder() + "/lang.de.yml");
-        languageConfig = YamlConfiguration
-                .loadConfiguration(languageConfigFile);
+    public static void reloadConfig() {
+        MbPets.getInstance().saveDefaultConfig();
+        MbPets.getInstance().reloadConfig();
+
+        MbPets.getInstance().saveResource("lang.de.yml", false);
+        languageConfigFile = new File(MbPets.getInstance().getDataFolder(), "lang.de.yml");
+        languageConfig = YamlConfiguration.loadConfiguration(languageConfigFile);
+
+        InputStream langDefConfig = MbPets.getInstance().getResource("lang.de.yml");
+        if (langDefConfig != null) {
+            languageConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(langDefConfig)));
+        }
     }
 
     /**

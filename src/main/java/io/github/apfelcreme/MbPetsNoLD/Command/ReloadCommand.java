@@ -33,8 +33,7 @@ public class ReloadCommand implements SubCommand {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noPermission"));
             return;
         }
-        MbPets.getInstance().reloadConfig();
-        MbPetsConfig.reloadLanguageConfig();
+        MbPetsConfig.reloadConfig();
         MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.configReloaded"));
     }
 }
