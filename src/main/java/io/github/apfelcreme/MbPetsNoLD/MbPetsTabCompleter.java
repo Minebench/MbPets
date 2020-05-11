@@ -2,7 +2,12 @@ package io.github.apfelcreme.MbPetsNoLD;
 
 import io.github.apfelcreme.MbPetsNoLD.ChatInput.Operation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetConfiguration;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
@@ -37,7 +42,7 @@ public class MbPetsTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command,
                                       String arg2, String[] args) {
-        ArrayList<String> list = new ArrayList<String>();
+        Set<String> list = new HashSet<>();
         if (args.length > 1) {
             Operation operation = Operation.getOperation(args[args.length - 2]);
             PetConfiguration petConfiguration = PetManager.getInstance().getConfigurations().get(((Player)commandSender).getUniqueId());
@@ -102,10 +107,10 @@ public class MbPetsTabCompleter implements TabCompleter {
             }
         }
         //remove duplicates & sort
-        List<String> ret = new ArrayList<>();
-        ret.addAll(new HashSet<>(list));
-        Collections.sort(ret);
-        return ret;
+        return list.stream()
+                .filter(s -> args[args.length - 1].isEmpty() || s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+                .sorted(String::compareToIgnoreCase)
+                .collect(Collectors.toList());
     }
 
     /**
