@@ -95,5 +95,6 @@ public class WolfPet extends Pet<Wolf> implements Ageable, Dyeable<DyeColor> {
             getEntity().setAdult();
         }
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.WOLF_AVOID_ENTITY);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RANDOM_TARGET_NON_TAMED);
     }
 }

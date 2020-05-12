@@ -3,6 +3,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -16,8 +17,10 @@ import io.github.apfelcreme.MbPetsNoLD.Tasks.FollowTask;
 import io.github.apfelcreme.MbPetsNoLD.Tasks.ParticleTask;
 import net.milkbowl.vault.economy.EconomyResponse;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -524,6 +527,16 @@ public class Pet<T extends Mob> {
     public void applyAttributes() {
         getEntity().setCustomName(getName());
         getEntity().setCustomNameVisible(true);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.NEAREST_ATTACKABLE_TARGET);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.EAT_TILE);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.USE_ITEM);
+        if (getEntity() instanceof Creature) {
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.TEMPT);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.REMOVE_BLOCK);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.RESTRICT_SUN);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.STROLL_VILLAGE);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.NEAREST_VILLAGE);
+        }
     }
     
     /**
