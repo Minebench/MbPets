@@ -73,6 +73,8 @@ texts:
 PetTypes:
   BAT:
     displaytext: 'Fledermaus'
+  BEE:
+    displaytext: 'Biene'
   COW:
     displaytext: 'Kuh'
   HORSE:
