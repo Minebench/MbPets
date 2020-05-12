@@ -124,62 +124,38 @@ public class PetDescription {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Typ").replace("{1}", MbPetsConfig.getNode("PetTypes." + type.name() + ".displaytext"))).append("\n");
         stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Name").replace("{1}", name != null && !name.isEmpty() ? Pet.stripName(name) : ChatColor.DARK_GRAY + MbPetsConfig.getTextNode("help.NAME"))).append("\n");
+        if (Ageable.class.isAssignableFrom(type.getPetClass())) {
+            stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
+        }
         switch (type) {
-
             case HORSE:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", horseColor != null ? MbPetsConfig.getNode("HorseColors." + horseColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", "))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", horseStyle != null ? MbPetsConfig.getNode("HorseStyles." + horseStyle.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", "))).append("\n");
                 break;
             case SHEEP:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", sheepColor != null ? MbPetsConfig.getNode("DyeColors." + sheepColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", "))).append("\n");
                 break;
             case WOLF:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", wolfColor != null ? MbPetsConfig.getNode("DyeColors." + wolfColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableDyeColors(), ", "))).append("\n");
                 break;
             case CAT:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", catType != null ? MbPetsConfig.getNode("CatTypes." + catType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableCatTypes(), ", "))).append("\n");
                 break;
-            case PIG:
-            case CHICKEN:
-            case COW:
-            case MUSHROOM_COW:
-            case OCELOT:
-            case PANDA:
-            case POLAR_BEAR:
-            case SKELETON_HORSE:
-            case UNDEAD_HORSE:
-            case DONKEY:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
-                break;
-            case BAT:
-                break;
-            case IRON_GOLEM:
-                break;
             case RABBIT:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", rabbitType != null ? MbPetsConfig.getNode("RabbitTypes." + rabbitType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableRabbitTypes(), ", "))).append("\n");
                 break;
             case PARROT:
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", parrotColor != null ? MbPetsConfig.getNode("ParrotColors." + parrotColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableParrotColors(), ", "))).append("\n");
                 break;
             case FOX:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", foxType != null ? MbPetsConfig.getNode("FoxTypes." + foxType.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableFoxTypes(), ", "))).append("\n");
                 break;
             case MULE:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
 //                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", horseColor != null ? MbPetsConfig.getNode("HorseColors." + horseColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseColors(), ", "))).append("\n");
 //                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Style").replace("{1}", horseStyle != null ? MbPetsConfig.getNode("HorseStyles." + horseStyle.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableHorseStyles(), ", "))).append("\n");
                 break;
             case LLAMA:
-                stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Baby").replace("{1}", WordUtils.capitalize(Boolean.toString(isBaby).toLowerCase()))).append("\n");
                 stringBuilder.append(MbPetsConfig.getTextNode("info.Element").replace("{0}", "Color").replace("{1}", llamaColor != null ? MbPetsConfig.getNode("LlamaColors." + llamaColor.name() + ".displaytext") : ChatColor.DARK_GRAY + StringUtils.join(MbPetsConfig.getAvailableLlamaColors(), ", "))).append("\n");
-                break;
-            case ENDERMAN:
                 break;
             case MAGMA_CUBE:
             case SLIME:

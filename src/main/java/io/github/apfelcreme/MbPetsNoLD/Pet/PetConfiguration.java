@@ -8,10 +8,12 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.Type.*;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -321,128 +323,54 @@ public class PetConfiguration {
     public Pet getPet() {
         Pet pet = null;
         if (type != null) {
+            try {
+                pet = type.getPetClass().getConstructor(UUID.class, Integer.class).newInstance(owner, number);
+            } catch (NoSuchMethodException e) {
+                pet = new Pet(owner, type, number);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                MbPets.getInstance().getLogger().log(Level.SEVERE, "Error while creating pet instance!", e);
+                return null;
+            }
             switch (type) {
                 case HORSE:
-                    pet = new HorsePet(owner, number);
-                    ((HorsePet) pet).setBaby(isBaby);
                     ((HorsePet) pet).setColor(horseColor);
                     ((HorsePet) pet).setStyle(horseStyle);
                     break;
-                case PIG:
-                    pet = new PigPet(owner, number);
-                    ((PigPet) pet).setBaby(isBaby);
-                    break;
                 case SHEEP:
-                    pet = new SheepPet(owner, number);
-                    ((SheepPet) pet).setBaby(isBaby);
                     ((SheepPet) pet).setColor(sheepColor);
                     break;
                 case WOLF:
-                    pet = new WolfPet(owner, number);
-                    ((WolfPet) pet).setBaby(isBaby);
                     ((WolfPet) pet).setColor(wolfColor);
                     break;
                 case CAT:
-                    pet = new CatPet(owner, number);
-                    ((CatPet) pet).setBaby(isBaby);
                     ((CatPet) pet).setStyle(catType);
                     break;
-                case CHICKEN:
-                    pet = new ChickenPet(owner, number);
-                    ((ChickenPet) pet).setBaby(isBaby);
-                    break;
-                case COW:
-                    pet = new CowPet(owner, number);
-                    ((CowPet) pet).setBaby(isBaby);
-                    break;
-                case MUSHROOM_COW:
-                    pet = new MooshroomPet(owner, number);
-                    ((MooshroomPet) pet).setBaby(isBaby);
-                    break;
-                case OCELOT:
-                    pet = new OcelotPet(owner, number);
-                    ((OcelotPet) pet).setBaby(isBaby);
-                    break;
-                case PANDA:
-                    pet = new PandaPet(owner, number);
-                    ((PandaPet) pet).setBaby(isBaby);
-                    break;
-                case POLAR_BEAR:
-                    pet = new PolarBearPet(owner, number);
-                    ((PolarBearPet) pet).setBaby(isBaby);
-                    break;
-                case BAT:
-                    pet = new BatPet(owner, number);
-                    break;
-                case IRON_GOLEM:
-                    pet = new IronGolemPet(owner, number);
-                    break;
                 case RABBIT:
-                    pet = new RabbitPet(owner, number);
-                    ((RabbitPet) pet).setBaby(isBaby);
                     ((RabbitPet) pet).setStyle(rabbitType);
                     break;
                 case PARROT:
-                    pet = new ParrotPet(owner, number);
                     ((ParrotPet) pet).setColor(parrotColor);
                     break;
                 case FOX:
-                    pet = new FoxPet(owner, number);
-                    ((FoxPet) pet).setBaby(isBaby);
                     ((FoxPet) pet).setStyle(foxType);
                     break;
-                case SKELETON_HORSE:
-                    pet = new SkeletonHorsePet(owner, number);
-                    ((SkeletonHorsePet) pet).setBaby(isBaby);
-                    break;
-                case UNDEAD_HORSE:
-                    pet = new UndeadHorsePet(owner, number);
-                    ((UndeadHorsePet) pet).setBaby(isBaby);
-                    break;
-                case DONKEY:
-                    pet = new DonkeyPet(owner, number);
-                    ((DonkeyPet) pet).setBaby(isBaby);
-                    break;
-                case MULE:
-                    pet = new MulePet(owner, number);
-                    ((MulePet) pet).setBaby(isBaby);
-                    break;
                 case LLAMA:
-                    pet = new LlamaPet(owner, number);
-                    ((LlamaPet) pet).setBaby(isBaby);
                     ((LlamaPet) pet).setColor(llamaColor);
                     break;
-                case ENDERMAN:
-                    pet = new EndermanPet(owner, number);
-                    break;
                 case MAGMA_CUBE:
-                    pet = new MagmaCubePet(owner, number);
                     ((MagmaCubePet) pet).setSize(slimeSize);
                     break;
                 case SLIME:
-                    pet = new SlimePet(owner, number);
                     ((SlimePet) pet).setSize(slimeSize);
                     break;
-                case VEX:
-                    pet = new VexPet(owner, number);
-                    break;
-                case TURTLE:
-                    pet = new TurtlePet(owner, number);
-                    ((TurtlePet) pet).setBaby(isBaby);
-                    break;
-                case BEE:
-                    pet = new BeePet(owner, number);
-                    ((BeePet) pet).setBaby(isBaby);
-                    break;
-                default:
-                    pet = new Pet(owner, type, number);
             }
-            pet.setNumber(number);
-            pet.setOwner(owner);
             pet.setSpeed(MbPetsConfig.getPetSpeed(type));
             pet.setPrice(MbPetsConfig.getPetPrice(type));
             pet.setName(name);
             pet.setExp(exp);
+            if (pet instanceof Ageable) {
+                ((Ageable) pet).setBaby(isBaby);
+            }
         }
         return pet;
     }
