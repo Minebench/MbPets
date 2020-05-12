@@ -432,6 +432,7 @@ public class PetConfiguration {
                     break;
                 case BEE:
                     pet = new BeePet(owner, number);
+                    ((BeePet) pet).setBaby(isBaby);
                     break;
                 default:
                     pet = new Pet(owner, type, number);
