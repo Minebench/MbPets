@@ -1,6 +1,7 @@
 package io.github.apfelcreme.MbPetsNoLD;
 
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
@@ -401,7 +402,12 @@ public class MbPetsConfig {
     public static List<String> getAvailableTypes() {
         List<String> strings = new ArrayList<>();
         for (PetType type : PetType.values()) {
-            strings.add(languageConfig.getString("PetTypes." + type.name() + ".displaytext"));
+            String displayText = languageConfig.getString("PetTypes." + type.name() + ".displaytext");
+            if (displayText != null) {
+                strings.add(displayText);
+            } else {
+                strings.add(WordUtils.capitalizeFully(type.name().replace('_', ' ')));
+            }
         }
         return strings;
     }
