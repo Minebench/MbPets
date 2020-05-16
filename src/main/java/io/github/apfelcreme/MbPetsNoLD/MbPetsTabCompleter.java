@@ -55,50 +55,58 @@ public class MbPetsTabCompleter implements TabCompleter {
                         if (petConfiguration != null) {
                             switch (petConfiguration.getType()) {
                                 case HORSE:
-                                    list.addAll(getDisplayTexts("HorseColors"));
+                                    list.addAll(MbPetsConfig.getAvailableHorseColors());
+                                    break;
+                                case LLAMA:
+                                    list.addAll(MbPetsConfig.getAvailableLlamaColors());
+                                    break;
+                                case PARROT:
+                                    list.addAll(MbPetsConfig.getAvailableParrotColors());
                                     break;
                                 case SHEEP:
                                 case WOLF:
-                                    list.addAll(getDisplayTexts("DyeColors"));
+                                    list.addAll(MbPetsConfig.getAvailableDyeColors());
                                     break;
                                 default:
                                     break;
                             }
                         } else {
-                            list.addAll(getDisplayTexts("HorseColors"));
-                            list.addAll(getDisplayTexts("DyeColors"));
+                            list.addAll(MbPetsConfig.getAvailableHorseColors());
+                            list.addAll(MbPetsConfig.getAvailableLlamaColors());
+                            list.addAll(MbPetsConfig.getAvailableParrotColors());
+                            list.addAll(MbPetsConfig.getAvailableDyeColors());
                         }
                         break;
                     case SIZE:
-                        list.addAll(getDisplayTexts("SlimeSizes"));
+                        list.addAll(MbPetsConfig.getAvailableSlimeSizes());
                         break;
                     case STYLE:
                         if (petConfiguration != null) {
                             switch (petConfiguration.getType()) {
                                 case HORSE:
-                                    list.addAll(getDisplayTexts("HorseStyles"));
+                                    list.addAll(MbPetsConfig.getAvailableHorseStyles());
                                     break;
                                 case CAT:
-                                    list.addAll(getDisplayTexts("CatTypes"));
+                                    list.addAll(MbPetsConfig.getAvailableCatTypes());
                                     break;
                                 case RABBIT:
-                                    list.addAll(getDisplayTexts("RabbitTypes"));
+                                    list.addAll(MbPetsConfig.getAvailableRabbitTypes());
                                     break;
                                 case FOX:
-                                    list.addAll(getDisplayTexts("FoxTypes"));
+                                    list.addAll(MbPetsConfig.getAvailableFoxTypes());
                                     break;
                                 default:
                                     break;
                             }
                         } else {
-                            list.addAll(getDisplayTexts("HorseStyles"));
-                            list.addAll(getDisplayTexts("CatTypes"));
-                            list.addAll(getDisplayTexts("RabbitTypes"));
-                            list.addAll(getDisplayTexts("FoxTypes"));
+                            list.addAll(MbPetsConfig.getAvailableHorseStyles());
+                            list.addAll(MbPetsConfig.getAvailableCatTypes());
+                            list.addAll(MbPetsConfig.getAvailableRabbitTypes());
+                            list.addAll(MbPetsConfig.getAvailableFoxTypes());
                         }
                         break;
                     case TYPE:
-                        list.addAll(getDisplayTexts("PetTypes"));
+                        list.addAll(MbPetsConfig.getAvailableTypes(commandSender));
                         break;
                     default:
 
@@ -111,20 +119,5 @@ public class MbPetsTabCompleter implements TabCompleter {
                 .filter(s -> args[args.length - 1].isEmpty() || s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
                 .sorted(String::compareToIgnoreCase)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * returns a list of nice strings
-     * @param section the ConfigurationSection name
-     * @return the list of displaytexts
-     */
-    private List<String> getDisplayTexts(String section) {
-        List<String> list = new ArrayList<String>();
-        for (String key : MbPetsConfig.getLanguageConfiguration().getConfigurationSection(section).getKeys(true)) {
-            if (key.endsWith("displaytext")) {
-                list.add(MbPetsConfig.getLanguageConfiguration().getString(section + "." + key));
-            }
-        }
-        return list;
     }
 }

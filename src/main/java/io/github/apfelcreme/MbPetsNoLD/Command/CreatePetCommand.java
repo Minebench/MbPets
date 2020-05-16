@@ -9,6 +9,8 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 
+import java.util.Arrays;
+
 /**
  * Copyright (C) 2015 Lord36 aka Apfelcreme
  * <p>
@@ -54,7 +56,7 @@ public class CreatePetCommand implements SubCommand {
             } else {
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.missingType"));
                 MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.types") + ChatColor.GREEN
-                        + StringUtils.join(MbPetsConfig.getAvailableTypes(), ", "));
+                        + StringUtils.join(MbPetsConfig.getAvailableTypes(chatInput.getSender()), ", "));
                 return;
             }
         }

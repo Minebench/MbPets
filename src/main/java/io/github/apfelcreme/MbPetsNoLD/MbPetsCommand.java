@@ -218,7 +218,7 @@ public class MbPetsCommand implements CommandExecutor {
                                         + ChatColor.GRAY + StringUtils.join(MbPetsConfig.getAvailableCatTypes(), ", "));
                                 break;
                             case TYPE:
-                                possibleValues.add(StringUtils.join(MbPetsConfig.getAvailableTypes(), ", "));
+                                possibleValues.add(StringUtils.join(MbPetsConfig.getAvailableTypes(sender), ", "));
                                 break;
                             default:
                                 possibleValues.add("I don't know :(");

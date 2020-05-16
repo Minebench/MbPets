@@ -5,6 +5,7 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -398,15 +399,29 @@ public class MbPetsConfig {
      * returns a list of Strings that contains the names of all available pet-types
      *
      * @return a list of Strings that contains the names of all available pet-types
+     * @deprecated Use {@link #getAvailableTypes(CommandSender)}
      */
+    @Deprecated
     public static List<String> getAvailableTypes() {
+        return getAvailableTypes(null);
+    }
+
+    /**
+     * returns a list of Strings that contains the names of all available pet-types
+     *
+     * @param sender The sender to get the available types for
+     * @return a list of Strings that contains the names of all available pet-types
+     */
+    public static List<String> getAvailableTypes(CommandSender sender) {
         List<String> strings = new ArrayList<>();
         for (PetType type : PetType.values()) {
-            String displayText = languageConfig.getString("PetTypes." + type.name() + ".displaytext");
-            if (displayText != null) {
-                strings.add(displayText);
-            } else {
-                strings.add(WordUtils.capitalizeFully(type.name().replace('_', ' ')));
+            if (sender == null || sender.hasPermission("MbPets.pet." + type.name().toLowerCase())) {
+                String displayText = languageConfig.getString("PetTypes." + type.name() + ".displaytext");
+                if (displayText != null) {
+                    strings.add(displayText);
+                } else {
+                    strings.add(WordUtils.capitalizeFully(type.name().replace('_', ' ')));
+                }
             }
         }
         return strings;

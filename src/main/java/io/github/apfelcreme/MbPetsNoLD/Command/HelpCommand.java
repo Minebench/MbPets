@@ -50,7 +50,7 @@ public class HelpCommand implements SubCommand {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.uncall"));
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.bottom"));
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.types") + ChatColor.GREEN
-                            + StringUtils.join(MbPetsConfig.getAvailableTypes(), ", "));
+                            + StringUtils.join(MbPetsConfig.getAvailableTypes(chatInput.getSender()), ", "));
             return;
         }
         MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Head"));
