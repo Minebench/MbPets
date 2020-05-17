@@ -65,6 +65,12 @@ public class BeePet extends Pet<Bee> implements Ageable {
         getEntity().setAgeLock(true);
         getEntity().setCannotEnterHiveTicks(Integer.MAX_VALUE);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_BECOME_ANGRY);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_ENTER_HIVE);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_GO_TO_HIVE);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_GO_TO_KNOWN_FLOWER);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_GROW_CROP);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_LOCATE_HIVE);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_POLLINATE);
 
         if (isBaby) {
             getEntity().setBaby();

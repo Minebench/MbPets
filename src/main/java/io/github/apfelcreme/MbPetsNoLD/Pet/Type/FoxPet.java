@@ -96,6 +96,10 @@ public class FoxPet extends Pet<Fox> implements Styleable<Fox.Type>, Ageable {
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_PANIC);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_SEEK_SHELTER);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_STALK_PREY);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_EAT_BERRIES);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_BREED);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_DEFEND_TRUSTED);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.FOX_FOLLOW_PARENT);
 
         if (isBaby) {
             getEntity().setBaby();
