@@ -88,8 +88,8 @@ public class FollowTask {
                                 && (MbPets.getInstance().getPluginAnimalProtect() == null // is the Plugin "AnimalProtect" activated? ?
                                         || !MbPets.getInstance().getPluginAnimalProtect().hasOwner(pet.getTarget().getUniqueId()))) { // if it is: is the target protected?
 
-                            if (entity.isSilent()) {
-                                entity.setSilent(false);
+                            if (!pet.onAttack()) {
+                                return;
                             }
                             
                             Vector jumpTarget = entity.getLocation().subtract(pet.getTarget().getLocation()).toVector().normalize().multiply(-0.5);

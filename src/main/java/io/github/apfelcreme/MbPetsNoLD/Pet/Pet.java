@@ -238,6 +238,7 @@ public class Pet<T extends Mob> {
     public void setTarget(LivingEntity target, EntityTargetEvent.TargetReason reason) {
         this.target = target;
         this.targetReason = reason;
+        entity.setTarget(null);
     }
     
     /**
@@ -435,6 +436,14 @@ public class Pet<T extends Mob> {
             return false;
         }
         event.setDamage(event.getDamage() * getLevel().getReceivedDamageModifier());
+        return true;
+    }
+
+    /**
+     * Called when this pet attacks something
+     * @return Whether or not the attack should happen
+     */
+    public boolean onAttack() {
         return true;
     }
     

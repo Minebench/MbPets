@@ -41,7 +41,14 @@ public class BeePet extends Pet<Bee> implements Ageable {
     @Override
     public void onSpecifyTarget(LivingEntity target, EntityTargetEvent.TargetReason reason, Event event) {
         super.onSpecifyTarget(target, reason, event);
-        target.addPassenger(getEntity());
+        getEntity().setAnger(100);
+    }
+
+    @Override
+    public boolean onAttack() {
+        super.onAttack();
+        getEntity().setAnger(100);
+        return true;
     }
     
     @Override
@@ -65,6 +72,7 @@ public class BeePet extends Pet<Bee> implements Ageable {
         getEntity().setAgeLock(true);
         getEntity().setCannotEnterHiveTicks(Integer.MAX_VALUE);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_BECOME_ANGRY);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_ATTACK);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_ENTER_HIVE);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_GO_TO_HIVE);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.BEE_GO_TO_KNOWN_FLOWER);
