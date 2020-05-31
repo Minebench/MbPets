@@ -34,20 +34,19 @@ public class ParticleTask {
         if (isActive()) {
             kill();
         }
-        taskId = MbPets.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(MbPets.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                for (Pet pet : PetManager.getInstance().getPets().values()) {
-                    if (pet.getLevel() != null && pet.getLevel().getParticle() != null) {
-                        pet.getEntity().getWorld().spawnParticle(
-                                pet.getLevel().getParticle(),
-                                pet.getEntity().getLocation(),
-                                pet.getLevel().getParticleCount(), // count
-                                1, 1.5, 1, // max random offset
-                                pet.getLevel().getParticleExtra(),
-                                pet.getLevel().getParticle().getDataType() != Void.TYPE ? pet.getLevel().getParticleData() : null
-                        );
-                    }
+        double horizontalOffset = MbPetsConfig.getParticleHorizontalOffset();
+        double verticalOffset = MbPetsConfig.getParticleVerticalOffset();
+        taskId = MbPets.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(MbPets.getInstance(), () -> {
+            for (Pet pet : PetManager.getInstance().getPets().values()) {
+                if (pet.getLevel() != null && pet.getLevel().getParticle() != null) {
+                    pet.getEntity().getWorld().spawnParticle(
+                            pet.getLevel().getParticle(),
+                            pet.getEntity().getLocation(),
+                            pet.getLevel().getParticleCount(), // count
+                            horizontalOffset, verticalOffset, horizontalOffset, // max random offset
+                            pet.getLevel().getParticleExtra(),
+                            pet.getLevel().getParticle().getDataType() != Void.TYPE ? pet.getLevel().getParticleData() : null
+                    );
                 }
             }
         }, 0, MbPetsConfig.getParticleTaskDelay());

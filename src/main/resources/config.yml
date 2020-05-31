@@ -2,6 +2,9 @@ callDelay: 1000
 callItem: false
 petDeathCooldown: 60000
 particleTaskDelay: 15
+particleOffset:
+  horizontal: 0.5
+  vertical: 1
 followTaskDelay: 15
 useHikariCP: true
 database:

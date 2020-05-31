@@ -692,6 +692,24 @@ public class MbPetsConfig {
     }
 
     /**
+     * returns the horizontal offset of the particle cloud
+     *
+     * @return the horizontal offset
+     */
+    public static double getParticleHorizontalOffset() {
+        return MbPets.getInstance().getConfig().getDouble("particleOffset.horizontal");
+    }
+
+    /**
+     * returns the vertical offset of the particle cloud
+     *
+     * @return the vertical offset
+     */
+    public static double getParticleVerticalOffset() {
+        return MbPets.getInstance().getConfig().getDouble("particleOffset.vertical");
+    }
+
+    /**
      * returns the delay between the follow task ticks
      *
      * @return a number of ticks, 20 = 1s
