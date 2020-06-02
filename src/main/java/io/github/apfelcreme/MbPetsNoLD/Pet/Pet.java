@@ -483,6 +483,7 @@ public class Pet<T extends Mob> {
      * @param exp the amount of exp
      */
     public void addExp(final int exp) {
+        setExp(getExp() + exp);
         MbPets.getInstance().getServer().getScheduler().runTaskAsynchronously(MbPets.getInstance(), () -> {
             try (Connection connection = MbPets.getInstance().getDatabaseConnector().getConnection();
                  PreparedStatement statement = connection
