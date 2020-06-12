@@ -62,6 +62,7 @@ public class EndermanPet extends Pet<Enderman> {
     @Override
     public void applyAttributes() {
         super.applyAttributes();
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_FREEZE_WHEN_LOOKED_AT);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PICKUP_BLOCK);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PLACE_BLOCK);
     }
