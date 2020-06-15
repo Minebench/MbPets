@@ -65,5 +65,6 @@ public class EndermanPet extends Pet<Enderman> {
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_FREEZE_WHEN_LOOKED_AT);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PICKUP_BLOCK);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PLACE_BLOCK);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PLAYER_WHO_LOOKED_AT_TARGET);
     }
 }
