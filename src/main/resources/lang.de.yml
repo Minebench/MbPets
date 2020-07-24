@@ -177,6 +177,15 @@ PetTypes:
     aliases:
     - 'GEIST'
     - 'PLAGEGEIST'
+  STRIDER:
+    displaytext: 'Strider'
+    aliases:
+      - 'Schreiter'
+  HOGLIN:
+    displaytext: 'Hoglin'
+    aliases:
+      - 'Hog'
+      - 'Warzenschwein'
 DyeColors:
   BLACK:
     displaytext: 'Schwarz'

@@ -49,7 +49,9 @@ public enum PetType {
     SLIME(          EntityType.SLIME,           SlimePet.class),
     VEX(            EntityType.VEX,             VexPet.class),
     TURTLE(         EntityType.TURTLE,          TurtlePet.class),
-    BEE(            EntityType.BEE,             BeePet.class);
+    BEE(            EntityType.BEE,             BeePet.class),
+    STRIDER(        EntityType.STRIDER,         StriderPet.class),
+    HOGLIN(         EntityType.HOGLIN,          HoglinPet.class);
 
     private EntityType entityType;
     private final Class<? extends Pet> petClass;

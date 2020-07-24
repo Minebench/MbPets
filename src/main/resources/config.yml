@@ -92,6 +92,8 @@ prices:
   SLIME: 20000
   MAGMA_CUBE: 30000
   VEX: 35000
+  STRIDER: 30000
+  HOGLIN: 20000
   MODIFY: 1000
   SELL: 0.75
 damage:
@@ -122,6 +124,8 @@ damage:
   SLIME: 4
   MAGMA_CUBE: 4
   VEX: 3
+  STRIDER: 3
+  HOGLIN: 3
 speed:
   WOLF: 1.7
   CAT: 1.7
@@ -150,6 +154,8 @@ speed:
   SLIME: 1.5
   MAGMA_CUBE: 1.5
   VEX: 1.5
+  STRIDER: 1.5
+  HOGLIN: 1.7
 enhancedSpeed:
   WOLF: 3
   CAT: 3
@@ -178,6 +184,8 @@ enhancedSpeed:
   SLIME: 2
   MAGMA_CUBE: 2
   VEX: 2.5
+  STRIDER: 2.5
+  HOGLIN: 3
 sound:
   WOLF: 'ENTITY_WOLF_GROWL'
   CAT: 'ENTITY_CAT_HISS'
@@ -206,6 +214,8 @@ sound:
   SLIME: 'ENTITY_SLIME_SQUISH'
   MAGMA_CUBE: 'ENTITY_MAGMACUBE_SQUISH'
   VEX: 'ENTITY_VEX_CHARGE'
+  STRIDER: 'ENTITY_STRIDER_AMBIENT'
+  HOGLIN: 'ENTITY_HOGLIN_AMBIENT'
 expReward:
   default: 25
   CREEPER: 75
@@ -253,3 +263,5 @@ expReward:
   LLAMA: 25
   VEX: 100
   PHANTOM: 75
+  STRIDER: 50
+  HOGLIN: 25
