@@ -20,6 +20,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
@@ -546,6 +547,10 @@ public class Pet<T extends Mob> {
             Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.RESTRICT_SUN);
             Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.STROLL_VILLAGE);
             Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.NEAREST_VILLAGE);
+        }
+        if (getEntity() instanceof Animals) {
+            Bukkit.getMobGoals().removeGoal((Animals) getEntity(), VanillaGoal.BREED);
+            Bukkit.getMobGoals().removeGoal((Animals) getEntity(), VanillaGoal.FOLLOW_PARENT);
         }
     }
     
