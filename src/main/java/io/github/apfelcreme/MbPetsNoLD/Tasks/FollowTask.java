@@ -43,20 +43,22 @@ public class FollowTask {
             for (Pet pet : PetManager.getInstance().getPets().values()) {
                 Mob entity = pet.getEntity();
                 Player owner = MbPets.getInstance().getServer().getPlayer(pet.getOwner());
-                if (entity.getWorld().equals(owner.getWorld())) {
+                if (owner != null && entity.getWorld().equals(owner.getWorld())) {
                     Pathfinder pathfinder = entity.getPathfinder();
                     //EntityInsentient handle = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
 
                     if (pet.getTarget() == null || pet.getTarget().isDead()) {
                         // if target is dead make it return to the owner
+                        pet.showParticles();
                         pet.setTarget(owner, EntityTargetEvent.TargetReason.TARGET_DIED);
                     }
 
                     double distance = owner.getLocation().distanceSquared(entity.getLocation());
                     if (distance > 24 * 24) { // distance to the owner > 24 ? teleport
+                        pet.showParticles();
                         entity.teleport(getLocationNextTo(owner, 2.2));
-                    }
-                    if (distance > 16 * 16) { // distance to the owner > 16 ? set target to owner
+                    } else if (distance > 16 * 16) { // distance to the owner > 16 ? set target to owner
+                        pet.showParticles();
                         pet.setTarget(owner, EntityTargetEvent.TargetReason.FORGOT_TARGET);
                     }
                     
@@ -95,6 +97,8 @@ public class FollowTask {
                             Vector jumpTarget = entity.getLocation().subtract(pet.getTarget().getLocation()).toVector().normalize().multiply(-0.5);
                             entity.teleport(entity.getLocation().setDirection(jumpTarget));
                             entity.setVelocity(jumpTarget);
+
+                            pet.showParticles();
                             
                             // launch the target into the air and do some damage depending on the pets attack strength and active modifiers
                             pet.getTarget().setVelocity(new Vector(0, 0.5, 0));

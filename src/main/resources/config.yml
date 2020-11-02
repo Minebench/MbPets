@@ -1,7 +1,7 @@
 callDelay: 1000
 callItem: false
 petDeathCooldown: 60000
-particleTaskDelay: 15
+particleTaskDelay: 0
 particleOffset:
   horizontal: 0.5
   vertical: 1

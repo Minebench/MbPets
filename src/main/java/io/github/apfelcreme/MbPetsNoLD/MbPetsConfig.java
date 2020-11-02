@@ -39,6 +39,9 @@ public class MbPetsConfig {
     private static File languageConfigFile;
     private static YamlConfiguration languageConfig;
 
+    private static double particleVerticalOffset;
+    private static double particleHorizontalOffset;
+
     /**
      * init
      */
@@ -53,6 +56,9 @@ public class MbPetsConfig {
     public static void reloadConfig() {
         MbPets.getInstance().saveDefaultConfig();
         MbPets.getInstance().reloadConfig();
+
+        particleVerticalOffset = MbPets.getInstance().getConfig().getDouble("particleOffset.vertical");
+        particleHorizontalOffset = MbPets.getInstance().getConfig().getDouble("particleOffset.vertical");
 
         MbPets.getInstance().saveResource("lang.de.yml", false);
         languageConfigFile = new File(MbPets.getInstance().getDataFolder(), "lang.de.yml");
@@ -697,7 +703,7 @@ public class MbPetsConfig {
      * @return the horizontal offset
      */
     public static double getParticleHorizontalOffset() {
-        return MbPets.getInstance().getConfig().getDouble("particleOffset.horizontal");
+        return particleHorizontalOffset;
     }
 
     /**
@@ -706,7 +712,7 @@ public class MbPetsConfig {
      * @return the vertical offset
      */
     public static double getParticleVerticalOffset() {
-        return MbPets.getInstance().getConfig().getDouble("particleOffset.vertical");
+        return particleVerticalOffset;
     }
 
     /**

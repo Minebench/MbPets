@@ -394,6 +394,22 @@ public class Pet<T extends Mob> {
             }
         });
     }
+
+    /**
+     * Show the pet's particle cloud
+     */
+    public void showParticles() {
+        if (getLevel() != null && getLevel().getParticle() != null) {
+            getEntity().getWorld().spawnParticle(
+                    getLevel().getParticle(),
+                    getEntity().getLocation(),
+                    getLevel().getParticleCount(), // count
+                    MbPetsConfig.getParticleHorizontalOffset(), MbPetsConfig.getParticleVerticalOffset(), MbPetsConfig.getParticleVerticalOffset(), // max random offset
+                    getLevel().getParticleExtra(),
+                    getLevel().getParticle().getDataType() != Void.TYPE ? getLevel().getParticleData() : null
+            );
+        }
+    }
     
     /**
      * Called when a pet is right clicked by a player
