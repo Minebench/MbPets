@@ -83,7 +83,7 @@ public class FoxPet extends Pet<Fox> implements Styleable<Fox.Type>, Ageable {
      */
     @Override
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
+        super.applyAttributes();
         getEntity().setFoxType(style);
         getEntity().setAgeLock(true);
         org.bukkit.entity.AnimalTamer owner = MbPets.getInstance().getServer().getPlayer(getOwner());

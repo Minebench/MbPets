@@ -29,6 +29,7 @@ texts:
     leashName: '&2{0}'
     leashTitle: '&7[&2{0}&7]'
     leashLore: '&aRechtsklicke um {0}/n&azu rufen oder wegzuschicken!'
+    displayName: '{7} &8Lv&7{6}'
     rightclickName: '{0} {1}♥ &f{2}/{3} &e♦ &f{4}/{5}'
   help:
     Options:

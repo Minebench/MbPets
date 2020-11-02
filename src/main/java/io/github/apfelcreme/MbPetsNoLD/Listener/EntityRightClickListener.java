@@ -44,7 +44,7 @@ public class EntityRightClickListener implements Listener {
         if (pet != null && pet.onRightClick(e.getPlayer(), e)) {
             String newName = pet.getRightClickName();
             pet.getEntity().setCustomName(newName);
-            MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), () -> pet.getEntity().setCustomName(pet.getName()), 60L);
+            MbPets.getInstance().getServer().getScheduler().runTaskLaterAsynchronously(MbPets.getInstance(), () -> pet.getEntity().setCustomName(pet.getDisplayName()), 60L);
         }
     }
 }

@@ -516,6 +516,32 @@ public class Pet<T extends Mob> {
     }
 
     /**
+     * returns the string that is displayed normally
+     *
+     * @return the string that is displayed normally
+     */
+    public String getDisplayName() {
+        double healthRatio = 100 / getEntity().getMaxHealth() * getEntity().getHealth();
+        ChatColor color;
+        if (healthRatio < 33.3) {
+            color = ChatColor.RED;
+        } else if (healthRatio < 66.6) {
+            color = ChatColor.YELLOW;
+        } else {
+            color = ChatColor.GREEN;
+        }
+        return MbPetsConfig.getTextNode("info.displayname")
+                .replace("{0}", MbPets.getInstance().getServer().getPlayer(owner).getName())
+                .replace("{1}", color.toString())
+                .replace("{2}", new DecimalFormat("0.0").format(getEntity().getHealth()))
+                .replace("{3}", new DecimalFormat("0.0").format(getEntity().getMaxHealth()))
+                .replace("{4}", Integer.toString(exp))
+                .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()))
+                .replace("{6}", Integer.toString(level.getLevel() + 1))
+                .replace("{7}", getName());
+    }
+
+    /**
      * returns the string that is displayed when you rightclick a pet
      *
      * @return the string that is displayed when you rightclick a pet
@@ -536,7 +562,9 @@ public class Pet<T extends Mob> {
                 .replace("{2}", new DecimalFormat("0.0").format(getEntity().getHealth()))
                 .replace("{3}", new DecimalFormat("0.0").format(getEntity().getMaxHealth()))
                 .replace("{4}", Integer.toString(exp))
-                .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()));
+                .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()))
+                .replace("{6}", Integer.toString(level.getLevel() + 1))
+                .replace("{7}", getName());
     }
 
     /**
@@ -552,7 +580,7 @@ public class Pet<T extends Mob> {
      * applies all attributes to the entity
      */
     public void applyAttributes() {
-        getEntity().setCustomName(getName());
+        getEntity().setCustomName(getDisplayName());
         getEntity().setCustomNameVisible(true);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.NEAREST_ATTACKABLE_TARGET);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.EAT_TILE);
