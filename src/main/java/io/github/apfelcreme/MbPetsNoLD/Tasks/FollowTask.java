@@ -117,12 +117,12 @@ public class FollowTask {
                     if (entity.getHealth() < maxHealth && pet.getLastCombat() + MbPetsConfig.getRegenerationOutOfCombat() * 1000 < System.currentTimeMillis()) {
                         double newHealth = entity.getHealth() + MbPetsConfig.getRegenerationAmount() * pet.getLevel().getRegenerationModifier();
 
-                        if ((int) newHealth != (int) entity.getHealth()) {
+                        if ((int) Math.round(newHealth) != (int) Math.round(entity.getHealth())) {
                             entity.getWorld().spawnParticle(
                                     Particle.HEART,
-                                    entity.getLocation(),
-                                    3, // count
-                                    MbPetsConfig.getParticleHorizontalOffset(), MbPetsConfig.getParticleVerticalOffset(), MbPetsConfig.getParticleVerticalOffset()
+                                    entity.getLocation().add(0, 1, 0),
+                                    3,
+                                    0.5, 0.5, 0.5
                             );
                         }
 
