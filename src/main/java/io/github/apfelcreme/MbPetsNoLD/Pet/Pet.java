@@ -222,7 +222,11 @@ public class Pet<T extends Mob> {
      */
     public void setExp(int exp) {
         this.exp = exp;
-        this.level = PetLevel.from(exp);
+        PetLevel newLevel = PetLevel.from(exp);
+        if (level != newLevel) {
+            level = newLevel;
+            showParticles();
+        }
     }
 
     /**
