@@ -225,6 +225,7 @@ public class Pet<T extends Mob> {
         PetLevel newLevel = PetLevel.from(exp);
         if (level != newLevel) {
             level = newLevel;
+            getEntity().setCustomName(getDisplayName());
             showParticles();
         }
     }
@@ -460,6 +461,7 @@ public class Pet<T extends Mob> {
             return false;
         }
         event.setDamage(event.getDamage() * getLevel().getReceivedDamageModifier());
+        getEntity().setCustomName(getDisplayName());
         return true;
     }
 
