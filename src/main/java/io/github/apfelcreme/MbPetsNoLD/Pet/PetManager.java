@@ -218,16 +218,16 @@ public class PetManager {
         petConfiguration.setNumber(resultSet.getInt("number"));
         petConfiguration.setName(resultSet.getString("petname"));
         petConfiguration.setBaby(resultSet.getBoolean("baby"));
-        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horseColor")));
-        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horseStyle")));
-        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepColor")));
-        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfColor")));
-        petConfiguration.setCatType(MbPetsConfig.parseCatType(resultSet.getString("catType")));
-        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbitType")));
-        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamaColor")));
-        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotColor")));
-        petConfiguration.setFoxType(MbPetsConfig.parseFoxType(resultSet.getString("foxType")));
-        petConfiguration.setSlimeSize(resultSet.getInt("slimeSize"));
+        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horsecolor")));
+        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horsestyle")));
+        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepcolor")));
+        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfcolor")));
+        petConfiguration.setCatType(MbPetsConfig.parseCatType(resultSet.getString("cattype")));
+        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbittype")));
+        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamacolor")));
+        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotcolor")));
+        petConfiguration.setFoxType(MbPetsConfig.parseFoxType(resultSet.getString("foxtype")));
+        petConfiguration.setSlimeSize(resultSet.getInt("slimesize"));
         petConfiguration.setExp(resultSet.getInt("exp"));
         return petConfiguration.getPet();
     }
