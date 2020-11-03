@@ -471,7 +471,7 @@ public class Pet<T extends Mob> {
             return false;
         }
         event.setDamage(event.getDamage() * getLevel().getReceivedDamageModifier());
-        updateDisplayName();
+        MbPets.getInstance().getServer().getScheduler().runTask(MbPets.getInstance(), this::updateDisplayName);
         lastCombat = System.currentTimeMillis();
         return true;
     }
