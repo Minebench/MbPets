@@ -225,8 +225,10 @@ public class Pet<T extends Mob> {
         PetLevel newLevel = PetLevel.from(exp);
         if (level != newLevel) {
             level = newLevel;
-            getEntity().setCustomName(getDisplayName());
-            showParticles();
+            if (getEntity() != null) {
+                getEntity().setCustomName(getDisplayName());
+                showParticles();
+            }
         }
     }
 
