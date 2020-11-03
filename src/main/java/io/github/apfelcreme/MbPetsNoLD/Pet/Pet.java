@@ -530,7 +530,7 @@ public class Pet<T extends Mob> {
         } else {
             color = ChatColor.GREEN;
         }
-        return MbPetsConfig.getTextNode("info.displayname")
+        return MbPetsConfig.getTextNode("info.displayName")
                 .replace("{0}", MbPets.getInstance().getServer().getPlayer(owner).getName())
                 .replace("{1}", color.toString())
                 .replace("{2}", new DecimalFormat("0.0").format(getEntity().getHealth()))
