@@ -33,10 +33,7 @@ public class EntityTargetListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onEntityTarget(EntityTargetEvent event) {
-        Pet pet = PetManager.getInstance().getPetByEntity(event.getEntity());
-        if (pet != null) {
-            event.setCancelled(true);
-        } else if (event.getTarget() != null) {
+        if (event.getTarget() != null) {
             Pet targetedPet = PetManager.getInstance().getPetByEntity(event.getTarget());
             if (targetedPet != null && targetedPet.getTarget() != event.getEntity()) {
                 event.setCancelled(true);
