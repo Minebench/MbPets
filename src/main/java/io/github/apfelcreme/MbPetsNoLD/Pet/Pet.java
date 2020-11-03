@@ -57,6 +57,9 @@ import java.util.UUID;
  */
 public class Pet<T extends Mob> {
 
+    private static final DecimalFormat HEALTH_FORMAT = new DecimalFormat("0.0");
+    private static final DecimalFormat SHORT_HEALTH_FORMAT = new DecimalFormat("0");
+
     private UUID owner;
     private String name = null;
     private PetType type;
@@ -533,12 +536,13 @@ public class Pet<T extends Mob> {
         return MbPetsConfig.getTextNode("info.displayName")
                 .replace("{0}", MbPets.getInstance().getServer().getPlayer(owner).getName())
                 .replace("{1}", color.toString())
-                .replace("{2}", new DecimalFormat("0.0").format(getEntity().getHealth()))
-                .replace("{3}", new DecimalFormat("0.0").format(getEntity().getMaxHealth()))
+                .replace("{2}", HEALTH_FORMAT.format(getEntity().getHealth()))
+                .replace("{3}", HEALTH_FORMAT.format(getEntity().getMaxHealth()))
                 .replace("{4}", Integer.toString(exp))
                 .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()))
                 .replace("{6}", Integer.toString(level.getLevel()))
-                .replace("{7}", getName());
+                .replace("{7}", getName())
+                .replace("{8}", SHORT_HEALTH_FORMAT.format(getEntity().getHealth()));
     }
 
     /**
@@ -559,12 +563,13 @@ public class Pet<T extends Mob> {
         return MbPetsConfig.getTextNode("info.rightclickName")
                 .replace("{0}", MbPets.getInstance().getServer().getPlayer(owner).getName())
                 .replace("{1}", color.toString())
-                .replace("{2}", new DecimalFormat("0.0").format(getEntity().getHealth()))
-                .replace("{3}", new DecimalFormat("0.0").format(getEntity().getMaxHealth()))
+                .replace("{2}", HEALTH_FORMAT.format(getEntity().getHealth()))
+                .replace("{3}", HEALTH_FORMAT.format(getEntity().getMaxHealth()))
                 .replace("{4}", Integer.toString(exp))
                 .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()))
                 .replace("{6}", Integer.toString(level.getLevel()))
-                .replace("{7}", getName());
+                .replace("{7}", getName())
+                .replace("{8}", SHORT_HEALTH_FORMAT.format(Math.round(getEntity().getHealth())));
     }
 
     /**
