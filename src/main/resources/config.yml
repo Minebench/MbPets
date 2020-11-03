@@ -22,61 +22,61 @@ level:
     attackStrengthModifier: 1.0
     receivedDamageModifier: 0.5
     particle: ''
-    regenerationModified: 1
+    regenerationModifier: 0.2
   '2':
     expThreshold: 250
     attackStrengthModifier: 1.1
     receivedDamageModifier: 0.45
     particle: ''
-    regenerationModified: 2
+    regenerationModifier: 0.4
   '3':
     expThreshold: 1000
     attackStrengthModifier: 1.2
     receivedDamageModifier: 0.4
     particle: ''
-    regenerationModified: 3
+    regenerationModifier: 0.6
   '4':
     expThreshold: 2000
     attackStrengthModifier: 1.3
     receivedDamageModifier: 0.35
     particle: ''
-    regenerationModified: 4
+    regenerationModifier: 0.8
   '5':
     expThreshold: 5000
     attackStrengthModifier: 1.4
     receivedDamageModifier: 0.3
     particle: ''
-    regenerationModified: 5
+    regenerationModifier: 1
   '6':
     expThreshold: 7500
     attackStrengthModifier: 1.5
     receivedDamageModifier: 0.25
     particle: 'PORTAL'
-    regenerationModified: 6
+    regenerationModifier: 1.2
   '7':
     expThreshold: 10000
     attackStrengthModifier: 1.6
     receivedDamageModifier: 0.2
     particle: 'HEART'
-    regenerationModified: 7
+    regenerationModifier: 1.4
   '8':
     expThreshold: 15000
     attackStrengthModifier: 1.7
     receivedDamageModifier: 0.15
     particle: 'LAVA'
-    regenerationModified: 8
+    regenerationModifier: 1.6
   '9':
     expThreshold: 20000
     attackStrengthModifier: 1.8
     receivedDamageModifier: 0.1
     particle: 'NOTE'
-    regenerationModified: 9
+    regenerationModifier: 1.8
   '10':
     expThreshold: 50000
     attackStrengthModifier: 1.9
     receivedDamageModifier: 0.05
     particle: 'FLAME'
-    regenerationModified: 10
+    regenerationModifier: 2
 prices:
   WOLF: 10000
   CAT: 10000
