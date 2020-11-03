@@ -113,7 +113,7 @@ public class FollowTask {
                         }
                     }
 
-                    double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                    double maxHealth = entity.getMaxHealth();
                     if (entity.getHealth() < maxHealth && pet.getLastCombat() + MbPetsConfig.getRegenerationOutOfCombat() * 1000 < System.currentTimeMillis()) {
                         double newHealth = entity.getHealth() + MbPetsConfig.getRegenerationAmount() * pet.getLevel().getRegenerationModifier();
 
