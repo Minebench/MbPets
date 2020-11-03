@@ -83,13 +83,14 @@ public class PetManager {
 
     private void loadLevels() {
         Map<Integer, PetLevel> levels = new TreeMap<>();
-        levels.put(0, new PetLevel(0, 0, 0, null, 0, 0.01, null, 0));
+        levels.put(0, new PetLevel(0, 0, 0, 0, null, 0, 0.01, null, 0));
         ConfigurationSection levelsConfig = MbPets.getInstance().getConfig().getConfigurationSection("level");
         for (String key : levelsConfig.getKeys(false)) {
             ConfigurationSection levelConfig = levelsConfig.getConfigurationSection(key);
             int level = Integer.parseInt(key);
             double attackStrengthModifier = levelConfig.getDouble("attackStrengthModifier");
             double receivedDamageModifier = levelConfig.getDouble("receivedDamageModifier");
+            double regenerationModifier = levelConfig.getDouble("regenerationModifier");
             int expThreshold = levelConfig.getInt("expThreshold");
             Particle particle = null;
             String particleStr = levelConfig.getString("particle");
@@ -142,7 +143,7 @@ public class PetManager {
                     MbPets.getInstance().getLogger().log(Level.SEVERE, "Invalid effect for level " + key + ": " + particleStr + " - " + particleData + " - " + e.getMessage());
                 }
             }
-            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, particle, particleCount, particleExtra, particleData, expThreshold));
+            levels.put(level, new PetLevel(level, attackStrengthModifier, receivedDamageModifier, regenerationModifier, particle, particleCount, particleExtra, particleData, expThreshold));
         }
 
         this.levels = levels;

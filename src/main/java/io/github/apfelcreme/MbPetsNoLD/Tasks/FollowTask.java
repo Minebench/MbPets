@@ -6,6 +6,8 @@ import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -109,6 +111,23 @@ public class FollowTask {
                             // sound only necessary if pet entity is damager and not the player
                             pet.getEntity().getWorld().playSound(pet.getEntity().getLocation(), MbPetsConfig.getPetSound(pet.getType()), 5, 1);
                         }
+                    }
+
+                    double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                    if (entity.getHealth() < maxHealth && pet.getLastCombat() + MbPetsConfig.getRegenerationOutOfCombat() * 1000 < System.currentTimeMillis()) {
+                        double newHealth = entity.getHealth() + MbPetsConfig.getRegenerationAmount() * pet.getLevel().getRegenerationModifier();
+
+                        if ((int) newHealth != (int) entity.getHealth()) {
+                            entity.getWorld().spawnParticle(
+                                    Particle.HEART,
+                                    entity.getLocation(),
+                                    3, // count
+                                    MbPetsConfig.getParticleHorizontalOffset(), MbPetsConfig.getParticleVerticalOffset(), MbPetsConfig.getParticleVerticalOffset()
+                            );
+                        }
+
+                        entity.setHealth(newHealth < maxHealth ? newHealth : maxHealth);
+                        pet.updateDisplayName();
                     }
                 } else {
                     pet.uncall();

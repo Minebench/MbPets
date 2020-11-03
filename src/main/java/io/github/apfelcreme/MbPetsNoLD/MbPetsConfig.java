@@ -41,6 +41,8 @@ public class MbPetsConfig {
 
     private static double particleVerticalOffset;
     private static double particleHorizontalOffset;
+    private static double regenerationAmount;
+    private static long regenerationOutOfCombat;
 
     /**
      * init
@@ -59,6 +61,9 @@ public class MbPetsConfig {
 
         particleVerticalOffset = MbPets.getInstance().getConfig().getDouble("particleOffset.vertical");
         particleHorizontalOffset = MbPets.getInstance().getConfig().getDouble("particleOffset.vertical");
+
+        regenerationAmount = MbPets.getInstance().getConfig().getDouble("regeneration.perTask");
+        regenerationOutOfCombat = MbPets.getInstance().getConfig().getLong("regeneration.outOfCombat");
 
         MbPets.getInstance().saveResource("lang.de.yml", false);
         languageConfigFile = new File(MbPets.getInstance().getDataFolder(), "lang.de.yml");
@@ -713,6 +718,25 @@ public class MbPetsConfig {
      */
     public static double getParticleVerticalOffset() {
         return particleVerticalOffset;
+    }
+
+    /**
+     * returns the amount to regenerate each follow task when out of combat,
+     * will be multiplied by the level's regeneration modifier
+     *
+     * @return the amount to regenerate each follow task when out of combat
+     */
+    public static double getRegenerationAmount() {
+        return regenerationAmount;
+    }
+
+    /**
+     * returns the amount of seconds a pet needs to be out of combat before regenerating
+     *
+     * @return the amount of seconds a pet needs to be out of combat before regenerating
+     */
+    public static long getRegenerationOutOfCombat() {
+        return regenerationOutOfCombat;
     }
 
     /**

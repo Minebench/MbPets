@@ -71,6 +71,7 @@ public class Pet<T extends Mob> {
     private LivingEntity target = null;
     private PetLevel level = null;
     private EntityTargetEvent.TargetReason targetReason = EntityTargetEvent.TargetReason.UNKNOWN;
+    private long lastCombat = 0;
     
     public Pet(UUID owner, PetType type, Integer number) {
         this.owner = owner;
@@ -225,10 +226,8 @@ public class Pet<T extends Mob> {
         PetLevel newLevel = PetLevel.from(exp);
         if (level != newLevel) {
             level = newLevel;
-            if (getEntity() != null) {
-                getEntity().setCustomName(getDisplayName());
-                showParticles();
-            }
+            updateDisplayName();
+            showParticles();
         }
     }
 
@@ -267,6 +266,15 @@ public class Pet<T extends Mob> {
      */
     public PetLevel getLevel() {
         return level;
+    }
+
+    /**
+     * returns the timestamp when this pet was in combat last
+     *
+     * @return the timestamp when this pet was in combat last
+     */
+    public long getLastCombat() {
+        return lastCombat;
     }
 
     /**
@@ -409,7 +417,7 @@ public class Pet<T extends Mob> {
      * Show the pet's particle cloud
      */
     public void showParticles() {
-        if (getLevel() != null && getLevel().getParticle() != null) {
+        if (getEntity() != null && getLevel() != null && getLevel().getParticle() != null) {
             getEntity().getWorld().spawnParticle(
                     getLevel().getParticle(),
                     getEntity().getLocation(),
@@ -463,7 +471,8 @@ public class Pet<T extends Mob> {
             return false;
         }
         event.setDamage(event.getDamage() * getLevel().getReceivedDamageModifier());
-        getEntity().setCustomName(getDisplayName());
+        updateDisplayName();
+        lastCombat = System.currentTimeMillis();
         return true;
     }
 
@@ -472,6 +481,7 @@ public class Pet<T extends Mob> {
      * @return Whether or not the attack should happen
      */
     public boolean onAttack() {
+        lastCombat = System.currentTimeMillis();
         return true;
     }
     
@@ -483,6 +493,7 @@ public class Pet<T extends Mob> {
     public void onKill(LivingEntity killed, EntityDeathEvent event) {
         if (killed != null) {
             addExp(MbPetsConfig.getTargetExpReward(killed.getType()));
+            lastCombat = System.currentTimeMillis();
         }
     }
     
@@ -524,6 +535,18 @@ public class Pet<T extends Mob> {
                 e.printStackTrace();
             }
         });
+    }
+
+    /**
+     * Update the display name of the pet
+     */
+    public void updateDisplayName() {
+        if (getEntity() != null) {
+            getEntity().setCustomName(getDisplayName());
+            if (!getEntity().isCustomNameVisible()) {
+                getEntity().setCustomNameVisible(true);
+            }
+        }
     }
 
     /**
@@ -593,8 +616,7 @@ public class Pet<T extends Mob> {
      * applies all attributes to the entity
      */
     public void applyAttributes() {
-        getEntity().setCustomName(getDisplayName());
-        getEntity().setCustomNameVisible(true);
+        updateDisplayName();
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.NEAREST_ATTACKABLE_TARGET);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.EAT_TILE);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.USE_ITEM);
