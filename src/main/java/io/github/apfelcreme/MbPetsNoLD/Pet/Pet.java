@@ -537,7 +537,7 @@ public class Pet<T extends Mob> {
                 .replace("{3}", new DecimalFormat("0.0").format(getEntity().getMaxHealth()))
                 .replace("{4}", Integer.toString(exp))
                 .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()))
-                .replace("{6}", Integer.toString(level.getLevel() + 1))
+                .replace("{6}", Integer.toString(level.getLevel()))
                 .replace("{7}", getName());
     }
 
@@ -563,7 +563,7 @@ public class Pet<T extends Mob> {
                 .replace("{3}", new DecimalFormat("0.0").format(getEntity().getMaxHealth()))
                 .replace("{4}", Integer.toString(exp))
                 .replace("{5}", Integer.toString(PetLevel.fromLevel(level.getLevel() + 1).getExpThreshold()))
-                .replace("{6}", Integer.toString(level.getLevel() + 1))
+                .replace("{6}", Integer.toString(level.getLevel()))
                 .replace("{7}", getName());
     }
 
