@@ -65,7 +65,12 @@ public class HikariCPConnection extends DatabaseConnector {
                 }
             }
 
-            hikariConfig.addDataSourceProperty("url", "jdbc:mysql://" + MbPetsConfig.getDbUrl() + "/" + MbPetsConfig.getDatabase() + MbPetsConfig.getDbUrlParameters());
+            String url = "jdbc:mysql://" + MbPetsConfig.getDbUrl() + "/" + MbPetsConfig.getDatabase() + MbPetsConfig.getDbUrlParameters();
+            if (dataSourceClassName != null) {
+                hikariConfig.addDataSourceProperty("url", url);
+            } else {
+                hikariConfig.setJdbcUrl(url);
+            }
             hikariConfig.setUsername(MbPetsConfig.getDbUser());
             hikariConfig.setPassword(MbPetsConfig.getDbPassword());
             hikariConfig.setConnectionTimeout(5000);
