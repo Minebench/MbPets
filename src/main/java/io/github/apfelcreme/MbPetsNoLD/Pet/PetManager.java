@@ -315,7 +315,7 @@ public class PetManager {
                                 "WHERE playerid = (Select playerid from MbPets_Player where uuid = ?)");
                 statement.setString(1, owner.toString());
                 ResultSet resultSet = statement.executeQuery();
-                if (resultSet.first()) {
+                if (resultSet.next()) {
                     return resultSet.getInt("m");
                 }
             }
