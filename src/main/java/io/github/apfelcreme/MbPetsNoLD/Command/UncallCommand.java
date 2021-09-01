@@ -39,7 +39,7 @@ public class UncallCommand implements SubCommand {
         }
         Pet pet = PetManager.getInstance().getPets().get(chatInput.getSender().getUniqueId());
         if (pet != null) {
-            pet.uncall();
+            MbPets.getInstance().runSync(pet::uncall);
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("info.petUncalled"));
         } else {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.noActivePet"));

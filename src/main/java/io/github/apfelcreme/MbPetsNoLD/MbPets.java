@@ -1,6 +1,5 @@
 package io.github.apfelcreme.MbPetsNoLD;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import io.github.apfelcreme.MbPetsNoLD.Database.DatabaseConnector;
 import io.github.apfelcreme.MbPetsNoLD.Database.HikariCPConnection;
 import io.github.apfelcreme.MbPetsNoLD.Database.MySQLConnection;
@@ -17,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.UUID;
 
@@ -200,5 +200,21 @@ public class MbPets extends JavaPlugin {
         if (player != null) {
             sendMessage(player, message);
         }
+    }
+
+    public BukkitTask runAsync(Runnable runnable) {
+        if (!getServer().isPrimaryThread()) {
+            runnable.run();
+            return null;
+        }
+        return getServer().getScheduler().runTaskAsynchronously(this, runnable);
+    }
+
+    public BukkitTask runSync(Runnable runnable) {
+        if (getServer().isPrimaryThread()) {
+            runnable.run();
+            return null;
+        }
+        return getServer().getScheduler().runTaskAsynchronously(this, runnable);
     }
 }

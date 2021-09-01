@@ -47,7 +47,7 @@ public class DespawnCommand implements SubCommand {
         } else {
             for (Pet pet : PetManager.getInstance().getPets().values()) {
                 if (pet.getEntity().getLocation().distanceSquared(chatInput.getSender().getLocation()) <= chatInput.getNumber() * chatInput.getNumber()) {
-                    pet.uncall();
+                    MbPets.getInstance().runSync(pet::uncall);
                     i++;
                 }
             }

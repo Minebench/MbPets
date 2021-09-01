@@ -46,7 +46,7 @@ public class CallCommand implements SubCommand {
         }
         Pet pet = PetManager.getInstance().loadPet(chatInput.getSender().getUniqueId(), number);
         if (pet != null) {
-            pet.call();
+            MbPets.getInstance().runSync(pet::call);
         } else {
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("error.unknownPet"));
         }
