@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.apfelcreme</groupId>
 	<artifactId>MbPets</artifactId>
-	<version>3.4-SNAPSHOT</version>
+	<version>3.5-SNAPSHOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,20 +79,24 @@
 
 	<repositories>
 		<repository>
-			<id>sk89q-repo</id>
-			<url>http://maven.sk89q.com/repo/</url>
+			<id>minebench-repo</id>
+			<url>https://repo.minebench.de/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>minebench-repo</id>
-			<url>http://repo.minebench.de/content/groups/public/</url>
+			<id>paper-repo</id>
+			<url>https://papermc.io/repo</url>
+		</repository>
+		<repository>
+			<id>sk89q-repo</id>
+			<url>https://maven.sk89q.com/repo/</url>
 		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
-			<groupId>de.minebench.origami</groupId>
-			<artifactId>origami-api</artifactId>
-			<version>1.16.3-R0.1-SNAPSHOT</version>
+			<groupId>io.papermc.paper</groupId>
+			<artifactId>paper-api</artifactId>
+			<version>1.17-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

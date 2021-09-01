@@ -187,6 +187,11 @@ PetTypes:
     aliases:
       - 'Hog'
       - 'Warzenschwein'
+  GOAT:
+    displaytext: 'Ziege'
+    aliases:
+      - 'Bergziege'
+      - 'Goat'
 DyeColors:
   BLACK:
     displaytext: 'Schwarz'

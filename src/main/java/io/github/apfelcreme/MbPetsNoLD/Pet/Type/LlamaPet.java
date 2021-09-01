@@ -100,6 +100,8 @@ public class LlamaPet extends Pet<Llama> implements Dyeable<Llama.Color>, Ageabl
             getEntity().setAdult();
         }
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.LLAMA_ATTACK_WOLF);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.LLAMA_FOLLOW_CARAVAN);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.TRADER_LLAMA_DEFEND_WANDERING_TRADER);
     }
 
     /**

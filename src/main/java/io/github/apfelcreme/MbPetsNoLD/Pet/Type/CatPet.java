@@ -89,8 +89,7 @@ public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
         getEntity().setTamed(true);
         getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.CAT_AVOID_ENTITY);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.TEMPT_CHANCE);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RANDOM_TARGET_NON_TAMED);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.CAT_TEMPT);
 
         if (isBaby) {
             getEntity().setBaby();

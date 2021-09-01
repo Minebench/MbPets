@@ -63,8 +63,8 @@ public class EndermanPet extends Pet<Enderman> {
     public void applyAttributes() {
         super.applyAttributes();
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_FREEZE_WHEN_LOOKED_AT);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PICKUP_BLOCK);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_PLACE_BLOCK);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PLAYER_WHO_LOOKED_AT_TARGET);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_TAKE_BLOCK);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_LEAVE_BLOCK);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.ENDERMAN_LOOK_FOR_PLAYER);
     }
 }

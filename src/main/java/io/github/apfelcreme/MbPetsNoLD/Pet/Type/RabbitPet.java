@@ -91,7 +91,7 @@ public class RabbitPet extends Pet<Rabbit> implements Ageable, Styleable<Rabbit.
         } else {
             getEntity().setAdult();
         }
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RABBIT_AVOID_TARGET);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RABBIT_AVOID_ENTITY);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.RABBIT_PANIC);
     }
 }

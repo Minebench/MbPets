@@ -51,7 +51,8 @@ public enum PetType {
     TURTLE(         EntityType.TURTLE,          TurtlePet.class),
     BEE(            EntityType.BEE,             BeePet.class),
     STRIDER(        EntityType.STRIDER,         StriderPet.class),
-    HOGLIN(         EntityType.HOGLIN,          HoglinPet.class);
+    HOGLIN(         EntityType.HOGLIN,          HoglinPet.class),
+    GOAT(           EntityType.GOAT,            GoatPet.class);
 
     private EntityType entityType;
     private final Class<? extends Pet> petClass;

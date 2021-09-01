@@ -65,6 +65,7 @@ public class OcelotPet extends Pet<Ocelot> implements Ageable {
 //        getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
         getEntity().setAgeLock(true);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.OCELOT_AVOID_ENTITY);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.OCELOT_TEMPT);
         if (isBaby) {
             getEntity().setBaby();
         } else {

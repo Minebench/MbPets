@@ -67,7 +67,7 @@ public class PolarBearPet extends Pet<PolarBear> implements Ageable {
         } else {
             getEntity().setAdult();
         }
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.POLARBEAR_PANIC);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.POLARBEAR_ATTACK_PLAYERS);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.POLAR_BEAR_PANIC);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.POLAR_BEAR_ATTACK_PLAYERS);
     }
 }

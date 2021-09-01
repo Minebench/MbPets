@@ -25,6 +25,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -617,19 +618,24 @@ public class Pet<T extends Mob> {
      */
     public void applyAttributes() {
         updateDisplayName();
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.NEAREST_ATTACKABLE_TARGET);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.EAT_TILE);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.NEAREST_ATTACKABLE);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.EAT_BLOCK);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.USE_ITEM);
         if (getEntity() instanceof Creature) {
             Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.TEMPT);
             Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.REMOVE_BLOCK);
             Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.RESTRICT_SUN);
-            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.STROLL_VILLAGE);
-            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.NEAREST_VILLAGE);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.GOLEM_RANDOM_STROLL_IN_VILLAGE);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.STROLL_THROUGH_VILLAGE);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.MOVE_BACK_TO_VILLAGE);
+            Bukkit.getMobGoals().removeGoal((Creature) getEntity(), VanillaGoal.MOVE_THROUGH_VILLAGE);
         }
         if (getEntity() instanceof Animals) {
             Bukkit.getMobGoals().removeGoal((Animals) getEntity(), VanillaGoal.BREED);
             Bukkit.getMobGoals().removeGoal((Animals) getEntity(), VanillaGoal.FOLLOW_PARENT);
+        }
+        if (getEntity() instanceof Tameable) {
+            Bukkit.getMobGoals().removeGoal((Tameable) getEntity(), VanillaGoal.NON_TAME_RANDOM);
         }
     }
     

@@ -69,5 +69,6 @@ public class PandaPet extends Pet<Panda> implements Ageable {
         }
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PANDA_AVOID);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PANDA_PANIC);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.PANDA_BREED);
     }
 }

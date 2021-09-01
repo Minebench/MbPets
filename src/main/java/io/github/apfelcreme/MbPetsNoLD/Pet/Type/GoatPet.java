@@ -1,15 +1,14 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
-import com.destroystokyo.paper.entity.ai.VanillaGoal;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Vex;
+import org.bukkit.entity.Goat;
 
 import java.util.UUID;
 
 /**
- * Copyright (C) 2017 Max Lee (https://github.com/Phoenix616)
+ * Copyright (C) 2016 Lord36 aka Apfelcreme
  * <p>
  * This program is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -24,23 +23,47 @@ import java.util.UUID;
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, see <http://www.gnu.org/licenses/>.
  *
- * @author Max Lee aka Phoenix616
+ * @author Lord36 aka Apfelcreme
  */
-public class VexPet extends Pet<Vex> {
+public class GoatPet extends Pet<Goat> implements Ageable {
 
-    public VexPet(UUID owner, Integer number) {
-        super(owner, PetType.VEX, number);
+    private Boolean isBaby = null;
+
+    public GoatPet(UUID owner, Integer number) {
+        super(owner, PetType.SHEEP, number);
     }
-    
+
+    /**
+     * is the pet a baby
+     *
+     * @return true or false
+     */
     @Override
-    public boolean canNavigate() {
-        return false;
+    public Boolean isBaby() {
+        return isBaby;
     }
 
+    /**
+     * sets the "age"
+     *
+     * @param isBaby true or false
+     */
+    @Override
+    public void setBaby(Boolean isBaby) {
+        this.isBaby = isBaby;
+    }
+
+    /**
+     * applies all attributes to the entity
+     */
     @Override
     public void applyAttributes() {
         super.applyAttributes();
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.VEX_COPY_OWNER);
-        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.VEX_RANDOM_MOVE);
+        getEntity().setAgeLock(true);
+        if (isBaby) {
+            getEntity().setBaby();
+        } else {
+            getEntity().setAdult();
+        }
     }
 }

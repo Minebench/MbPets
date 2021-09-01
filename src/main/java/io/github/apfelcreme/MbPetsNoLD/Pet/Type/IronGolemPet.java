@@ -1,7 +1,10 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
+import com.destroystokyo.paper.entity.ai.VanillaGoal;
+import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.IronGolem;
 
 import java.util.UUID;

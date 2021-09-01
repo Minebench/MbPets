@@ -69,5 +69,6 @@ public class TurtlePet extends Pet<Turtle> implements Ageable {
         }
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.TURTLE_GO_HOME);
         Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.TURTLE_LAY_EGG);
+        Bukkit.getMobGoals().removeGoal(getEntity(), VanillaGoal.TURTLE_PANIC);
     }
 }
