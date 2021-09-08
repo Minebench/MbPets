@@ -215,6 +215,6 @@ public class MbPets extends JavaPlugin {
             runnable.run();
             return null;
         }
-        return getServer().getScheduler().runTaskAsynchronously(this, runnable);
+        return getServer().getScheduler().runTask(this, runnable);
     }
 }
