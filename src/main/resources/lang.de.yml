@@ -35,6 +35,7 @@ texts:
     Options:
       head: '&2Folgende Optionen stehen dir zur Verfügung:'
       type: '&a/pet type/color/style/name/baby&f - &7Legt die jeweilige Eigenschaft des zu erstellenden Pets fest.'
+      modify: '&a/pet modify [#]&f - &7Bearbeite das Pet für den angegebenen Preis..'
       confirm: '&a/pet confirm&f - &7Kauft das Pet für den angegebenen Preis.'
       call: '&a/pet call [#]&f - &7Ruft ein Pet mit der angegebenen Nummer.'
       cancel: '&a/pet cancel&f - &7Bricht deine derzeitige Pet-Konfiguration ab.'

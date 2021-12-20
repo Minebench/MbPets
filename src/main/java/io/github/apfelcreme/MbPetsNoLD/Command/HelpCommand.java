@@ -41,6 +41,7 @@ public class HelpCommand implements SubCommand {
             // user only entered /pet help
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.head"));
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.type"));
+            MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.modify"));
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.confirm"));
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.call"));
             MbPets.sendMessage(chatInput.getSender(), MbPetsConfig.getTextNode("help.Options.cancel"));
