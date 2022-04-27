@@ -30,7 +30,7 @@ public class GoatPet extends Pet<Goat> implements Ageable {
     private Boolean isBaby = null;
 
     public GoatPet(UUID owner, Integer number) {
-        super(owner, PetType.SHEEP, number);
+        super(owner, PetType.GOAT, number);
     }
 
     /**
