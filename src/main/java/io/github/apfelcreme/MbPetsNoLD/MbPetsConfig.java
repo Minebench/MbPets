@@ -43,6 +43,8 @@ public class MbPetsConfig {
     private static double particleHorizontalOffset;
     private static double regenerationAmount;
     private static long regenerationOutOfCombat;
+    private static int expDeclineStart;
+    private static double expDeclineSpeed;
 
     /**
      * init
@@ -64,6 +66,9 @@ public class MbPetsConfig {
 
         regenerationAmount = MbPets.getInstance().getConfig().getDouble("regeneration.perTask");
         regenerationOutOfCombat = MbPets.getInstance().getConfig().getLong("regeneration.outOfCombat");
+
+        expDeclineStart = MbPets.getInstance().getConfig().getInt("expDecline.killsToStart");
+        expDeclineSpeed = MbPets.getInstance().getConfig().getDouble("expDecline.speed");
 
         MbPets.getInstance().saveResource("lang.de.yml", false);
         languageConfigFile = new File(MbPets.getInstance().getDataFolder(), "lang.de.yml");
@@ -682,6 +687,23 @@ public class MbPetsConfig {
      */
     private static int getDefaultExpReward() {
         return MbPets.getInstance().getConfig().getInt("expReward.default");
+    }
+
+    /**
+     * return the amount of kills at which the reward exp starts to decline
+     *
+     * @return the amount of kills
+     */
+    public static int getExpDeclineStart() {
+        return expDeclineStart;
+    }
+    /**
+     * return speed at which the reward exp declines
+     *
+     * @return the speed at which the exp declines
+     */
+    public static double getExpDeclineSpeed() {
+        return expDeclineSpeed;
     }
     
     /**

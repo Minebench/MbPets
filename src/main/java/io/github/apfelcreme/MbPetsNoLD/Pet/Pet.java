@@ -22,6 +22,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -35,6 +36,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -69,6 +72,7 @@ public class Pet<T extends Mob> {
     private int number ;
     private double speed;
     private int exp;
+    private Map<EntityType, Integer> expCounter = new EnumMap<>(EntityType.class);
     private LivingEntity target = null;
     private PetLevel level = null;
     private EntityTargetEvent.TargetReason targetReason = EntityTargetEvent.TargetReason.UNKNOWN;
@@ -493,7 +497,21 @@ public class Pet<T extends Mob> {
      */
     public void onKill(LivingEntity killed, EntityDeathEvent event) {
         if (killed != null) {
-            addExp(MbPetsConfig.getTargetExpReward(killed.getType()));
+            int reward = MbPetsConfig.getTargetExpReward(killed.getType());
+            int killCount = expCounter.getOrDefault(killed.getType(), 0);
+            if (killCount > MbPetsConfig.getExpDeclineStart()) {
+                reward -= (killCount - MbPetsConfig.getExpDeclineStart()) * MbPetsConfig.getExpDeclineSpeed();
+            }
+            expCounter.put(killed.getType(), killCount + 1);
+            expCounter.replaceAll((entityType, count) -> {
+                if (count > 0 && entityType != killed.getType()) {
+                    return count - 1;
+                }
+                return count;
+            });
+            if (reward > 0) {
+                addExp(reward);
+            }
             lastCombat = System.currentTimeMillis();
         }
     }

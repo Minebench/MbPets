@@ -9,6 +9,9 @@ followTaskDelay: 15
 regeneration:
   outOfCombat: 10
   perTask: 0.1
+expDecline:
+  killsToStart: 10
+  speed: 5.0
 useHikariCP: true
 database:
   user: 'root'
