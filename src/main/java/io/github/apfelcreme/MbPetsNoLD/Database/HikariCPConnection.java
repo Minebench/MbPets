@@ -38,62 +38,20 @@ public class HikariCPConnection extends DatabaseConnector {
     public void initConnection() {
         if (MbPetsConfig.getDatabase() != null && !MbPetsConfig.getDatabase().isEmpty()) {
             HikariConfig hikariConfig = new HikariConfig();
-
-            String dataSourceClassName = tryDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
-            if (dataSourceClassName == null) {
-                dataSourceClassName = tryDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-            }
-            if (dataSourceClassName != null) {
-                MbPets.getInstance().getLogger().log(Level.INFO, "Using " + dataSourceClassName + " database source");
-                hikariConfig.setDataSourceClassName(dataSourceClassName);
-            }
-
-            if (dataSourceClassName == null) {
-                String driverClassName = tryDriverClassName("org.mariadb.jdbc.Driver");
-                if (driverClassName == null) {
-                    driverClassName = tryDriverClassName("com.mysql.cj.jdbc.Driver");
-                }
-                if (driverClassName == null) {
-                    driverClassName = tryDriverClassName("com.mysql.jdbc.Driver");
-                }
-
-                if (driverClassName != null) {
-                    MbPets.getInstance().getLogger().log(Level.INFO, "Using " + driverClassName + " database driver");
-                    hikariConfig.setDriverClassName(driverClassName);
-                } else {
-                    throw new RuntimeException("Could not find database driver or data source class! Plugin wont work without a database!");
-                }
-            }
+            hikariConfig.setPoolName("mbpets-hikari");
 
             String url = "jdbc:mysql://" + MbPetsConfig.getDbUrl() + "/" + MbPetsConfig.getDatabase() + MbPetsConfig.getDbUrlParameters();
-            if (dataSourceClassName != null) {
-                hikariConfig.addDataSourceProperty("url", url);
-            } else {
-                hikariConfig.setJdbcUrl(url);
-            }
+            hikariConfig.setJdbcUrl(url);
             hikariConfig.setUsername(MbPetsConfig.getDbUser());
             hikariConfig.setPassword(MbPetsConfig.getDbPassword());
             hikariConfig.setConnectionTimeout(5000);
+            hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+            hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+            hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
             dataSource = new HikariDataSource(hikariConfig);
             initTables();
         }
-    }
-
-    private String tryDriverClassName(String className) {
-        try {
-            Class.forName(className).newInstance();
-            return className;
-        } catch (Exception ignored) {}
-        return null;
-    }
-
-    private String tryDataSourceClassName(String className) {
-        try {
-            Class.forName(className);
-            return className;
-        } catch (Exception ignored) {}
-        return null;
     }
 
     /**
