@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.entity.Parrot;
@@ -26,7 +27,7 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class ParrotPet extends Pet<Parrot> implements  Dyeable<Parrot.Variant> {
+public class ParrotPet extends Pet<Parrot> implements Dyeable<Parrot.Variant> {
 
     private Parrot.Variant color;
 
@@ -62,5 +63,10 @@ public class ParrotPet extends Pet<Parrot> implements  Dyeable<Parrot.Variant> {
     @Override
     public void setColor(Parrot.Variant color) {
         this.color = color;
+    }
+
+    @Override
+    public Parrot.Variant parseColor(String color) {
+        return MbPetsConfig.parseParrotColor(color);
     }
 }

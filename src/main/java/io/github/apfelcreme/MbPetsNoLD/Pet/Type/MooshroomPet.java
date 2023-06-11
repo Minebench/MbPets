@@ -1,6 +1,8 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.entity.MushroomCow;
@@ -25,9 +27,10 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class MooshroomPet extends Pet<MushroomCow> implements Ageable {
+public class MooshroomPet extends Pet<MushroomCow> implements Ageable, Dyeable<MushroomCow.Variant> {
 
     private Boolean isBaby = null;
+    private MushroomCow.Variant color = null;
 
     public MooshroomPet(UUID owner, Integer number) {
         super(owner, PetType.MUSHROOM_COW, number);
@@ -54,16 +57,42 @@ public class MooshroomPet extends Pet<MushroomCow> implements Ageable {
     }
 
     /**
+     * returns the color of the pet
+     *
+     * @return the color of the pet
+     */
+    @Override
+    public MushroomCow.Variant getColor() {
+        return color;
+    }
+
+    /**
+     * sets the color
+     *
+     * @param color the color
+     */
+    @Override
+    public void setColor(MushroomCow.Variant color) {
+        this.color = color;
+    }
+
+    @Override
+    public MushroomCow.Variant parseColor(String color) {
+        return MbPetsConfig.parseMooshroomColor(color);
+    }
+
+    /**
      * applies all attributes to the entity
      */
     @Override
     public void applyAttributes() {
         super.applyAttributes();
-        ((MushroomCow) getEntity()).setAgeLock(true);
+        getEntity().setVariant(color);
+        getEntity().setAgeLock(true);
         if (isBaby) {
-            ((MushroomCow) getEntity()).setBaby();
+            getEntity().setBaby();
         } else {
-            ((MushroomCow) getEntity()).setAdult();
+            getEntity().setAdult();
         }
     }
 }

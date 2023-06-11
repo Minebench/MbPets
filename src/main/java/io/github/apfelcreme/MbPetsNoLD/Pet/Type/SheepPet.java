@@ -2,6 +2,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.DyeColor;
@@ -54,6 +55,11 @@ public class SheepPet extends Pet<Sheep> implements Ageable, Dyeable<DyeColor> {
     @Override
     public void setColor(DyeColor color) {
         this.color = color;
+    }
+
+    @Override
+    public DyeColor parseColor(String color) {
+        return MbPetsConfig.parseColor(color);
     }
 
     /**

@@ -76,15 +76,8 @@ public abstract class DatabaseConnector {
                                     + "playerid BIGINT,"
                                     + "petname VARCHAR(50),"
                                     + "type VARCHAR(50),"
-                                    + "sheepcolor VARCHAR(50),"
-                                    + "wolfcolor VARCHAR(50),"
-                                    + "horsecolor VARCHAR(50),"
-                                    + "horsestyle VARCHAR(50),"
-                                    + "cattype VARCHAR(50),"
-                                    + "rabbittype VARCHAR(50),"
-                                    + "llamacolor VARCHAR(50),"
-                                    + "parrotcolor VARCHAR(50),"
-                                    + "foxtype VARCHAR(50),"
+                                    + "style VARCHAR(50),"
+                                    + "color VARCHAR(50),"
                                     + "baby boolean,"
                                     + "slimesize TINYINT,"
                                     + "number BIGINT,"
@@ -98,6 +91,18 @@ public abstract class DatabaseConnector {
             closeConnection(connection);
         }
     }
+
+    /* TODO: convert
+        + "sheepcolor VARCHAR(50),"
+        + "wolfcolor VARCHAR(50),"
+        + "horsecolor VARCHAR(50),"
+        + "horsestyle VARCHAR(50),"
+        + "cattype VARCHAR(50),"
+        + "rabbittype VARCHAR(50),"
+        + "llamacolor VARCHAR(50),"
+        + "parrotcolor VARCHAR(50),"
+        + "foxtype VARCHAR(50),"
+     */
 
     /**
      * closes all db connections

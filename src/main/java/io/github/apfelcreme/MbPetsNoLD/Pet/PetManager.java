@@ -18,7 +18,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -218,16 +217,9 @@ public class PetManager {
         petConfiguration.setNumber(resultSet.getInt("number"));
         petConfiguration.setName(resultSet.getString("petname"));
         petConfiguration.setBaby(resultSet.getBoolean("baby"));
-        petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(resultSet.getString("horsecolor")));
-        petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(resultSet.getString("horsestyle")));
-        petConfiguration.setSheepColor(MbPetsConfig.parseColor(resultSet.getString("sheepcolor")));
-        petConfiguration.setWolfColor(MbPetsConfig.parseColor(resultSet.getString("wolfcolor")));
-        petConfiguration.setCatType(MbPetsConfig.parseCatType(resultSet.getString("cattype")));
-        petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(resultSet.getString("rabbittype")));
-        petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(resultSet.getString("llamacolor")));
-        petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(resultSet.getString("parrotcolor")));
-        petConfiguration.setFoxType(MbPetsConfig.parseFoxType(resultSet.getString("foxtype")));
-        petConfiguration.setSlimeSize(resultSet.getInt("slimesize"));
+        petConfiguration.setStyle(resultSet.getString("style"));
+        petConfiguration.setColor(resultSet.getString("color"));
+        petConfiguration.setSize(resultSet.getInt("slimesize"));
         petConfiguration.setExp(resultSet.getInt("exp"));
         return petConfiguration.getPet();
     }

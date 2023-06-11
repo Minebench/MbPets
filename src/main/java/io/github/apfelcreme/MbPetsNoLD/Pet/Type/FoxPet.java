@@ -4,6 +4,7 @@ import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.Bukkit;
@@ -56,6 +57,11 @@ public class FoxPet extends Pet<Fox> implements Styleable<Fox.Type>, Ageable {
     @Override
     public void setStyle(Fox.Type style) {
         this.style = style;
+    }
+
+    @Override
+    public Fox.Type parseStyle(String style) {
+        return MbPetsConfig.parseFoxType(style);
     }
 
     /**

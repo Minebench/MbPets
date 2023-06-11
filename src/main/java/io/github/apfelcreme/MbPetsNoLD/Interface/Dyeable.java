@@ -31,6 +31,11 @@ public interface Dyeable<Type> {
 	 * @param color the color
 	 */
 	void setColor(Type color);
-	
-	
+
+	/**
+	 * parse the color
+	 * @param color the color string
+	 * @return The parsed color type or null
+	 */
+	Type parseColor(String color);
 }

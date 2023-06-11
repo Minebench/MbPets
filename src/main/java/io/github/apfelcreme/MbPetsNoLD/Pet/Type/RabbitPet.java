@@ -3,6 +3,7 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.Bukkit;
@@ -56,6 +57,11 @@ public class RabbitPet extends Pet<Rabbit> implements Ageable, Styleable<Rabbit.
     @Override
     public void setStyle(Rabbit.Type style) {
         this.style = style;
+    }
+
+    @Override
+    public Rabbit.Type parseStyle(String style) {
+        return MbPetsConfig.parseRabbitType(style);
     }
 
     /**

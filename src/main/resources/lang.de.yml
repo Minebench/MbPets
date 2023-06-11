@@ -269,6 +269,13 @@ HorseColors:
     displaytext: 'Weiß'
     aliases:
     - 'WEISS'
+MooshroomColors:
+  RED:
+    displaytext: 'Rot'
+    aliases:
+    - 'fliegenpilz'
+  BROWN:
+    displaytext: 'Braun'
 ParrotColors:
   RED:
     displaytext: 'Rot'

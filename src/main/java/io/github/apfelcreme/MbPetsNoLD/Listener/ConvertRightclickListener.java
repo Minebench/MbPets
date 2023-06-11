@@ -1,15 +1,30 @@
 package io.github.apfelcreme.MbPetsNoLD.Listener;
 
+import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Sizeable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetConfiguration;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
+import io.papermc.paper.entity.CollarColorable;
 import net.zaiyers.AnimalProtect.Protection;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Cat;
+import org.bukkit.entity.Fox;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.MushroomCow;
+import org.bukkit.entity.Parrot;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Slime;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.material.Colorable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
@@ -115,67 +130,52 @@ public class ConvertRightclickListener implements Listener {
 
                 petConfiguration.setName((e.getRightClicked()).getCustomName());
                 petConfiguration.setPrice(MbPetsConfig.getPetPrice(petConfiguration.getType()));
-                switch (petConfiguration.getType()) {
-                    case HORSE:
-                        petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
-                        petConfiguration.setHorseColor(((Horse) e.getRightClicked()).getColor());
-                        petConfiguration.setHorseStyle(((Horse) e.getRightClicked()).getStyle());
-                        break;
-                    case SHEEP:
-                        petConfiguration.setBaby(!((Sheep) e.getRightClicked()).isAdult());
-                        petConfiguration.setSheepColor(((Sheep) e.getRightClicked()).getColor());
-                        break;
-                    case WOLF:
-                        petConfiguration.setBaby(!((Wolf) e.getRightClicked()).isAdult());
-                        petConfiguration.setWolfColor(((Wolf) e.getRightClicked()).getCollarColor());
-                        break;
-                    case CAT:
-                        petConfiguration.setBaby(!((Cat) e.getRightClicked()).isAdult());
-                        petConfiguration.setCatType(((Cat) e.getRightClicked()).getCatType());
-                        break;
-                    case PIG:
-                    case CHICKEN:
-                    case COW:
-                    case MUSHROOM_COW:
-                    case OCELOT:
-                    case PANDA:
-                    case POLAR_BEAR:
-                        petConfiguration.setBaby(!((Ageable) e.getRightClicked()).isAdult());
-                        break;
-                    case RABBIT:
-                        petConfiguration.setBaby(!((Rabbit) e.getRightClicked()).isAdult());
-                        petConfiguration.setRabbitType(((Rabbit) e.getRightClicked()).getRabbitType());
-                        break;
-                    case PARROT:
-                        petConfiguration.setParrotColor(((Parrot) e.getRightClicked()).getVariant());
-                        break;
-                    case FOX:
-                        petConfiguration.setFoxType(((Fox) e.getRightClicked()).getFoxType());
-                        petConfiguration.setBaby(!((Fox) e.getRightClicked()).isAdult());
-                        break;
-                    case SKELETON_HORSE:
-                        petConfiguration.setType(PetType.SKELETON_HORSE);
-                        petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
-                        break;
-                    case UNDEAD_HORSE:
-                        petConfiguration.setType(PetType.UNDEAD_HORSE);
-                        petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
-                        break;
-                    case DONKEY:
-                        petConfiguration.setType(PetType.DONKEY);
-                        petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
-                        break;
-                    case MULE:
-                        petConfiguration.setType(PetType.MULE);
-                        petConfiguration.setBaby(!((Horse) e.getRightClicked()).isAdult());
-                        break;
-                    case MAGMA_CUBE:
-                        petConfiguration.setSlimeSize(((MagmaCube) e.getRightClicked()).getSize());
-                        break;
-                    case SLIME:
-                        petConfiguration.setSlimeSize(((Slime) e.getRightClicked()).getSize());
-                        break;
+
+                // set the age
+                if (io.github.apfelcreme.MbPetsNoLD.Interface.Ageable.class.isAssignableFrom(petConfiguration.getType().getPetClass())
+                        && e.getRightClicked() instanceof Ageable ageable) {
+                    petConfiguration.setBaby(!ageable.isAdult());
                 }
+
+                // set the colors
+                if (Dyeable.class.isAssignableFrom(petConfiguration.getType().getPetClass())) {
+                    if (e.getRightClicked() instanceof Colorable colorable && colorable.getColor() != null) {
+                        petConfiguration.setColor(colorable.getColor().name());
+                    } else if (e.getRightClicked() instanceof CollarColorable colorable) {
+                        petConfiguration.setColor(colorable.getCollarColor().name());
+                    } else if (e.getRightClicked() instanceof Horse horse) {
+                        petConfiguration.setColor(horse.getColor().name());
+                    } else if (e.getRightClicked() instanceof Parrot parrot) {
+                        petConfiguration.setColor(parrot.getVariant().name());
+                    } else if (e.getRightClicked() instanceof MushroomCow mushroomCow) {
+                        petConfiguration.setColor(mushroomCow.getVariant().name());
+                    }
+                }
+
+                // set the styles
+                if (Styleable.class.isAssignableFrom(petConfiguration.getType().getPetClass())) {
+                    if (e.getRightClicked() instanceof Horse horse) {
+                        petConfiguration.setStyle(horse.getStyle().name());
+                    } else if (e.getRightClicked() instanceof Cat cat) {
+                        petConfiguration.setStyle(cat.getCatType().name());
+                    } else if (e.getRightClicked() instanceof MushroomCow mushroomCow) {
+                        petConfiguration.setStyle(mushroomCow.getVariant().name());
+                    } else if (e.getRightClicked() instanceof Rabbit rabbit) {
+                        petConfiguration.setStyle(rabbit.getRabbitType().name());
+                    } else if (e.getRightClicked() instanceof Parrot parrot) {
+                        petConfiguration.setStyle(parrot.getVariant().name());
+                    } else if (e.getRightClicked() instanceof Fox fox) {
+                        petConfiguration.setStyle(fox.getFoxType().name());
+                    }
+                }
+
+                // set the size
+                if (Sizeable.class.isAssignableFrom(petConfiguration.getType().getPetClass())) {
+                    if (e.getRightClicked() instanceof Slime slime) {
+                        petConfiguration.setSize(slime.getSize());
+                    }
+                }
+
                 if (e.getRightClicked().getCustomName() != null) {
                     petConfiguration.setName(e.getRightClicked().getCustomName());
                 }

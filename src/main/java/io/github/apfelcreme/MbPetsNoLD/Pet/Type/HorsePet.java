@@ -4,6 +4,7 @@ import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import org.bukkit.entity.Horse;
@@ -62,6 +63,11 @@ public class HorsePet extends Pet<Horse> implements Ageable, Dyeable<Horse.Color
         this.style = style;
     }
 
+    @Override
+    public Style parseStyle(String style) {
+        return MbPetsConfig.parseHorseStyle(style);
+    }
+
     /**
      * returns the horse color
      *
@@ -80,6 +86,11 @@ public class HorsePet extends Pet<Horse> implements Ageable, Dyeable<Horse.Color
     @Override
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public Color parseColor(String color) {
+        return MbPetsConfig.parseHorseColor(color);
     }
 
     /**

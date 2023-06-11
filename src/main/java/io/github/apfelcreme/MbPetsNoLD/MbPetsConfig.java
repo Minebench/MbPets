@@ -188,6 +188,31 @@ public class MbPetsConfig {
     }
 
     /**
+     * returs an MushroomCow.Variant from the chat input given. e.g. /pet ... color
+     *
+     * @param color
+     * @return
+     */
+    public static MushroomCow.Variant parseMooshroomColor(String color) {
+        if (color == null)
+            return null;
+        try {
+            return MushroomCow.Variant.valueOf(color.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            color = color.replace("_", "").replace("-", "").replace(" ", "").toUpperCase();
+            for (MushroomCow.Variant c : MushroomCow.Variant.values()) {
+                if (color.equals(c.name().replace("_", ""))
+                        || color.equalsIgnoreCase(languageConfig.getString("MooshroomColors." + c.name() + ".displaytext"))
+                        || languageConfig.getStringList("MooshroomColors." + c.name() + ".aliases")
+                        .contains(color.toUpperCase())) {
+                    return c;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * returs an Horse.Color from the chat input given. e.g. /pet ... color
      * Kastanie will return Horse.Color.CHESTNUT
      *

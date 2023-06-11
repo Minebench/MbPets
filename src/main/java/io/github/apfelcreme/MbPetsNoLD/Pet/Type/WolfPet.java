@@ -4,6 +4,7 @@ import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.Bukkit;
@@ -57,6 +58,11 @@ public class WolfPet extends Pet<Wolf> implements Ageable, Dyeable<DyeColor> {
     @Override
     public void setColor(DyeColor color) {
         this.color = color;
+    }
+
+    @Override
+    public DyeColor parseColor(String color) {
+        return MbPetsConfig.parseColor(color);
     }
 
     /**

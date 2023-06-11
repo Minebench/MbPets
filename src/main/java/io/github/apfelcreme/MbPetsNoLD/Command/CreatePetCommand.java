@@ -1,6 +1,8 @@
 package io.github.apfelcreme.MbPetsNoLD.Command;
 
 import io.github.apfelcreme.MbPetsNoLD.ChatInput;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetConfiguration;
@@ -8,8 +10,6 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-
-import java.util.Arrays;
 
 /**
  * Copyright (C) 2015 Lord36 aka Apfelcreme
@@ -63,29 +63,15 @@ public class CreatePetCommand implements SubCommand {
 
         // set the colors
         if (chatInput.getColor() != null) {
-            if (petConfiguration.getType() == PetType.HORSE) {
-                petConfiguration.setHorseColor(MbPetsConfig.parseHorseColor(chatInput.getColor()));
-            } else if (petConfiguration.getType() == PetType.SHEEP) {
-                petConfiguration.setSheepColor(MbPetsConfig.parseColor(chatInput.getColor()));
-            } else if (petConfiguration.getType() == PetType.WOLF) {
-                petConfiguration.setWolfColor(MbPetsConfig.parseColor(chatInput.getColor()));
-            } else if (petConfiguration.getType() == PetType.LLAMA) {
-                petConfiguration.setLlamaColor(MbPetsConfig.parseLlamaColor(chatInput.getColor()));
-            } else if (petConfiguration.getType() == PetType.PARROT) {
-                petConfiguration.setParrotColor(MbPetsConfig.parseParrotColor(chatInput.getColor()));
+            if (Dyeable.class.isAssignableFrom(petConfiguration.getType().getPetClass())) {
+                petConfiguration.setColor(chatInput.getColor());
             }
         }
 
         // set the styles
         if (chatInput.getStyle() != null) {
-            if (petConfiguration.getType() == PetType.HORSE/*|| petConfiguration.getType() == PetType.MULE*/) {
-                petConfiguration.setHorseStyle(MbPetsConfig.parseHorseStyle(chatInput.getStyle()));
-            } else if (petConfiguration.getType() == PetType.CAT) {
-                petConfiguration.setCatType(MbPetsConfig.parseCatType(chatInput.getStyle()));
-            } else if (petConfiguration.getType() == PetType.RABBIT) {
-                petConfiguration.setRabbitType(MbPetsConfig.parseRabbitType(chatInput.getStyle()));
-            } else if (petConfiguration.getType() == PetType.FOX) {
-                petConfiguration.setFoxType(MbPetsConfig.parseFoxType(chatInput.getStyle()));
+            if (Styleable.class.isAssignableFrom(petConfiguration.getType().getPetClass())) {
+                petConfiguration.setStyle(chatInput.getStyle());
             }
         }
 
@@ -96,7 +82,7 @@ public class CreatePetCommand implements SubCommand {
 
         // set the size
         if (chatInput.getSize() != null) {
-            petConfiguration.setSlimeSize(MbPetsConfig.parseSlimeSize(chatInput.getSize()));
+            petConfiguration.setSize(MbPetsConfig.parseSlimeSize(chatInput.getSize()));
         }
 
         // set the name

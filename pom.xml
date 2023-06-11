@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.apfelcreme</groupId>
 	<artifactId>MbPets</artifactId>
-	<version>3.6-SNAPSHOT</version>
+	<version>3.7-SNAPSHOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.number>${buildNumber}</build.number>
 		<minecraft.plugin.version>${project.version} ${buildDescription}</minecraft.plugin.version>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
 	</properties>
 
 	<build>
@@ -24,7 +24,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
+				<version>3.4.1</version>
 				<configuration>
 					<minimizeJar>true</minimizeJar>
 					<relocations>

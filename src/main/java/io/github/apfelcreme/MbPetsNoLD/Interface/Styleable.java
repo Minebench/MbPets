@@ -31,7 +31,12 @@ public interface Styleable<Type> {
 	 * @param style the style
 	 */
 	void setStyle(Type style);
-	
-	
-	
+
+	/**
+	 * parse the style
+	 * @param style the style string
+	 * @return The parsed style type
+	 * @throws IllegalArgumentException if not parsed properly
+	 */
+	Type parseStyle(String style);
 }

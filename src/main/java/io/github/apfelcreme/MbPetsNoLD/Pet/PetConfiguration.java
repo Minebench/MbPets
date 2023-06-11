@@ -1,7 +1,9 @@
 package io.github.apfelcreme.MbPetsNoLD.Pet;
 
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Sizeable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Type.*;
@@ -9,6 +11,9 @@ import org.bukkit.DyeColor;
 import org.bukkit.entity.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -40,16 +45,9 @@ public class PetConfiguration {
     private int number = -1;
     private String name = null;
     private Boolean isBaby = false;
-    private Horse.Style horseStyle = null;
-    private Horse.Color horseColor = null;
-    private DyeColor sheepColor = null;
-    private DyeColor wolfColor = null;
-    private Cat.Type catType = null;
-    private Rabbit.Type rabbitType = null;
-    private Llama.Color llamaColor = null;
-    private Parrot.Variant parrotColor = null;
-    private Fox.Type foxType = null;
-    private int slimeSize = -1;
+    private String color = null;
+    private String style = null;
+    private int size = -1;
     private int exp = 0;
 
     private double price = 0;
@@ -86,18 +84,9 @@ public class PetConfiguration {
         this.exp = pet.getExp();
 
         if (pet instanceof Ageable) this.isBaby = ((Ageable) pet).isBaby();
-        if (pet instanceof HorsePet) this.horseColor = ((HorsePet) pet).getColor();
-        if (pet instanceof HorsePet) this.horseStyle = ((HorsePet) pet).getStyle();
-//        if (pet instanceof MulePet) this.horseColor = ((MulePet) pet).getColor();
-//        if (pet instanceof MulePet) this.horseStyle = ((MulePet) pet).getStyle();
-        if (pet instanceof SheepPet) this.sheepColor = ((SheepPet) pet).getColor();
-        if (pet instanceof WolfPet) this.wolfColor = ((WolfPet) pet).getColor();
-        if (pet instanceof CatPet) this.catType = ((CatPet) pet).getStyle();
-        if (pet instanceof RabbitPet) this.rabbitType = ((RabbitPet) pet).getStyle();
-        if (pet instanceof LlamaPet) this.llamaColor = ((LlamaPet) pet).getColor();
-        if (pet instanceof ParrotPet) this.parrotColor = ((ParrotPet) pet).getColor();
-        if (pet instanceof FoxPet) this.foxType = ((FoxPet) pet).getStyle();
-        if (pet instanceof Sizeable) this.slimeSize = ((Sizeable) pet).getSize();
+        if (pet instanceof Dyeable) this.color = String.valueOf(((Dyeable) pet).getColor());
+        if (pet instanceof Styleable) this.style = String.valueOf(((Styleable) pet).getStyle());
+        if (pet instanceof Sizeable) this.size = ((Sizeable) pet).getSize();
 
         this.configurationType = configurationType;
         switch (configurationType) {
@@ -228,12 +217,28 @@ public class PetConfiguration {
         this.foxType = foxType;
     }
 
-    public int getSlimeSize() {
-        return slimeSize;
+    public String getColor() {
+        return color;
     }
 
-    public void setSlimeSize(int slimeSize) {
-        this.slimeSize = slimeSize;
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public int getExp() {
@@ -285,27 +290,20 @@ public class PetConfiguration {
 
                 //Insert a pet
                 preparedStatement = connection.prepareStatement("INSERT INTO " +
-                        "MbPets_Pet(playerid, petname, type, baby, sheepcolor, wolfcolor, horsecolor, horsestyle, cattype, rabbittype, llamacolor, parrotcolor, foxtype, slimesize, number, exp)"
+                        "MbPets_Pet(playerid, petname, type, baby, color, style, size, number, exp)"
                         + " VALUES ("
                         + "(Select playerid from MbPets_Player where uuid = ?),"
-                        + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+                        + "?, ?, ?, ?, ?, ?, ?, ?, ?"
                         + ")");
                 preparedStatement.setString(1, owner.toString());
                 preparedStatement.setString(2, name);
                 preparedStatement.setString(3, type.toString());
                 preparedStatement.setBoolean(4, isBaby);
-                preparedStatement.setString(5, sheepColor != null ? sheepColor.name() : null);
-                preparedStatement.setString(6, wolfColor != null ? wolfColor.name() : null);
-                preparedStatement.setString(7, horseColor != null ? horseColor.name() : null);
-                preparedStatement.setString(8, horseStyle != null ? horseStyle.name() : null);
-                preparedStatement.setString(9, catType != null ? catType.name() : null);
-                preparedStatement.setString(10, rabbitType != null ? rabbitType.name() : null);
-                preparedStatement.setString(11, llamaColor != null ? llamaColor.name() : null);
-                preparedStatement.setString(12, parrotColor != null ? parrotColor.name() : null);
-                preparedStatement.setString(13, foxType != null ? foxType.name() : null);
-                preparedStatement.setInt(14, slimeSize);
-                preparedStatement.setInt(15, number);
-                preparedStatement.setInt(16, exp);
+                preparedStatement.setString(5, color);
+                preparedStatement.setString(6, style);
+                preparedStatement.setInt(7, size);
+                preparedStatement.setInt(8, number);
+                preparedStatement.setInt(9, exp);
                 preparedStatement.executeUpdate();
 
             } catch (SQLException e) {
@@ -317,7 +315,7 @@ public class PetConfiguration {
     }
 
     /**
-     * returns a pet object
+     * returns a pet object, creates a new one if not set yet!
      * @return a pet object
      */
     public Pet getPet() {
@@ -331,45 +329,18 @@ public class PetConfiguration {
                 MbPets.getInstance().getLogger().log(Level.SEVERE, "Error while creating pet instance!", e);
                 return null;
             }
-            switch (type) {
-                case HORSE:
-                    ((HorsePet) pet).setColor(horseColor);
-                    ((HorsePet) pet).setStyle(horseStyle);
-                    break;
-                case SHEEP:
-                    ((SheepPet) pet).setColor(sheepColor);
-                    break;
-                case WOLF:
-                    ((WolfPet) pet).setColor(wolfColor);
-                    break;
-                case CAT:
-                    ((CatPet) pet).setStyle(catType);
-                    break;
-                case RABBIT:
-                    ((RabbitPet) pet).setStyle(rabbitType);
-                    break;
-                case PARROT:
-                    ((ParrotPet) pet).setColor(parrotColor);
-                    break;
-                case FOX:
-                    ((FoxPet) pet).setStyle(foxType);
-                    break;
-                case LLAMA:
-                    ((LlamaPet) pet).setColor(llamaColor);
-                    break;
-                case MAGMA_CUBE:
-                    ((MagmaCubePet) pet).setSize(slimeSize);
-                    break;
-                case SLIME:
-                    ((SlimePet) pet).setSize(slimeSize);
-                    break;
+            if (pet instanceof Dyeable dyeable) {
+                dyeable.setColor(dyeable.parseColor(color));
+            }
+            if (pet instanceof Styleable styleable) {
+                styleable.setStyle(styleable.parseStyle(style));
             }
             pet.setSpeed(MbPetsConfig.getPetSpeed(type));
             pet.setPrice(MbPetsConfig.getPetPrice(type));
             pet.setName(name);
             pet.setExp(exp);
-            if (pet instanceof Ageable) {
-                ((Ageable) pet).setBaby(isBaby);
+            if (pet instanceof Ageable ageable) {
+                ageable.setBaby(isBaby);
             }
         }
         return pet;
@@ -384,27 +355,14 @@ public class PetConfiguration {
         if (name == null || price <= 0) {
             return false;
         }
-        switch (type) {
-            case HORSE:
-                return (horseColor != null && horseStyle != null);
-            case SHEEP:
-                return (sheepColor != null);
-            case WOLF:
-                return (wolfColor != null);
-            case CAT:
-                return (catType != null);
-            case RABBIT:
-                return (rabbitType != null);
-            case PARROT:
-                return (parrotColor != null);
-            case FOX:
-                return (foxType != null);
-            case LLAMA:
-                return (llamaColor != null);
-            case MAGMA_CUBE:
-                return (slimeSize != -1);
-            case SLIME:
-                return (slimeSize != -1);
+        if (Dyeable.class.isAssignableFrom(type.getPetClass()) && color == null) {
+            return false;
+        }
+        if (Styleable.class.isAssignableFrom(type.getPetClass()) && style == null) {
+            return false;
+        }
+        if (Sizeable.class.isAssignableFrom(type.getPetClass()) && size == -1) {
+            return false;
         }
         return true;
     }
@@ -417,16 +375,9 @@ public class PetConfiguration {
                 ", number=" + number +
                 ", name='" + name + '\'' +
                 ", isBaby=" + isBaby +
-                ", horseStyle=" + horseStyle +
-                ", horseColor=" + horseColor +
-                ", sheepColor=" + sheepColor +
-                ", wolfColor=" + wolfColor +
-                ", catType=" + catType +
-                ", rabbitType=" + rabbitType +
-                ", llamaColor=" + llamaColor +
-                ", parrotColor=" + parrotColor +
-                ", foxType=" + foxType +
-                ", slimeSize=" + slimeSize +
+                ", color=" + color +
+                ", style=" + style +
+                ", slimeSize=" + size +
                 ", exp=" + exp +
                 ", price=" + price +
                 ", configurationType=" + configurationType +

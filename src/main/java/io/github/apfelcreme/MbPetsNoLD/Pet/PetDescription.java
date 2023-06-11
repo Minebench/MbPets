@@ -99,7 +99,7 @@ public class PetDescription {
         this.llamaColor = petConfiguration.getLlamaColor();
         this.parrotColor = petConfiguration.getParrotColor();
         this.foxType = petConfiguration.getFoxType();
-        this.slimeSize = petConfiguration.getSlimeSize();
+        this.slimeSize = petConfiguration.getSize();
     }
 
     /**

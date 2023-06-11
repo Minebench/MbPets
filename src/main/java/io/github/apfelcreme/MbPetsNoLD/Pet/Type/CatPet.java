@@ -2,11 +2,14 @@ package io.github.apfelcreme.MbPetsNoLD.Pet.Type;
 
 import com.destroystokyo.paper.entity.ai.VanillaGoal;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Ageable;
+import io.github.apfelcreme.MbPetsNoLD.Interface.Dyeable;
 import io.github.apfelcreme.MbPetsNoLD.Interface.Styleable;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
+import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Cat;
 
 import java.util.UUID;
@@ -29,10 +32,11 @@ import java.util.UUID;
  *
  * @author Lord36 aka Apfelcreme
  */
-public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
+public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Dyeable<DyeColor>, Ageable {
 
     private Boolean isBaby = null;
     private Cat.Type style = null;
+    private DyeColor collarColor = null;
 
     public CatPet(UUID owner, Integer number) {
         super(owner, PetType.CAT, number);
@@ -56,6 +60,11 @@ public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
     @Override
     public void setStyle(Cat.Type style) {
         this.style = style;
+    }
+
+    @Override
+    public Cat.Type parseStyle(String style) {
+        return MbPetsConfig.parseCatType(style);
     }
 
     /**
@@ -85,6 +94,9 @@ public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
     public void applyAttributes() {
         super.applyAttributes();
         getEntity().setCatType(style);
+        if (collarColor != null) {
+            getEntity().setCollarColor(collarColor);
+        }
         getEntity().setAgeLock(true);
         getEntity().setTamed(true);
         getEntity().setOwner(MbPets.getInstance().getServer().getPlayer(getOwner()));
@@ -96,5 +108,20 @@ public class CatPet extends Pet<Cat> implements Styleable<Cat.Type>, Ageable {
         } else {
             getEntity().setAdult();
         }
+    }
+
+    @Override
+    public DyeColor getColor() {
+        return collarColor;
+    }
+
+    @Override
+    public void setColor(DyeColor color) {
+        this.collarColor = color;
+    }
+
+    @Override
+    public DyeColor parseColor(String color) {
+        return MbPetsConfig.parseColor(color);
     }
 }
