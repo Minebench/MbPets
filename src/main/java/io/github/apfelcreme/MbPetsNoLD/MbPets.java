@@ -13,6 +13,10 @@ import net.zaiyers.AnimalProtect.AnimalProtect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.ServiceRegisterEvent;
+import org.bukkit.event.server.ServiceUnregisterEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -96,14 +100,35 @@ public class MbPets extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             getLogger().info("Plugin 'Vault' was not found!");
         } else {
-            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
-            if (economyProvider != null) {
-                economy = economyProvider.getProvider();
-            }
+            setupEconomy();
+            getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
+                public void onServiceRegister(ServiceRegisterEvent event) {
+                    if (event.getProvider().getProvider() instanceof Economy) {
+                        setupEconomy();
+                    }
+                }
+                @EventHandler
+                public void onServiceUnregister(ServiceUnregisterEvent event) {
+                    if (event.getProvider().getProvider() instanceof Economy) {
+                        setupEconomy();
+                    }
+                }
+            }, this);
         }
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
             worldGuardEnabled = true;
         }
+    }
+
+    private boolean setupEconomy() {
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        getLogger().info("Using " + economy.getName() + " as Economy provider");
+        return economy != null;
     }
 
     public void onDisable() {
