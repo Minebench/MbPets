@@ -7,11 +7,11 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vex;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.util.Vector;
 
@@ -35,7 +35,7 @@ import org.bukkit.util.Vector;
  */
 public class FollowTask {
 
-    public static int taskId = -1;
+    private static int taskId = -1;
 
     /**
      * runs the follow task for every currently spawned pet
@@ -79,11 +79,15 @@ public class FollowTask {
 
                             // let the pet stand next to the owner, otherwise its quite annoying as the pet tries to
                             // stand at your exact location and bumps into you continuously
-                            pathfinder.moveTo(getLocationNextTo(owner, 2.2), pet.getSpeed());
+                            if (!pathfinder.moveTo(getLocationNextTo(owner, 2.2), pet.getSpeed())) {
+                                fallbackMove(entity, owner, 1.5, pet.getSpeed());
+                            }
                         }
                     } else {
                         // let the pet walk directly to the entity its supposed to kill
-                        pathfinder.moveTo(pet.getTarget(), pet.getSpeed());
+                        if (pathfinder.moveTo(pet.getTarget(), pet.getSpeed())) {
+                            fallbackMove(entity, owner, 0.5, pet.getSpeed());
+                        }
 
                         // if there is an entity nearby the owner has attacked, let the pet attack that target as well
                         if ((!(pet.getTarget() instanceof Player) || pet.getTarget().getWorld().getPVP()) // target isn't a player and pvp isn't enabled
@@ -126,7 +130,7 @@ public class FollowTask {
                             );
                         }
 
-                        entity.setHealth(newHealth < maxHealth ? newHealth : maxHealth);
+                        entity.setHealth(Math.min(newHealth, maxHealth));
                         pet.updateDisplayName();
                     }
                 } else {
@@ -134,6 +138,15 @@ public class FollowTask {
                 }
             }
         }, 0, MbPetsConfig.getFollowTaskDelay());
+    }
+
+    private static void fallbackMove(Mob entity, Player owner, double distance, double speed) {
+        Location nextTo = getLocationNextTo(owner, distance);
+        Vector toMove = nextTo.subtract(entity.getLocation()).toVector().normalize().multiply(speed * MbPetsConfig.getFollowTaskDelay() / 20);
+        Location targetLocation = entity.getLocation().add(toMove);
+        if (targetLocation.isChunkLoaded() && targetLocation.getBlock().isPassable() || entity instanceof Vex) {
+            entity.teleport(targetLocation);
+        }
     }
 
     /**
