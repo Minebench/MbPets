@@ -3,11 +3,11 @@ package io.github.apfelcreme.MbPetsNoLD;
 import io.github.apfelcreme.MbPetsNoLD.ChatInput.Operation;
 import io.github.apfelcreme.MbPetsNoLD.Command.*;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetType;
-import net.zaiyers.UUIDDB.bukkit.UUIDDB;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Copyright (C) 2016 Lord36 aka Apfelcreme
@@ -229,14 +228,10 @@ public class MbPetsCommand implements CommandExecutor {
                         return null;
                     }
                 }
-                if (UUIDDB.getInstance() != null) {
-                    if (UUIDDB.getInstance().getStorage().getUUIDByName(args[i], false) != null) {
-                        chatInput.setTargetPlayer(MbPets
-                                .getInstance()
-                                .getServer()
-                                .getOfflinePlayer(
-                                        UUID.fromString(UUIDDB.getInstance().getStorage().getUUIDByName(args[i], false))));
-                    }
+
+                OfflinePlayer targetPlayer = MbPets.getInstance().getOfflinePlayer(args[i]);
+                if (targetPlayer != null) {
+                    chatInput.setTargetPlayer(targetPlayer);
                 }
             }
             return chatInput;

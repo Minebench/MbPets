@@ -1,9 +1,8 @@
 name: MbPets
 version: '${minecraft.plugin.version}'
 main: io.github.apfelcreme.MbPetsNoLD.MbPets
-depend: [UUIDDB]
-softdepend: [MbAnimalProtect, Vault, WorldGuard]
-api-version: '1.14'
+softdepend: [UUIDDB, MbAnimalProtect, Vault, WorldGuard]
+api-version: '1.18'
 commands:
    pet:
       description: All pet related things.

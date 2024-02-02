@@ -4,13 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.destroystokyo.paper.entity.ai.VanillaGoal;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import io.github.apfelcreme.MbPetsNoLD.MbPets;
 import io.github.apfelcreme.MbPetsNoLD.MbPetsConfig;
 import io.github.apfelcreme.MbPetsNoLD.Tasks.FollowTask;
@@ -38,7 +31,6 @@ import java.sql.PreparedStatement;
 import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -330,29 +322,8 @@ public class Pet<T extends Mob> {
             MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.gamemodeCreative"));
             return;
         } else {
-            if (MbPets.getInstance().isWorldGuardEnabled()) {
-                LocalPlayer lp = WorldGuardPlugin.inst().wrapPlayer(player);
-                RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(lp.getWorld());
-                if (rm != null) {
-                    BlockVector3 vector = lp.getLocation().toVector().toBlockPoint();
-                    boolean mobSpawning = rm.getApplicableRegions(vector).queryState(lp, Flags.MOB_SPAWNING) != StateFlag.State.DENY;
-                    if (!mobSpawning) {
-                        MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
-                        return;
-                    }
-
-                    Set<String> blockedCommands = rm.getApplicableRegions(vector).queryValue(lp, Flags.BLOCKED_CMDS);
-                    if (blockedCommands != null && blockedCommands.contains("/pet")) {
-                        MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
-                        return;
-                    }
-
-                    Set<String> allowedCommands = rm.getApplicableRegions(vector).queryValue(lp, Flags.ALLOWED_CMDS);
-                    if (allowedCommands != null && !allowedCommands.contains("/pet")) {
-                        MbPets.sendMessage(player, MbPetsConfig.getTextNode("error.inFlaggedRegion"));
-                        return;
-                    }
-                }
+            if (MbPets.getInstance().isSpawningBlocked(player)) {
+                return;
             }
         }
         spawn();

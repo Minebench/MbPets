@@ -3,6 +3,7 @@ package io.github.apfelcreme.MbPetsNoLD;
 import io.github.apfelcreme.MbPetsNoLD.Database.DatabaseConnector;
 import io.github.apfelcreme.MbPetsNoLD.Database.HikariCPConnection;
 import io.github.apfelcreme.MbPetsNoLD.Database.MySQLConnection;
+import io.github.apfelcreme.MbPetsNoLD.Dependencies.WorldGuardAdapter;
 import io.github.apfelcreme.MbPetsNoLD.Listener.*;
 import io.github.apfelcreme.MbPetsNoLD.Pet.*;
 
@@ -11,7 +12,9 @@ import io.github.apfelcreme.MbPetsNoLD.Tasks.ParticleTask;
 import net.milkbowl.vault.economy.Economy;
 import net.zaiyers.AnimalProtect.AnimalProtect;
 
+import net.zaiyers.UUIDDB.bukkit.UUIDDB;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,7 +55,8 @@ public class MbPets extends JavaPlugin {
 
     private static DatabaseConnector databaseConnector = null;
     private Economy economy = null;
-    private boolean worldGuardEnabled = false;
+    private UUIDDB uuiddb;
+    private WorldGuardAdapter worldGuard;
 
     public void onEnable() {
         instance = this;
@@ -90,12 +94,12 @@ public class MbPets extends JavaPlugin {
         getDatabaseConnector().initConnection();
 
         // get the plugin instances
-        if (getServer().getPluginManager().getPlugin("UUIDDB") == null) {
-            getLogger().severe("Plugin 'UUIDDB' was not found!");
-            getServer().getPluginManager().disablePlugin(this);
+        if (getServer().getPluginManager().getPlugin("UUIDDB") != null) {
+            getLogger().info("Plugin 'UUIDDB' was found!");
+            uuiddb = UUIDDB.getInstance();
         }
-        if (getServer().getPluginManager().getPlugin("MbAnimalProtect") == null) {
-            getLogger().info("Plugin 'MbAnimalProtect' was not found!");
+        if (getServer().getPluginManager().getPlugin("MbAnimalProtect") != null) {
+            getLogger().info("Plugin 'MbAnimalProtect' was found!");
         }
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             getLogger().info("Plugin 'Vault' was not found!");
@@ -117,7 +121,7 @@ public class MbPets extends JavaPlugin {
             }, this);
         }
         if (getServer().getPluginManager().isPluginEnabled("WorldGuard")) {
-            worldGuardEnabled = true;
+            worldGuard = new WorldGuardAdapter();
         }
     }
 
@@ -189,13 +193,6 @@ public class MbPets extends JavaPlugin {
     }
 
     /**
-     * @return world guard instance
-     */
-    public boolean isWorldGuardEnabled() {
-        return worldGuardEnabled;
-    }
-
-    /**
      * returns the servers Economy
      *
      * @return Vault economy object
@@ -241,5 +238,38 @@ public class MbPets extends JavaPlugin {
             return null;
         }
         return getServer().getScheduler().runTask(this, runnable);
+    }
+
+    /**
+     * Get the offline player by name
+     *
+     * @param playerName the player's name
+     * @return the offline player or null if not found
+     */
+    public OfflinePlayer getOfflinePlayer(String playerName) {
+        Player player = getServer().getPlayerExact(playerName);
+        if (player != null) {
+            return player;
+        }
+        if (uuiddb != null) {
+            String uuidString = uuiddb.getStorage().getUUIDByName(playerName, false);
+            if (uuidString != null) {
+                return getServer().getOfflinePlayer(UUID.fromString(uuidString));
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Check if the player is in a region where pet spawning is blocked
+     *
+     * @param player the player
+     * @return true if pet spawning is blocked
+     */
+    public boolean isSpawningBlocked(Player player) {
+        if (worldGuard != null && worldGuard.isSpawningBlocked(player)) {
+            return true;
+        }
+        return false;
     }
 }
