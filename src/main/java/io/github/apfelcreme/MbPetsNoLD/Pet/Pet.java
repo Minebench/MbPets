@@ -13,6 +13,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
@@ -424,7 +425,7 @@ public class Pet<T extends Mob> {
     public void onSpecifyTarget(LivingEntity target, EntityTargetEvent.TargetReason reason, Event event) {
         setTarget(target, reason);
         setSpeed(MbPetsConfig.getEnhancedPetSpeed(getType()));
-        getEntity().getWorld().playSound(getEntity().getLocation(), MbPetsConfig.getPetSound(getType()), 5, 1);
+        getEntity().getWorld().playSound(getEntity().getLocation(), MbPetsConfig.getPetSound(getType()), SoundCategory.NEUTRAL, 5, 1);
     }
     
     /**

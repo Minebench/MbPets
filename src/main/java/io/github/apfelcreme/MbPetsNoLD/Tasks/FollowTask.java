@@ -7,6 +7,7 @@ import io.github.apfelcreme.MbPetsNoLD.Pet.Pet;
 import io.github.apfelcreme.MbPetsNoLD.Pet.PetManager;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -113,7 +114,7 @@ public class FollowTask {
                             
                             pet.getTarget().damage((float) (MbPetsConfig.getPetAttackStrength(pet.getType()) * pet.getLevel().getAttackStrengthModifier()), entity);
                             // sound only necessary if pet entity is damager and not the player
-                            pet.getEntity().getWorld().playSound(pet.getEntity().getLocation(), MbPetsConfig.getPetSound(pet.getType()), 5, 1);
+                            pet.getEntity().getWorld().playSound(pet.getEntity().getLocation(), MbPetsConfig.getPetSound(pet.getType()), SoundCategory.NEUTRAL, 5, 1);
                         }
                     }
 
